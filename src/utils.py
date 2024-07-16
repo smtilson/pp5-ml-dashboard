@@ -11,8 +11,8 @@ from feature_engine.encoding import OrdinalEncoder
 sns.set(style="whitegrid")
 warnings.filterwarnings('ignore')
 
-def get_df(name:str, dir:str='./raw_data/csv/')->'DataFrame':
-    file_path = dir + name + '.csv'
+def get_df(name:str, dir:str='./outputs/datasets/raw/csv')->'DataFrame':
+    file_path = dir + '/' + name + '.csv'
     df = pd.read_csv(file_path)
     return df
 
@@ -36,9 +36,10 @@ def info_dtype_dict(df:'DataFrame') -> dict:
 def add_cat_date(df:'DataFrame',date_name:str,symbol='-',year_pos=0, month_pos=1,day_pos=2) -> 'DataFrame':
     # the date_name argument should be the name of the column containing the date data
     # maybe I should take into account the format
-    df['Day']=df.apply(lambda x: x[date_name].split(symbol)[day_pos], axis=1)
-    df['Month']=df.apply(lambda x: x[date_name].split(symbol)[month_pos], axis=1)
-    df['Year']=df.apply(lambda x: x[date_name].split(symbol)[year_pos], axis=1)
+    
+    df['Day']=df.apply(lambda x: int(x[date_name].split(symbol)[day_pos].split()[0]), axis=1)
+    df['Month']=df.apply(lambda x: int(x[date_name].split(symbol)[month_pos]), axis=1)
+    df['Year']=df.apply(lambda x: int(x[date_name].split(symbol)[year_pos]), axis=1)
     return df
 
 # The following are from a feature engineering notebook in the walkthrough project.abs
