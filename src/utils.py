@@ -16,21 +16,7 @@ def get_df(name:str, dir:str='./outputs/datasets/raw/csv')->'DataFrame':
     df = pd.read_csv(file_path)
     return df
 
-# This was gotten from the StackOverflow answer at
-# https://stackoverflow.com/questions/70748529/how-to-save-pandas-info-function-output-to-variable-or-data-frame
-def get_info_df(df:'DataFrame') -> 'DataFrame':
-    buffer = io.StringIO()
-    df.info(buf=buffer)
-    lines = buffer.getvalue().splitlines()
-    df = (pd.DataFrame([x.split() for x in lines[5:-2]], columns=lines[3].split())
-       .drop('Count',axis=1)
-       .rename(columns={'Non-Null':'Non-Null Count'}))
-    return df
 
-def info_dtype_dict(df:'DataFrame') -> dict:
-    info_df = get_info_df(df)
-    data_types = {row['Column']:row['Dtype'] for index,row in info_df.iterrows()}
-    return data_types
 
 
 def add_cat_date(df:'DataFrame',date_name:str,symbol='-',year_pos=0, month_pos=1,day_pos=2) -> 'DataFrame':
