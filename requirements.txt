@@ -7,12 +7,13 @@ numpy
 pandas
 #matplotlib==3.3.1
 matplotlib
-#seaborn==0.11.0
-seaborn
+seaborn==0.11.0
+#seaborn
 ydata-profiling==4.4.0
 #plotly==4.12.0
 plotly
 ppscore==1.2.0
+pingouin
 
 #feature-engine==1.0.2
 feature-engine
