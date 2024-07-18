@@ -1,5 +1,6 @@
 # these are utilities for various repetitive tasks
 import pandas as pd
+import numpy as np
 import scipy.stats as stats
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -16,7 +17,26 @@ def get_df(name:str, dir:str='./outputs/datasets/raw/csv')->'DataFrame':
     df = pd.read_csv(file_path)
     return df
 
+def count_threshold_changes(df, threshold_list):
+    changes = []
+    for threshold in threshold_list:
+        count = np.count_nonzero(abs(df) > threshold)
+        if not changes:
+            changes.append((threshold,count))
+        elif count != changes[-1]:
+            changes.append((threshold,count))
+    return changes
 
+
+def get_corr_pairs(df,threshold):
+    pairs = []
+    for col1 in df.columns:
+        for col2 in df.columns:
+            if col1 == col2:
+                continue
+            elif abs(df[col1].corr(df[col2])) > threshold:
+                pairs.append((col1, col2))
+    return pairs
 
 
 def add_cat_date(df:'DataFrame',date_name:str,symbol='-',year_pos=0, month_pos=1,day_pos=2) -> 'DataFrame':
