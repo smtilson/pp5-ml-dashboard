@@ -45,3 +45,29 @@ def season_data(game_df) -> 'DataFrame':
     season_data['years'] = game_df['years']
     season_data['game_types'] = season_data.apply(lambda x: season_type_dict[x['season_id']], axis=1)
     return season_data
+
+
+def reduce_corr_df(df_corr, threshold):
+    for col in df_corr.columns:
+        try:
+            maxi = df_corr[col].nlargest(2)[1]
+        except Exception as e:
+            print(df_corr[col].nlargest(2))
+            raise e
+        mini = df_corr[col].min()
+        #print(col,mini,maxi,threshold)
+        if max(abs(maxi), abs(mini)) < threshold:
+            #print('removing', col)
+            df_corr.drop(col, axis=1, inplace=True)
+    for row in df_corr.index:
+        try:
+            maxi = df_corr.loc[row].nlargest(2)[1]
+        except Exception as e:
+            print(df_corr.loc[row].nlargest(2))
+            raise e
+        mini = df_corr.loc[row].min()
+        #print(row,mini,maxi,threshold)
+        if max(abs(maxi), abs(mini)) < threshold:
+            #print('removing', row)
+            df_corr.drop(row, axis=0, inplace=True)
+    return df_corr

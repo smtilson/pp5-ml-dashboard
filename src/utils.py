@@ -9,33 +9,48 @@ import warnings
 from feature_engine import transformation as vt
 from feature_engine.outliers import Winsorizer
 from feature_engine.encoding import OrdinalEncoder
-sns.set(style="whitegrid")
+
 warnings.filterwarnings('ignore')
 
+# this dictionary is for converting column names to a more readable format
+proper_name = {}
 def get_df(name:str, dir:str='./outputs/datasets/raw/csv')->'DataFrame':
     file_path = dir + '/' + name + '.csv'
     df = pd.read_csv(file_path)
     return df
 
-def count_threshold_changes(df, threshold_list):
+def count_threshold_changes(df,threshold_list, corr=True):
+    """
+    df should be a square matrix, like a matrix of correlation coefficients.
+    Does this also work for pandas.series?
+    """
+    if corr:
+        trivial = df.shape[0]
+    else:
+        trivial = 0
     changes = []
     for threshold in threshold_list:
-        count = np.count_nonzero(abs(df) > threshold)
+        count = np.count_nonzero(abs(df) > threshold)-trivial
         if not changes:
             changes.append((threshold,count))
-        elif count != changes[-1]:
+        elif count != changes[-1][1]:
             changes.append((threshold,count))
     return changes
 
 
-def get_corr_pairs(df,threshold):
+def get_pairs(df,threshold):
+    """
+    df should be a square matrix, like a matrix of correlation coefficients.
+    """
     pairs = []
     for col1 in df.columns:
         for col2 in df.columns:
             if col1 == col2:
                 continue
-            elif abs(df[col1].corr(df[col2])) > threshold:
-                pairs.append((col1, col2))
+            elif abs(df[col1][col2]) > threshold:
+                if (col2,col1,round(df[col1][col2],3)) not in pairs:
+                    pairs.append((col1, col2, round(df[col1][col2],3)))
+    pairs.sort(key=lambda x: x[2])
     return pairs
 
 
