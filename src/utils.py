@@ -5,6 +5,7 @@ import scipy.stats as stats
 import matplotlib.pyplot as plt
 import seaborn as sns
 import io
+import os
 import warnings
 from feature_engine import transformation as vt
 from feature_engine.outliers import Winsorizer
@@ -12,12 +13,23 @@ from feature_engine.encoding import OrdinalEncoder
 
 warnings.filterwarnings('ignore')
 
+BASE_DIR = '/workspace/pp5-ml-dashboard/outputs/datasets/'
 # this dictionary is for converting column names to a more readable format
 proper_name = {}
-def get_df(name:str, dir:str='./outputs/datasets/raw/csv')->'DataFrame':
+def get_df(name:str, dir)->'DataFrame':
+    if 'workplace' not in dir:
+        dir = BASE_DIR + dir
     file_path = dir + '/' + name + '.csv'
     df = pd.read_csv(file_path)
     return df
+
+def save_df(df,name,dir,index=False):
+    if 'workplace' not in dir:
+        dir = BASE_DIR + dir
+    if not os.path.exists(dir):
+        os.makedirs(dir)
+    df.to_csv(dir + '/' + name + '.csv', index=index)
+
 
 def count_threshold_changes(df,threshold_list, corr=True):
     """
