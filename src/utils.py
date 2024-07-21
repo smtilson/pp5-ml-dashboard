@@ -6,10 +6,10 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import io
 import os
-import warnings
 from feature_engine import transformation as vt
 from feature_engine.outliers import Winsorizer
 from feature_engine.encoding import OrdinalEncoder
+import warnings
 
 warnings.filterwarnings('ignore')
 
