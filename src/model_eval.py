@@ -7,11 +7,11 @@ def get_best_scores(grid_collection):
        .sort_values(by='mean_test_score',ascending=False)
        .filter(['params','mean_test_score'])
        .values)
-    print(name)
-    print(res)
+    print(f"The best performing {name} model had a score of {res[0][1]*100}%.")
     print()
 
 
+# Taken from Churnometer Walkthrough project
 def confusion_matrix_and_report(X,y,pipeline,label_map):
   prediction = pipeline.predict(X)
   print('---  Confusion Matrix  ---')
@@ -22,4 +22,16 @@ def confusion_matrix_and_report(X,y,pipeline,label_map):
   print("\n")
   print('---  Classification Report  ---')
   print(classification_report(y, prediction, target_names=label_map),"\n")
+
+def clf_performance(X_train,y_train,X_test,y_test,pipeline,label_map):
+  print("#### Train Set #### \n")
+  confusion_matrix_and_report(X_train,y_train,pipeline,label_map)
+  print("#### Test Set ####\n")
+  confusion_matrix_and_report(X_test,y_test,pipeline,label_map)
+
+def grid_search_report_best(grid_collection,X_train,Y_train,X_test,Y_test, label_map):
+    for name, grid in grid_collection.items():
+        best_pipe = grid.best_estimator_
+        print(name)
+        clf_performance(X_train, Y_train, X_test, Y_test, best_pipe, label_map)
  
