@@ -6,11 +6,27 @@ def get_best_scores(grid_collection):
       res = (pd.DataFrame(grid.cv_results_)
          .sort_values(by=['mean_test_precision','mean_test_accuracy'],ascending=False)
          .filter(['params','mean_test_precision','mean_test_accuracy'])
-        .values)
+         .values)
       intro = f"Best {name} model:"
       print(f"{intro} Avg. Precision: {res[0][1]*100}%.")
       print(f"{len(intro)*' '} Avg. Accuracy: {res[0][2]*100}%.")
       print()
+
+def get_best_params(grid):
+    res = (pd.DataFrame(grid.cv_results_)
+         .sort_values(by=['mean_test_precision','mean_test_accuracy'],ascending=False)
+         .filter(['params','mean_test_precision','mean_test_accuracy'])
+         .values)
+    intro = f"Best parameters for current model:"
+    print(intro)
+    for i in range(3):
+        params = res[i][0]
+        for key,value in params.items():
+            print(f"{key.split('__')[1]}: {value}")
+        print(f"Avg. Precision: {res[0][1]*100}%.")
+        print(f"Avg. Accuracy: {res[0][2]*100}%.")
+        print()
+
 
 
 

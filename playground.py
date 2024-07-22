@@ -12,13 +12,7 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 from src.utils import get_df, save_df
 
-train_dir = 'train/csv'
-X_TrainSet = get_df('X_TrainSet',train_dir)
-Y_TrainSet = get_df('Y_TrainSet',train_dir)
 
-test_dir = 'test/csv'
-X_TestSet = get_df('X_TestSet',test_dir)
-Y_TestSet = get_df('Y_TestSet',test_dir)
 
 from sklearn.preprocessing import StandardScaler
 from feature_engine import transformation as vt
@@ -102,41 +96,12 @@ def add_feat_selection_n_model(pipeline,model,random_state=42):
     pipeline.steps.append((model, actual_model(random_state=random_state)))
     return pipeline
 
-PIPELINES = {}
-for model in MODELS:
-    base_pipe = pipeline()
-    PIPELINES[model] = add_feat_selection_n_model(base_pipe,model)
 
-rand_forest_pipe = pipeline()
-rand_forest_pipe.steps.append(('feature_selection', SelectFromModel(RandomForestClassifier(random_state=42))))
-#X_TrainSet_trans = logistic_pipe.fit_transform(X_TrainSet,Y_TrainSet)
-#X_TestSet_trans = logistic_pipe.transform(X_TestSet)
-rand_forest_pipe.steps.append(('model',RandomForestClassifier(random_state=42)))
 
-rand_forest_pipe
 from sklearn.model_selection import GridSearchCV
 
-param_grid = {"model__n_estimators":[50,20],
-              }
-GRIDS = {}
-pipes_list = list(PIPELINES.values())
-pipe1 = pipes_list[0]
-grid= GridSearchCV(estimator=pipe1,
-                    param_grid={},
-                    cv=5,
-                    n_jobs=-2,
-                    verbose=3,
-                    scoring='accuracy')
-grid.fit(X_TrainSet,Y_TrainSet)
-#GRIDS[pipe] = grid
 
-best_pipe = grid.best_estimator_
-res = (pd.DataFrame(grid.cv_results_)
-       .sort_values(by='mean_test_score',ascending=False)
-       .filter(['params','mean_test_score'])
-       .values)
 
-res
 from sklearn.metrics import classification_report, confusion_matrix
 
 def confusion_matrix_and_report(X,y,pipeline,label_map):
@@ -164,8 +129,510 @@ def clf_performance(X_train,y_train,X_test,y_test,pipeline,label_map):
 
  
 
-clf_performance(X_train=X_TrainSet, y_train=Y_TrainSet,
-                X_test=X_TestSet, y_test=Y_TestSet,
-                pipeline=best_pipe,
-                label_map= ['win', 'loss'] 
-                )
+
+
+training_results = """[CV 1/5] END model__C=0.001, model__penalty=l2, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.0s
+[CV 5/5] END model__C=0.001, model__penalty=l2, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 5/5] END model__C=0.001, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 1/5] END model__C=0.001, model__penalty=None, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 3/5] END model__C=0.001, model__penalty=l2, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 5/5] END model__C=0.001, model__penalty=None, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 3/5] END model__C=0.001, model__penalty=l2, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.6s
+[CV 5/5] END model__C=0.001, model__penalty=l2, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.6s
+[CV 1/5] END model__C=0.001, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.8s
+[CV 3/5] END model__C=0.001, model__penalty=None, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 1/5] END model__C=0.001, model__penalty=None, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.7s
+[CV 3/5] END model__C=0.001, model__penalty=l2, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.8s
+[CV 1/5] END model__C=0.001, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.8s
+[CV 5/5] END model__C=0.001, model__penalty=l2, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 5/5] END model__C=0.001, model__penalty=None, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.9s
+[CV 3/5] END model__C=0.001, model__penalty=None, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   2.0s
+[CV 1/5] END model__C=0.001, model__penalty=l2, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   2.1s
+[CV 1/5] END model__C=0.001, model__penalty=l2, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   2.2s
+[CV 3/5] END model__C=0.001, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   2.2s
+[CV 1/5] END model__C=0.001, model__penalty=None, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   0.8s
+[CV 5/5] END model__C=0.001, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.1s
+[CV 3/5] END model__C=0.001, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 3/5] END model__C=0.001, model__penalty=None, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   0.8s
+[CV 5/5] END model__C=0.001, model__penalty=None, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.0s
+[CV 5/5] END model__C=0.01, model__penalty=l2, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   0.9s
+[CV 1/5] END model__C=0.01, model__penalty=l2, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 1/5] END model__C=0.01, model__penalty=l2, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 3/5] END model__C=0.01, model__penalty=l2, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 3/5] END model__C=0.01, model__penalty=l2, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 5/5] END model__C=0.01, model__penalty=l2, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 3/5] END model__C=0.01, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 1/5] END model__C=0.01, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 1/5] END model__C=0.01, model__penalty=l2, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 5/5] END model__C=0.01, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.6s
+[CV 3/5] END model__C=0.01, model__penalty=l2, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 5/5] END model__C=0.01, model__penalty=l2, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.6s
+[CV 1/5] END model__C=0.01, model__penalty=None, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.6s
+[CV 3/5] END model__C=0.01, model__penalty=None, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.6s
+[CV 2/5] END model__C=0.001, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=0.834) precision: (test=0.833) total time=   6.9s
+[CV 4/5] END model__C=0.001, model__penalty=l2, model__solver=lbfgs; accuracy: (test=0.847) precision: (test=0.848) total time=   7.2s
+[CV 1/5] END model__C=0.01, model__penalty=None, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.7s
+[CV 5/5] END model__C=0.01, model__penalty=None, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   2.0s
+[CV 4/5] END model__C=0.001, model__penalty=None, model__solver=lbfgs; accuracy: (test=0.855) precision: (test=0.873) total time=   7.5s
+[CV 2/5] END model__C=0.001, model__penalty=None, model__solver=lbfgs; accuracy: (test=0.848) precision: (test=0.868) total time=   7.8s
+[CV 2/5] END model__C=0.001, model__penalty=l2, model__solver=lbfgs; accuracy: (test=0.834) precision: (test=0.833) total time=   8.0s
+[CV 4/5] END model__C=0.001, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=0.855) precision: (test=0.873) total time=   6.3s
+[CV 3/5] END model__C=0.01, model__penalty=None, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.8s
+[CV 2/5] END model__C=0.001, model__penalty=l2, model__solver=sag; accuracy: (test=0.834) precision: (test=0.834) total time=   8.7s
+[CV 4/5] END model__C=0.001, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=0.847) precision: (test=0.848) total time=   8.7s
+[CV 1/5] END model__C=0.01, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 4/5] END model__C=0.001, model__penalty=l2, model__solver=sag; accuracy: (test=0.847) precision: (test=0.848) total time=   8.9s
+[CV 2/5] END model__C=0.001, model__penalty=l2, model__solver=newton-cg; accuracy: (test=0.834) precision: (test=0.833) total time=   9.0s
+[CV 5/5] END model__C=0.01, model__penalty=None, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   2.0s
+[CV 2/5] END model__C=0.001, model__penalty=None, model__solver=newton-cg; accuracy: (test=0.848) precision: (test=0.868) total time=   8.9s
+[CV 4/5] END model__C=0.001, model__penalty=l2, model__solver=newton-cg; accuracy: (test=0.847) precision: (test=0.848) total time=   9.1s
+[CV 5/5] END model__C=0.01, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 2/5] END model__C=0.001, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=0.848) precision: (test=0.868) total time=   7.9s
+[CV 3/5] END model__C=0.01, model__penalty=None, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 3/5] END model__C=0.01, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.8s
+[CV 1/5] END model__C=0.01, model__penalty=None, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 4/5] END model__C=0.001, model__penalty=None, model__solver=newton-cg; accuracy: (test=0.855) precision: (test=0.873) total time=   9.5s
+[CV 4/5] END model__C=0.01, model__penalty=l2, model__solver=lbfgs; accuracy: (test=0.854) precision: (test=0.871) total time=   7.4s
+[CV 2/5] END model__C=0.01, model__penalty=l2, model__solver=newton-cg; accuracy: (test=0.847) precision: (test=0.863) total time=   7.7s
+[CV 1/5] END model__C=0.1, model__penalty=l2, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 3/5] END model__C=0.1, model__penalty=l2, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 2/5] END model__C=0.01, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=0.847) precision: (test=0.863) total time=   7.3s
+[CV 5/5] END model__C=0.01, model__penalty=None, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.6s
+[CV 2/5] END model__C=0.01, model__penalty=l2, model__solver=lbfgs; accuracy: (test=0.847) precision: (test=0.863) total time=   8.3s
+[CV 3/5] END model__C=0.1, model__penalty=l2, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 1/5] END model__C=0.1, model__penalty=l2, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 1/5] END model__C=0.1, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 4/5] END model__C=0.01, model__penalty=l2, model__solver=newton-cg; accuracy: (test=0.854) precision: (test=0.871) total time=   8.0s
+[CV 5/5] END model__C=0.1, model__penalty=l2, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 5/5] END model__C=0.1, model__penalty=l2, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.7s
+[CV 4/5] END model__C=0.01, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=0.854) precision: (test=0.871) total time=   8.2s
+[CV 1/5] END model__C=0.1, model__penalty=l2, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.1s
+[CV 3/5] END model__C=0.1, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.6s
+[CV 5/5] END model__C=0.1, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.6s
+[CV 1/5] END model__C=0.1, model__penalty=None, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.0s
+[CV 5/5] END model__C=0.1, model__penalty=l2, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 4/5] END model__C=0.001, model__penalty=None, model__solver=sag; accuracy: (test=0.855) precision: (test=0.873) total time=  10.2s
+[CV 3/5] END model__C=0.1, model__penalty=l2, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.6s
+[CV 3/5] END model__C=0.1, model__penalty=None, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 2/5] END model__C=0.001, model__penalty=None, model__solver=sag; accuracy: (test=0.848) precision: (test=0.868) total time=  10.5s
+[CV 2/5] END model__C=0.01, model__penalty=None, model__solver=lbfgs; accuracy: (test=0.848) precision: (test=0.868) total time=   7.9s
+[CV 1/5] END model__C=0.1, model__penalty=None, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 2/5] END model__C=0.01, model__penalty=l2, model__solver=sag; accuracy: (test=0.847) precision: (test=0.863) total time=   9.2s
+[CV 5/5] END model__C=0.1, model__penalty=None, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.6s
+[CV 4/5] END model__C=0.01, model__penalty=None, model__solver=lbfgs; accuracy: (test=0.855) precision: (test=0.873) total time=   8.3s
+[CV 3/5] END model__C=0.1, model__penalty=None, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.6s
+[CV 4/5] END model__C=0.01, model__penalty=l2, model__solver=sag; accuracy: (test=0.854) precision: (test=0.871) total time=   9.3s
+[CV 5/5] END model__C=0.1, model__penalty=None, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 1/5] END model__C=0.1, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 2/5] END model__C=0.01, model__penalty=None, model__solver=newton-cg; accuracy: (test=0.848) precision: (test=0.868) total time=   7.9s
+[CV 3/5] END model__C=0.1, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 5/5] END model__C=0.1, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 1/5] END model__C=0.1, model__penalty=None, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 1/5] END model__C=1, model__penalty=l2, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 4/5] END model__C=0.01, model__penalty=None, model__solver=newton-cg; accuracy: (test=0.855) precision: (test=0.873) total time=   8.4s
+[CV 5/5] END model__C=0.1, model__penalty=None, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 3/5] END model__C=0.1, model__penalty=None, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.7s
+[CV 4/5] END model__C=0.01, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=0.855) precision: (test=0.873) total time=   7.7s
+[CV 3/5] END model__C=1, model__penalty=l2, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 4/5] END model__C=0.1, model__penalty=l2, model__solver=lbfgs; accuracy: (test=0.855) precision: (test=0.873) total time=   6.4s
+[CV 5/5] END model__C=1, model__penalty=l2, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 1/5] END model__C=1, model__penalty=l2, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 3/5] END model__C=1, model__penalty=l2, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 2/5] END model__C=0.01, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=0.848) precision: (test=0.868) total time=   9.0s
+[CV 2/5] END model__C=0.1, model__penalty=l2, model__solver=lbfgs; accuracy: (test=0.848) precision: (test=0.867) total time=   7.6s
+[CV 3/5] END model__C=1, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 2/5] END model__C=0.1, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=0.848) precision: (test=0.867) total time=   7.1s
+[CV 1/5] END model__C=1, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 5/5] END model__C=1, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 5/5] END model__C=1, model__penalty=l2, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.7s
+[CV 1/5] END model__C=1, model__penalty=l2, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.6s
+[CV 3/5] END model__C=1, model__penalty=l2, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 2/5] END model__C=0.01, model__penalty=None, model__solver=sag; accuracy: (test=0.848) precision: (test=0.868) total time=  10.0s
+[CV 1/5] END model__C=1, model__penalty=None, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.0s
+[CV 4/5] END model__C=0.1, model__penalty=l2, model__solver=newton-cg; accuracy: (test=0.855) precision: (test=0.873) total time=   8.4s
+[CV 5/5] END model__C=1, model__penalty=l2, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 4/5] END model__C=0.1, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=0.855) precision: (test=0.873) total time=   8.0s
+[CV 3/5] END model__C=1, model__penalty=None, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 4/5] END model__C=0.01, model__penalty=None, model__solver=sag; accuracy: (test=0.855) precision: (test=0.873) total time=  10.2s
+[CV 5/5] END model__C=1, model__penalty=None, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.7s
+[CV 1/5] END model__C=1, model__penalty=None, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 2/5] END model__C=0.1, model__penalty=l2, model__solver=newton-cg; accuracy: (test=0.848) precision: (test=0.867) total time=  10.0s
+[CV 3/5] END model__C=1, model__penalty=None, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.7s
+[CV 4/5] END model__C=0.1, model__penalty=l2, model__solver=sag; accuracy: (test=0.855) precision: (test=0.873) total time=   8.9s
+[CV 3/5] END model__C=1, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 4/5] END model__C=0.1, model__penalty=None, model__solver=lbfgs; accuracy: (test=0.855) precision: (test=0.873) total time=   8.6s
+[CV 1/5] END model__C=1, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.6s
+[CV 5/5] END model__C=1, model__penalty=None, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.9s
+[CV 2/5] END model__C=0.1, model__penalty=l2, model__solver=sag; accuracy: (test=0.848) precision: (test=0.867) total time=   9.4s
+[CV 2/5] END model__C=0.1, model__penalty=None, model__solver=newton-cg; accuracy: (test=0.848) precision: (test=0.868) total time=   8.5s
+[CV 2/5] END model__C=0.1, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=0.848) precision: (test=0.868) total time=   7.8s
+[CV 1/5] END model__C=1, model__penalty=None, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 5/5] END model__C=1, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.6s
+[CV 4/5] END model__C=0.1, model__penalty=None, model__solver=newton-cg; accuracy: (test=0.855) precision: (test=0.873) total time=   8.5s
+[CV 2/5] END model__C=0.1, model__penalty=None, model__solver=lbfgs; accuracy: (test=0.848) precision: (test=0.868) total time=   9.6s
+[CV 4/5] END model__C=1, model__penalty=l2, model__solver=lbfgs; accuracy: (test=0.855) precision: (test=0.873) total time=   6.8s
+[CV 3/5] END model__C=1, model__penalty=None, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.1s
+[CV 4/5] END model__C=0.1, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=0.855) precision: (test=0.873) total time=   8.7s
+[CV 5/5] END model__C=1, model__penalty=None, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 1/5] END model__C=10, model__penalty=l2, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 4/5] END model__C=0.1, model__penalty=None, model__solver=sag; accuracy: (test=0.855) precision: (test=0.873) total time=   9.0s
+[CV 5/5] END model__C=10, model__penalty=l2, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.6s
+[CV 1/5] END model__C=10, model__penalty=l2, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.9s
+[CV 3/5] END model__C=10, model__penalty=l2, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 2/5] END model__C=1, model__penalty=l2, model__solver=lbfgs; accuracy: (test=0.848) precision: (test=0.868) total time=   8.7s
+[CV 3/5] END model__C=10, model__penalty=l2, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   2.1s
+[CV 4/5] END model__C=1, model__penalty=l2, model__solver=newton-cg; accuracy: (test=0.855) precision: (test=0.873) total time=   7.9s
+[CV 5/5] END model__C=10, model__penalty=l2, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 4/5] END model__C=1, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=0.855) precision: (test=0.873) total time=   7.4s
+[CV 3/5] END model__C=10, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 1/5] END model__C=10, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.8s
+[CV 2/5] END model__C=1, model__penalty=l2, model__solver=newton-cg; accuracy: (test=0.848) precision: (test=0.868) total time=   8.9s
+[CV 2/5] END model__C=1, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=0.848) precision: (test=0.868) total time=   8.0s
+[CV 2/5] END model__C=0.1, model__penalty=None, model__solver=sag; accuracy: (test=0.848) precision: (test=0.868) total time=  10.4s
+[CV 3/5] END model__C=10, model__penalty=l2, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 1/5] END model__C=10, model__penalty=l2, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.6s
+[CV 1/5] END model__C=10, model__penalty=None, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 5/5] END model__C=10, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   2.0s
+[CV 5/5] END model__C=10, model__penalty=l2, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 3/5] END model__C=10, model__penalty=None, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 2/5] END model__C=1, model__penalty=None, model__solver=lbfgs; accuracy: (test=0.848) precision: (test=0.868) total time=   7.6s
+[CV 4/5] END model__C=1, model__penalty=None, model__solver=lbfgs; accuracy: (test=0.855) precision: (test=0.873) total time=   7.6s
+[CV 1/5] END model__C=10, model__penalty=None, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 5/5] END model__C=10, model__penalty=None, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.6s
+[CV 5/5] END model__C=10, model__penalty=None, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.1s
+[CV 3/5] END model__C=10, model__penalty=None, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.6s
+[CV 3/5] END model__C=10, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.1s
+[CV 2/5] END model__C=1, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=0.848) precision: (test=0.868) total time=   7.7s
+[CV 1/5] END model__C=10, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.9s
+[CV 3/5] END model__C=10, model__penalty=None, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 2/5] END model__C=1, model__penalty=None, model__solver=newton-cg; accuracy: (test=0.848) precision: (test=0.868) total time=   8.8s
+[CV 4/5] END model__C=1, model__penalty=None, model__solver=newton-cg; accuracy: (test=0.855) precision: (test=0.873) total time=   8.6s
+[CV 1/5] END model__C=10, model__penalty=None, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   2.1s
+[CV 5/5] END model__C=10, model__penalty=None, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.8s
+[CV 4/5] END model__C=1, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=0.855) precision: (test=0.873) total time=   8.1s
+[CV 1/5] END model__C=100, model__penalty=l2, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   2.0s
+[CV 5/5] END model__C=10, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   2.7s
+[CV 4/5] END model__C=1, model__penalty=l2, model__solver=sag; accuracy: (test=0.855) precision: (test=0.873) total time=  11.1s
+[CV 2/5] END model__C=1, model__penalty=l2, model__solver=sag; accuracy: (test=0.848) precision: (test=0.868) total time=  11.7s
+[CV 2/5] END model__C=10, model__penalty=l2, model__solver=lbfgs; accuracy: (test=0.848) precision: (test=0.868) total time=   7.3s
+[CV 5/5] END model__C=100, model__penalty=l2, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 3/5] END model__C=100, model__penalty=l2, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.8s
+[CV 4/5] END model__C=10, model__penalty=l2, model__solver=lbfgs; accuracy: (test=0.855) precision: (test=0.873) total time=   7.6s
+[CV 1/5] END model__C=100, model__penalty=l2, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 3/5] END model__C=100, model__penalty=l2, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 5/5] END model__C=100, model__penalty=l2, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 2/5] END model__C=1, model__penalty=None, model__solver=sag; accuracy: (test=0.848) precision: (test=0.868) total time=   9.5s
+[CV 1/5] END model__C=100, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 3/5] END model__C=100, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 3/5] END model__C=100, model__penalty=l2, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 5/5] END model__C=100, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.6s
+[CV 4/5] END model__C=10, model__penalty=l2, model__solver=newton-cg; accuracy: (test=0.855) precision: (test=0.873) total time=   8.6s
+[CV 2/5] END model__C=10, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=0.848) precision: (test=0.868) total time=   8.0s
+[CV 4/5] END model__C=10, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=0.855) precision: (test=0.873) total time=   7.8s
+[CV 1/5] END model__C=100, model__penalty=l2, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.8s
+[CV 5/5] END model__C=100, model__penalty=l2, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.7s
+[CV 2/5] END model__C=10, model__penalty=l2, model__solver=newton-cg; accuracy: (test=0.848) precision: (test=0.868) total time=   9.4s
+[CV 4/5] END model__C=1, model__penalty=None, model__solver=sag; accuracy: (test=0.855) precision: (test=0.873) total time=  10.3s
+[CV 1/5] END model__C=100, model__penalty=None, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.7s
+[CV 5/5] END model__C=100, model__penalty=None, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.1s
+[CV 3/5] END model__C=100, model__penalty=None, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 2/5] END model__C=10, model__penalty=None, model__solver=lbfgs; accuracy: (test=0.848) precision: (test=0.868) total time=   8.1s
+[CV 1/5] END model__C=100, model__penalty=None, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.7s
+[CV 1/5] END model__C=100, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 5/5] END model__C=100, model__penalty=None, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.6s
+[CV 3/5] END model__C=100, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 5/5] END model__C=100, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 4/5] END model__C=10, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=0.855) precision: (test=0.873) total time=   7.6s
+[CV 4/5] END model__C=10, model__penalty=None, model__solver=lbfgs; accuracy: (test=0.855) precision: (test=0.873) total time=   9.2s
+[CV 1/5] END model__C=100, model__penalty=None, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.7s
+[CV 3/5] END model__C=100, model__penalty=None, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   2.8s
+[CV 3/5] END model__C=100, model__penalty=None, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 2/5] END model__C=10, model__penalty=None, model__solver=newton-cg; accuracy: (test=0.848) precision: (test=0.868) total time=   9.2s
+[CV 2/5] END model__C=10, model__penalty=l2, model__solver=sag; accuracy: (test=0.848) precision: (test=0.868) total time=  10.5s
+[CV 5/5] END model__C=100, model__penalty=None, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 4/5] END model__C=10, model__penalty=l2, model__solver=sag; accuracy: (test=0.855) precision: (test=0.873) total time=  10.5s
+[CV 4/5] END model__C=10, model__penalty=None, model__solver=newton-cg; accuracy: (test=0.855) precision: (test=0.873) total time=   9.5s
+[CV 1/5] END model__C=1000, model__penalty=l2, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 3/5] END model__C=1000, model__penalty=l2, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 2/5] END model__C=10, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=0.848) precision: (test=0.868) total time=   9.3s
+[CV 1/5] END model__C=1000, model__penalty=l2, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 2/5] END model__C=10, model__penalty=None, model__solver=sag; accuracy: (test=0.848) precision: (test=0.868) total time=   9.1s
+[CV 5/5] END model__C=1000, model__penalty=l2, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.7s
+[CV 3/5] END model__C=1000, model__penalty=l2, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.7s
+[CV 5/5] END model__C=1000, model__penalty=l2, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 1/5] END model__C=1000, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 4/5] END model__C=100, model__penalty=l2, model__solver=lbfgs; accuracy: (test=0.855) precision: (test=0.873) total time=   8.6s
+[CV 2/5] END model__C=100, model__penalty=l2, model__solver=lbfgs; accuracy: (test=0.848) precision: (test=0.868) total time=   9.1s
+[CV 4/5] END model__C=100, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=0.855) precision: (test=0.873) total time=   7.3s
+[CV 3/5] END model__C=1000, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 1/5] END model__C=1000, model__penalty=l2, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 2/5] END model__C=100, model__penalty=l2, model__solver=newton-cg; accuracy: (test=0.848) precision: (test=0.868) total time=   8.9s
+[CV 5/5] END model__C=1000, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.7s
+[CV 3/5] END model__C=1000, model__penalty=l2, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 3/5] END model__C=1000, model__penalty=None, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 4/5] END model__C=100, model__penalty=l2, model__solver=newton-cg; accuracy: (test=0.855) precision: (test=0.873) total time=   9.5s
+[CV 5/5] END model__C=1000, model__penalty=l2, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.8s
+[CV 4/5] END model__C=10, model__penalty=None, model__solver=sag; accuracy: (test=0.855) precision: (test=0.873) total time=  11.7s
+[CV 1/5] END model__C=1000, model__penalty=None, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.6s
+[CV 4/5] END model__C=100, model__penalty=None, model__solver=lbfgs; accuracy: (test=0.855) precision: (test=0.873) total time=   7.6s
+[CV 2/5] END model__C=100, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=0.848) precision: (test=0.868) total time=   9.4s
+[CV 5/5] END model__C=1000, model__penalty=None, model__solver=lbfgs; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 1/5] END model__C=1000, model__penalty=None, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 3/5] END model__C=1000, model__penalty=None, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 2/5] END model__C=100, model__penalty=None, model__solver=lbfgs; accuracy: (test=0.848) precision: (test=0.868) total time=   8.2s
+[CV 5/5] END model__C=1000, model__penalty=None, model__solver=newton-cg; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 2/5] END model__C=100, model__penalty=None, model__solver=newton-cg; accuracy: (test=0.848) precision: (test=0.868) total time=   8.3s
+[CV 1/5] END model__C=1000, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 5/5] END model__C=1000, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 3/5] END model__C=1000, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=nan) precision: (test=nan) total time=   1.6s
+[CV 1/5] END model__C=1000, model__penalty=None, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 4/5] END model__C=100, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=0.855) precision: (test=0.873) total time=   8.3s
+[CV 3/5] END model__C=1000, model__penalty=None, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 2/5] END model__C=100, model__penalty=l2, model__solver=sag; accuracy: (test=0.848) precision: (test=0.868) total time=  10.7s
+[CV 2/5] END model__C=100, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=0.848) precision: (test=0.868) total time=   8.8s
+[CV 1/5] END model__C=0.001, model__penalty=l1, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 5/5] END model__C=1000, model__penalty=None, model__solver=sag; accuracy: (test=nan) precision: (test=nan) total time=   1.7s
+[CV 4/5] END model__C=100, model__penalty=None, model__solver=newton-cg; accuracy: (test=0.855) precision: (test=0.873) total time=   9.6s
+[CV 4/5] END model__C=100, model__penalty=l2, model__solver=sag; accuracy: (test=0.855) precision: (test=0.873) total time=  11.6s
+[CV 3/5] END model__C=0.001, model__penalty=l1, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 2/5] END model__C=1000, model__penalty=l2, model__solver=lbfgs; accuracy: (test=0.848) precision: (test=0.868) total time=   7.8s
+[CV 5/5] END model__C=0.001, model__penalty=l1, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 3/5] END model__C=0.001, model__penalty=l2, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.1s
+[CV 4/5] END model__C=1000, model__penalty=l2, model__solver=lbfgs; accuracy: (test=0.855) precision: (test=0.873) total time=   7.7s
+[CV 5/5] END model__C=0.001, model__penalty=l2, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 1/5] END model__C=0.01, model__penalty=l1, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.0s
+[CV 1/5] END model__C=0.001, model__penalty=l2, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.9s
+[CV 3/5] END model__C=0.01, model__penalty=l1, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 5/5] END model__C=0.01, model__penalty=l1, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 4/5] END model__C=1000, model__penalty=l2, model__solver=newton-cg; accuracy: (test=0.855) precision: (test=0.873) total time=   8.1s
+[CV 1/5] END model__C=0.01, model__penalty=l2, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 2/5] END model__C=100, model__penalty=None, model__solver=sag; accuracy: (test=0.848) precision: (test=0.868) total time=  10.9s
+[CV 5/5] END model__C=0.01, model__penalty=l2, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 2/5] END model__C=1000, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=0.848) precision: (test=0.868) total time=   8.6s
+[CV 4/5] END model__C=100, model__penalty=None, model__solver=sag; accuracy: (test=0.855) precision: (test=0.873) total time=  10.6s
+[CV 2/5] END model__C=1000, model__penalty=l2, model__solver=newton-cg; accuracy: (test=0.848) precision: (test=0.868) total time=   9.6s
+[CV 3/5] END model__C=0.01, model__penalty=l2, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   2.3s
+[CV 1/5] END model__C=0.1, model__penalty=l1, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.9s
+[CV 5/5] END model__C=0.1, model__penalty=l1, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 3/5] END model__C=0.1, model__penalty=l1, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.6s
+[CV 4/5] END model__C=1000, model__penalty=l2, model__solver=newton-cholesky; accuracy: (test=0.855) precision: (test=0.873) total time=   8.9s
+[CV 4/5] END model__C=1000, model__penalty=None, model__solver=lbfgs; accuracy: (test=0.855) precision: (test=0.873) total time=   7.8s
+[CV 1/5] END model__C=0.1, model__penalty=l2, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 3/5] END model__C=0.1, model__penalty=l2, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 2/5] END model__C=1000, model__penalty=None, model__solver=lbfgs; accuracy: (test=0.848) precision: (test=0.868) total time=   8.4s
+[CV 3/5] END model__C=1, model__penalty=l1, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   0.9s
+[CV 4/5] END model__C=1000, model__penalty=None, model__solver=newton-cg; accuracy: (test=0.855) precision: (test=0.873) total time=   8.0s
+[CV 5/5] END model__C=0.1, model__penalty=l2, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 1/5] END model__C=1, model__penalty=l1, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 4/5] END model__C=1000, model__penalty=l2, model__solver=sag; accuracy: (test=0.855) precision: (test=0.873) total time=   9.6s
+[CV 2/5] END model__C=1000, model__penalty=None, model__solver=newton-cg; accuracy: (test=0.848) precision: (test=0.868) total time=   8.6s
+[CV 5/5] END model__C=1, model__penalty=l1, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 1/5] END model__C=1, model__penalty=l2, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 4/5] END model__C=1000, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=0.855) precision: (test=0.873) total time=   7.8s
+[CV 3/5] END model__C=1, model__penalty=l2, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 5/5] END model__C=1, model__penalty=l2, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 2/5] END model__C=1000, model__penalty=l2, model__solver=sag; accuracy: (test=0.848) precision: (test=0.868) total time=  11.0s
+[CV 2/5] END model__C=1000, model__penalty=None, model__solver=newton-cholesky; accuracy: (test=0.848) precision: (test=0.868) total time=   8.8s
+[CV 2/5] END model__C=0.001, model__penalty=l1, model__solver=liblinear; accuracy: (test=0.840) precision: (test=0.861) total time=   7.7s
+[CV 5/5] END model__C=10, model__penalty=l1, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.1s
+[CV 1/5] END model__C=10, model__penalty=l1, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.7s
+[CV 4/5] END model__C=0.001, model__penalty=l1, model__solver=liblinear; accuracy: (test=0.844) precision: (test=0.868) total time=   7.5s
+[CV 1/5] END model__C=10, model__penalty=l2, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 3/5] END model__C=10, model__penalty=l2, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 3/5] END model__C=10, model__penalty=l1, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.8s
+[CV 2/5] END model__C=1000, model__penalty=None, model__solver=sag; accuracy: (test=0.848) precision: (test=0.868) total time=   9.4s
+[CV 5/5] END model__C=10, model__penalty=l2, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.7s
+[CV 1/5] END model__C=100, model__penalty=l1, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 3/5] END model__C=100, model__penalty=l1, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 4/5] END model__C=0.001, model__penalty=l2, model__solver=liblinear; accuracy: (test=0.848) precision: (test=0.862) total time=   8.3s
+[CV 5/5] END model__C=100, model__penalty=l1, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 1/5] END model__C=100, model__penalty=l2, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.6s
+[CV 4/5] END model__C=0.01, model__penalty=l2, model__solver=liblinear; accuracy: (test=0.854) precision: (test=0.873) total time=   7.7s
+[CV 2/5] END model__C=0.001, model__penalty=l2, model__solver=liblinear; accuracy: (test=0.840) precision: (test=0.850) total time=   9.2s
+[CV 4/5] END model__C=1000, model__penalty=None, model__solver=sag; accuracy: (test=0.855) precision: (test=0.873) total time=  10.6s
+[CV 3/5] END model__C=100, model__penalty=l2, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.8s
+[CV 4/5] END model__C=0.01, model__penalty=l1, model__solver=liblinear; accuracy: (test=0.854) precision: (test=0.873) total time=   8.4s
+[CV 5/5] END model__C=100, model__penalty=l2, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 1/5] END model__C=1000, model__penalty=l1, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 2/5] END model__C=0.01, model__penalty=l1, model__solver=liblinear; accuracy: (test=0.849) precision: (test=0.868) total time=   8.9s
+[CV 3/5] END model__C=1000, model__penalty=l1, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 2/5] END model__C=0.01, model__penalty=l2, model__solver=liblinear; accuracy: (test=0.848) precision: (test=0.865) total time=   8.7s
+[CV 5/5] END model__C=1000, model__penalty=l1, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 1/5] END model__C=1000, model__penalty=l2, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 3/5] END model__C=1000, model__penalty=l2, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 5/5] END model__C=1000, model__penalty=l2, model__solver=liblinear; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 1/5] END model__C=0.001, model__penalty=l1, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 3/5] END model__C=0.001, model__penalty=l1, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 2/5] END model__C=0.1, model__penalty=l2, model__solver=liblinear; accuracy: (test=0.848) precision: (test=0.868) total time=   8.0s
+[CV 1/5] END model__C=0.001, model__penalty=l2, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 4/5] END model__C=0.1, model__penalty=l1, model__solver=liblinear; accuracy: (test=0.855) precision: (test=0.873) total time=   8.9s
+[CV 5/5] END model__C=0.001, model__penalty=l1, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 3/5] END model__C=0.001, model__penalty=l2, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.6s
+[CV 4/5] END model__C=0.1, model__penalty=l2, model__solver=liblinear; accuracy: (test=0.855) precision: (test=0.873) total time=   8.5s
+[CV 5/5] END model__C=0.001, model__penalty=l2, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 1/5] END model__C=0.001, model__penalty=None, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 2/5] END model__C=0.1, model__penalty=l1, model__solver=liblinear; accuracy: (test=0.848) precision: (test=0.868) total time=  10.3s
+[CV 2/5] END model__C=1, model__penalty=l1, model__solver=liblinear; accuracy: (test=0.848) precision: (test=0.868) total time=   8.7s
+[CV 4/5] END model__C=1, model__penalty=l1, model__solver=liblinear; accuracy: (test=0.855) precision: (test=0.873) total time=   8.4s
+[CV 5/5] END model__C=0.001, model__penalty=None, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 1/5] END model__C=0.001, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 2/5] END model__C=1, model__penalty=l2, model__solver=liblinear; accuracy: (test=0.848) precision: (test=0.868) total time=   8.5s
+[CV 3/5] END model__C=0.001, model__penalty=None, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.9s
+[CV 4/5] END model__C=1, model__penalty=l2, model__solver=liblinear; accuracy: (test=0.855) precision: (test=0.873) total time=   8.4s
+[CV 4/5] END model__C=10, model__penalty=l1, model__solver=liblinear; accuracy: (test=0.855) precision: (test=0.873) total time=   7.7s
+[CV 3/5] END model__C=0.001, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.6s
+[CV 1/5] END model__C=0.01, model__penalty=l1, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 4/5] END model__C=10, model__penalty=l2, model__solver=liblinear; accuracy: (test=0.855) precision: (test=0.873) total time=   7.8s
+[CV 2/5] END model__C=10, model__penalty=l1, model__solver=liblinear; accuracy: (test=0.848) precision: (test=0.868) total time=   8.5s
+[CV 5/5] END model__C=0.001, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.7s
+[CV 3/5] END model__C=0.01, model__penalty=l1, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 2/5] END model__C=10, model__penalty=l2, model__solver=liblinear; accuracy: (test=0.848) precision: (test=0.868) total time=   8.9s
+[CV 5/5] END model__C=0.01, model__penalty=l1, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 1/5] END model__C=0.01, model__penalty=l2, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 2/5] END model__C=100, model__penalty=l2, model__solver=liblinear; accuracy: (test=0.848) precision: (test=0.868) total time=   7.7s
+[CV 3/5] END model__C=0.01, model__penalty=l2, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 1/5] END model__C=0.01, model__penalty=None, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 3/5] END model__C=0.01, model__penalty=None, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 5/5] END model__C=0.01, model__penalty=l2, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.8s
+[CV 2/5] END model__C=100, model__penalty=l1, model__solver=liblinear; accuracy: (test=0.848) precision: (test=0.868) total time=   9.2s
+[CV 4/5] END model__C=100, model__penalty=l1, model__solver=liblinear; accuracy: (test=0.855) precision: (test=0.873) total time=   8.7s
+[CV 4/5] END model__C=100, model__penalty=l2, model__solver=liblinear; accuracy: (test=0.855) precision: (test=0.873) total time=   8.3s
+[CV 2/5] END model__C=1000, model__penalty=l1, model__solver=liblinear; accuracy: (test=0.848) precision: (test=0.868) total time=   8.2s
+[CV 5/5] END model__C=0.01, model__penalty=None, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.7s
+[CV 1/5] END model__C=0.01, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 4/5] END model__C=1000, model__penalty=l1, model__solver=liblinear; accuracy: (test=0.855) precision: (test=0.873) total time=   8.0s
+[CV 1/5] END model__C=0.1, model__penalty=l1, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 3/5] END model__C=0.01, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   2.0s
+[CV 5/5] END model__C=0.01, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.6s
+[CV 3/5] END model__C=0.1, model__penalty=l1, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.7s
+[CV 2/5] END model__C=1000, model__penalty=l2, model__solver=liblinear; accuracy: (test=0.848) precision: (test=0.868) total time=   8.4s
+[CV 1/5] END model__C=0.1, model__penalty=l2, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 5/5] END model__C=0.1, model__penalty=l1, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 4/5] END model__C=1000, model__penalty=l2, model__solver=liblinear; accuracy: (test=0.855) precision: (test=0.873) total time=   8.7s
+[CV 5/5] END model__C=0.1, model__penalty=l2, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 3/5] END model__C=0.1, model__penalty=l2, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.7s
+[CV 1/5] END model__C=0.1, model__penalty=None, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.1s
+[CV 3/5] END model__C=0.1, model__penalty=None, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   0.9s
+[CV 2/5] END model__C=0.001, model__penalty=l1, model__solver=saga; accuracy: (test=0.836) precision: (test=0.830) total time=   9.1s
+[CV 5/5] END model__C=0.1, model__penalty=None, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 2/5] END model__C=0.001, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   7.5s
+[CV 4/5] END model__C=0.001, model__penalty=l1, model__solver=saga; accuracy: (test=0.846) precision: (test=0.843) total time=   9.5s
+[CV 2/5] END model__C=0.001, model__penalty=None, model__solver=saga; accuracy: (test=0.848) precision: (test=0.868) total time=   8.2s
+[CV 1/5] END model__C=0.1, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 4/5] END model__C=0.001, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   7.3s
+[CV 2/5] END model__C=0.001, model__penalty=l2, model__solver=saga; accuracy: (test=0.834) precision: (test=0.833) total time=   9.4s
+[CV 3/5] END model__C=0.1, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.1s
+[CV 5/5] END model__C=0.1, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 4/5] END model__C=0.001, model__penalty=l2, model__solver=saga; accuracy: (test=0.847) precision: (test=0.848) total time=   9.8s
+[CV 3/5] END model__C=1, model__penalty=l1, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 1/5] END model__C=1, model__penalty=l1, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 1/5] END model__C=1, model__penalty=l2, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.1s
+[CV 5/5] END model__C=1, model__penalty=l1, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 4/5] END model__C=0.001, model__penalty=None, model__solver=saga; accuracy: (test=0.855) precision: (test=0.873) total time=   9.3s
+[CV 3/5] END model__C=1, model__penalty=l2, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 2/5] END model__C=0.01, model__penalty=l1, model__solver=saga; accuracy: (test=0.849) precision: (test=0.866) total time=   8.8s
+[CV 5/5] END model__C=1, model__penalty=l2, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 1/5] END model__C=1, model__penalty=None, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 4/5] END model__C=0.01, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   6.3s
+[CV 3/5] END model__C=1, model__penalty=None, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 5/5] END model__C=1, model__penalty=None, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 1/5] END model__C=1, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 3/5] END model__C=1, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 2/5] END model__C=0.01, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   7.1s
+[CV 4/5] END model__C=0.01, model__penalty=l2, model__solver=saga; accuracy: (test=0.854) precision: (test=0.871) total time=   8.3s
+[CV 4/5] END model__C=0.01, model__penalty=l1, model__solver=saga; accuracy: (test=0.854) precision: (test=0.871) total time=   9.4s
+[CV 5/5] END model__C=1, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 4/5] END model__C=0.01, model__penalty=None, model__solver=saga; accuracy: (test=0.855) precision: (test=0.873) total time=   8.4s
+[CV 1/5] END model__C=10, model__penalty=l1, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 2/5] END model__C=0.01, model__penalty=l2, model__solver=saga; accuracy: (test=0.847) precision: (test=0.863) total time=   8.9s
+[CV 3/5] END model__C=10, model__penalty=l1, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   0.9s
+[CV 5/5] END model__C=10, model__penalty=l1, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.1s
+[CV 1/5] END model__C=10, model__penalty=l2, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 5/5] END model__C=10, model__penalty=l2, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.1s
+[CV 2/5] END model__C=0.1, model__penalty=l2, model__solver=saga; accuracy: (test=0.848) precision: (test=0.867) total time=   7.7s
+[CV 1/5] END model__C=10, model__penalty=None, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.1s
+[CV 2/5] END model__C=0.01, model__penalty=None, model__solver=saga; accuracy: (test=0.848) precision: (test=0.868) total time=   9.9s
+[CV 3/5] END model__C=10, model__penalty=l2, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 2/5] END model__C=0.1, model__penalty=None, model__solver=saga; accuracy: (test=0.848) precision: (test=0.868) total time=   7.1s
+[CV 4/5] END model__C=0.1, model__penalty=l1, model__solver=saga; accuracy: (test=0.855) precision: (test=0.873) total time=   8.8s
+[CV 5/5] END model__C=10, model__penalty=None, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 1/5] END model__C=10, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 3/5] END model__C=10, model__penalty=None, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.8s
+[CV 2/5] END model__C=0.1, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   6.4s
+[CV 4/5] END model__C=0.1, model__penalty=l2, model__solver=saga; accuracy: (test=0.855) precision: (test=0.873) total time=   8.6s
+[CV 4/5] END model__C=0.1, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   6.4s
+[CV 3/5] END model__C=10, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 5/5] END model__C=10, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 2/5] END model__C=0.1, model__penalty=l1, model__solver=saga; accuracy: (test=0.848) precision: (test=0.868) total time=   9.9s
+[CV 1/5] END model__C=100, model__penalty=l1, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 3/5] END model__C=100, model__penalty=l1, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 1/5] END model__C=100, model__penalty=l2, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.1s
+[CV 3/5] END model__C=100, model__penalty=l2, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 5/5] END model__C=100, model__penalty=l1, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 1/5] END model__C=100, model__penalty=None, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 5/5] END model__C=100, model__penalty=l2, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 4/5] END model__C=0.1, model__penalty=None, model__solver=saga; accuracy: (test=0.855) precision: (test=0.873) total time=   9.2s
+[CV 3/5] END model__C=100, model__penalty=None, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 4/5] END model__C=1, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   6.1s
+[CV 2/5] END model__C=1, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   6.5s
+[CV 5/5] END model__C=100, model__penalty=None, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 1/5] END model__C=100, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.8s
+[CV 3/5] END model__C=100, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 1/5] END model__C=1000, model__penalty=l1, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.3s
+[CV 5/5] END model__C=100, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 3/5] END model__C=1000, model__penalty=l1, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 1/5] END model__C=1000, model__penalty=l2, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 4/5] END model__C=1, model__penalty=l1, model__solver=saga; accuracy: (test=0.855) precision: (test=0.873) total time=   9.7s
+[CV 2/5] END model__C=1, model__penalty=l2, model__solver=saga; accuracy: (test=0.848) precision: (test=0.868) total time=   9.4s
+[CV 4/5] END model__C=1, model__penalty=l2, model__solver=saga; accuracy: (test=0.854) precision: (test=0.873) total time=   9.2s
+[CV 5/5] END model__C=1000, model__penalty=l1, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 4/5] END model__C=1, model__penalty=None, model__solver=saga; accuracy: (test=0.855) precision: (test=0.873) total time=   9.0s
+[CV 5/5] END model__C=1000, model__penalty=l2, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 3/5] END model__C=1000, model__penalty=l2, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.6s
+[CV 1/5] END model__C=1000, model__penalty=None, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 5/5] END model__C=1000, model__penalty=None, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.2s
+[CV 2/5] END model__C=1, model__penalty=None, model__solver=saga; accuracy: (test=0.848) precision: (test=0.868) total time=  10.0s
+[CV 2/5] END model__C=1, model__penalty=l1, model__solver=saga; accuracy: (test=0.848) precision: (test=0.868) total time=  11.4s
+[CV 1/5] END model__C=1000, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.4s
+[CV 3/5] END model__C=1000, model__penalty=None, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.6s
+[CV 4/5] END model__C=10, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   6.8s
+[CV 2/5] END model__C=10, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   7.2s
+[CV 5/5] END model__C=1000, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   0.8s
+[CV 4/5] END model__C=10, model__penalty=l1, model__solver=saga; accuracy: (test=0.855) precision: (test=0.873) total time=   8.9s
+[CV 4/5] END model__C=10, model__penalty=None, model__solver=saga; accuracy: (test=0.855) precision: (test=0.873) total time=   8.1s
+[CV 2/5] END model__C=10, model__penalty=l2, model__solver=saga; accuracy: (test=0.848) precision: (test=0.868) total time=   8.9s
+[CV 3/5] END model__C=1000, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   1.5s
+[CV 4/5] END model__C=100, model__penalty=l1, model__solver=saga; accuracy: (test=0.855) precision: (test=0.873) total time=   6.7s
+[CV 2/5] END model__C=10, model__penalty=l1, model__solver=saga; accuracy: (test=0.848) precision: (test=0.868) total time=  10.1s
+[CV 2/5] END model__C=100, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   5.4s
+[CV 2/5] END model__C=10, model__penalty=None, model__solver=saga; accuracy: (test=0.848) precision: (test=0.868) total time=   8.8s
+[CV 4/5] END model__C=100, model__penalty=l2, model__solver=saga; accuracy: (test=0.855) precision: (test=0.873) total time=   6.6s
+[CV 4/5] END model__C=10, model__penalty=l2, model__solver=saga; accuracy: (test=0.855) precision: (test=0.873) total time=   9.4s
+[CV 2/5] END model__C=100, model__penalty=l2, model__solver=saga; accuracy: (test=0.848) precision: (test=0.868) total time=   7.1s
+[CV 4/5] END model__C=100, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   5.6s
+[CV 4/5] END model__C=100, model__penalty=None, model__solver=saga; accuracy: (test=0.855) precision: (test=0.873) total time=   6.5s
+[CV 2/5] END model__C=100, model__penalty=None, model__solver=saga; accuracy: (test=0.848) precision: (test=0.868) total time=   7.0s
+[CV 4/5] END model__C=1000, model__penalty=l2, model__solver=saga; accuracy: (test=0.855) precision: (test=0.873) total time=   4.2s
+[CV 2/5] END model__C=100, model__penalty=l1, model__solver=saga; accuracy: (test=0.848) precision: (test=0.868) total time=   8.3s
+[CV 2/5] END model__C=1000, model__penalty=l1, model__solver=saga; accuracy: (test=0.848) precision: (test=0.868) total time=   5.7s
+[CV 4/5] END model__C=1000, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   2.6s
+[CV 4/5] END model__C=1000, model__penalty=l1, model__solver=saga; accuracy: (test=0.855) precision: (test=0.873) total time=   5.5s
+[CV 2/5] END model__C=1000, model__penalty=None, model__solver=saga; accuracy: (test=0.848) precision: (test=0.868) total time=   3.9s
+[CV 2/5] END model__C=1000, model__penalty=l2, model__solver=saga; accuracy: (test=0.848) precision: (test=0.868) total time=   4.7s
+[CV 2/5] END model__C=1000, model__penalty=elasticnet, model__solver=saga; accuracy: (test=nan) precision: (test=nan) total time=   3.5s
+[CV 4/5] END model__C=1000, model__penalty=None, model__solver=saga; accuracy: (test=0.855) precision: (test=0.873) total time=   3.9s"""
+
+lines = training_results.split('\n')
+def find_solver(line) -> str:
+    return line.split('model__solver=')[1].split(';')[0].strip()
+
+def find_penalty(line) -> str:
+    return line.split('model__penalty=')[1].split(',')[0].strip()
+
+def find_C(line) -> str:
+    return line.split('model__C=')[1].split(',')[0].strip()
+
+def sort_lines(lines) -> list:
+    return sorted(lines, key=lambda x: (find_solver(x), find_penalty(x), find_C(x)))   
+
+sorted_lines = sort_lines(lines)
