@@ -1,5 +1,6 @@
 from sklearn.metrics import classification_report, confusion_matrix
 import pandas as pd
+import ast
 
 def get_best_scores(grid_collection):
   for name, grid in grid_collection.items():
@@ -27,6 +28,32 @@ def get_best_params(grid):
         print(f"Avg. Accuracy: {res[0][2]*100}%.")
         print()
 
+def get_best_params_df(df):
+    res = (df.sort_values(by=['mean_test_precision','mean_test_accuracy'],ascending=False)
+           .filter(['params','mean_test_precision','mean_test_accuracy'])
+           .values)
+    intro = f"Best parameters for current model:"
+    print(intro)
+    for i in range(3):
+        params = ast.literal_eval(res[i][0])
+        for key,value in params.items():
+            print(f"{key.split('__')[1]}: {value}")
+        print(f"Avg. Precision: {res[0][1]*100}%.")
+        print(f"Avg. Accuracy: {res[0][2]*100}%.")
+        print()
+
+
+def collect_like_estimators(df):
+  grouped_dict = {}
+  for _, result in df.iterrows():
+    p_score = result['mean_test_precision']
+    a_score = result['mean_test_accuracy']
+    score = (p_score,a_score)
+    if score in grouped_dict:
+      grouped_dict[score].append(result.to_dict())
+    else:
+      grouped_dict[score] = [result.to_dict()]
+  return grouped_dict
 
 
 

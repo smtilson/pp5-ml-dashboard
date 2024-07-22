@@ -1,0 +1,145 @@
+with feature selection
+Best parameters for current model:
+threshold: 0.8
+C: 0.01
+penalty: l1
+solver: liblinear
+Avg. Precision: 88.74215959289508%.
+Avg. Accuracy: 87.2433806846207%.
+
+threshold: 0.8
+C: 0.001
+penalty: None
+solver: lbfgs
+Avg. Precision: 88.74215959289508%.
+Avg. Accuracy: 87.2433806846207%.
+
+threshold: 0.8
+C: 0.001
+penalty: None
+solver: newton-cg
+Avg. Precision: 88.74215959289508%.
+Avg. Accuracy: 87.2433806846207%.
+
+threshold: 0.8
+C: 0.001
+penalty: None
+solver: newton-cholesky
+Avg. Precision: 88.74215959289508%.
+Avg. Accuracy: 87.2433806846207%.
+
+threshold: 0.8
+C: 0.001
+penalty: None
+solver: sag
+Avg. Precision: 88.74215959289508%.
+Avg. Accuracy: 87.2433806846207%.
+
+threshold: 0.8
+C: 0.01
+penalty: None
+solver: lbfgs
+Avg. Precision: 88.74215959289508%.
+Avg. Accuracy: 87.2433806846207%.
+
+threshold: 0.8
+C: 0.01
+penalty: None
+solver: newton-cg
+Avg. Precision: 88.74215959289508%.
+Avg. Accuracy: 87.2433806846207%.
+
+threshold: 0.8
+C: 0.01
+penalty: None
+solver: newton-cholesky
+Avg. Precision: 88.74215959289508%.
+Avg. Accuracy: 87.2433806846207%.
+
+threshold: 0.8
+C: 0.01
+penalty: None
+solver: sag
+Avg. Precision: 88.74215959289508%.
+Avg. Accuracy: 87.2433806846207%.
+
+threshold: 0.8
+C: 0.1
+penalty: None
+solver: lbfgs
+Avg. Precision: 88.74215959289508%.
+Avg. Accuracy: 87.2433806846207%.
+
+without feauture selection
+
+Best parameters for current model:
+threshold: 0.8
+C: 0.01
+penalty: l1
+solver: liblinear
+Avg. Precision: 88.74215959289508%.
+Avg. Accuracy: 87.2433806846207%.
+
+threshold: 0.8
+C: 0.001
+penalty: None
+solver: lbfgs
+Avg. Precision: 88.74215959289508%.
+Avg. Accuracy: 87.2433806846207%.
+
+threshold: 0.8
+C: 0.001
+penalty: None
+solver: newton-cg
+Avg. Precision: 88.74215959289508%.
+Avg. Accuracy: 87.2433806846207%.
+
+threshold: 0.8
+C: 0.001
+penalty: None
+solver: newton-cholesky
+Avg. Precision: 88.74215959289508%.
+Avg. Accuracy: 87.2433806846207%.
+
+threshold: 0.8
+C: 0.001
+penalty: None
+solver: sag
+Avg. Precision: 88.74215959289508%.
+Avg. Accuracy: 87.2433806846207%.
+
+threshold: 0.8
+C: 0.01
+penalty: None
+solver: lbfgs
+Avg. Precision: 88.74215959289508%.
+Avg. Accuracy: 87.2433806846207%.
+
+threshold: 0.8
+C: 0.01
+penalty: None
+solver: newton-cg
+Avg. Precision: 88.74215959289508%.
+Avg. Accuracy: 87.2433806846207%.
+
+C: 0.01
+penalty: None
+solver: newton-cholesky
+Avg. Precision: 88.74215959289508%.
+Avg. Accuracy: 87.2433806846207%.
+
+
+C: 0.01
+penalty: None
+solver: sag
+Avg. Precision: 88.74215959289508%.
+Avg. Accuracy: 87.2433806846207%.
+
+
+C: 0.1
+penalty: None
+solver: lbfgs
+Avg. Precision: 88.74215959289508%.
+Avg. Accuracy: 87.2433806846207%.
+
+dict_keys(['mean_fit_time', 'std_fit_time', 'mean_score_time', 'std_score_time', 'param_corr_selector__threshold', 'param_model__C', 'param_model__penalty', 'param_model__solver', 'params', 'split0_test_accuracy', 'split1_test_accuracy', 'split2_test_accuracy', 'split3_test_accuracy', 'split4_test_accuracy', 'mean_test_accuracy', 'std_test_accuracy', 'rank_test_accuracy', 'split0_test_precision', 'split1_test_precision', 'split2_test_precision', 'split3_test_precision', 'split4_test_precision', 'mean_test_precision', 'std_test_precision', 'rank_test_precision'])
