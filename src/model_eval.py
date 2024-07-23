@@ -112,15 +112,19 @@ def score_stats(results_df):
 	print(f"Max Precision: {max_p}\nMax Accuracy: {max_a}")
 	return maxim
 
-def present_param_counts(results_df, score):
+
+def present_param_counts(results_df, score, exclude=None):
+	if exclude is None:
+		exclude = []
 	grouped_estimator_params = collect_like_estimators(results_df)
 	best_params = grouped_estimator_params[score]
 	param_count = {}
 	for param in best_params:
-		if isinstance(param['params'], str):
-			param_dict = ast.literal_eval(param['params'])
-		else:
-			param_dict = param['params']
+		param_dict = param['params']
+		bad_string = "DecisionTreeClassifier(random_state=42)"
+		if isinstance(param_dict, str):
+			param_dict = param_dict.replace(bad_string,"'decision tree'")
+			param_dict = ast.literal_eval(param_dict)
 		for key,value in param_dict.items():
 			if (key,value) in param_count:
 				param_count[(key,value)]+=1
@@ -128,9 +132,11 @@ def present_param_counts(results_df, score):
 				param_count[(key,value)]=1
 	sorted_count = {k: v for k, v in sorted(param_count.items(), 
 					 reverse=True, key=lambda item: (item[0][0],item[1]))}
-
 	for key,value in sorted_count.items():
+		if key[0] in exclude:
+			continue
 		print(f"{key[0]}: {key[1]}, Count: {value}")
+
 
 def evaluate_param_on_test_set(pipe,X_test, Y_test):
     y_pred = pipe.predict(X_test)
