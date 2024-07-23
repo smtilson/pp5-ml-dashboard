@@ -121,10 +121,17 @@ def present_param_counts(results_df, score, exclude=None):
 	param_count = {}
 	for param in best_params:
 		param_dict = param['params']
-		bad_string = "DecisionTreeClassifier(random_state=42)"
+		bad_string = "DecisionTreeClassifier"
 		if isinstance(param_dict, str):
-			param_dict = param_dict.replace(bad_string,"'decision tree'")
-			param_dict = ast.literal_eval(param_dict)
+			if bad_string in param_dict:
+				terms = param_dict.split(", '")
+				terms = [term for term in terms if bad_string not in term]
+				param_dict = ", '".join(terms)
+			try:
+				param_dict = ast.literal_eval(param_dict)
+			except ValueError as e:
+				print(param_dict)
+				raise e
 		for key,value in param_dict.items():
 			if (key,value) in param_count:
 				param_count[(key,value)]+=1
