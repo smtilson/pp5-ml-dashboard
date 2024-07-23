@@ -31,10 +31,11 @@ def save_df(df,name,dir,index=False):
     df.to_csv(dir + '/' + name + '.csv', index=index)
 
 
-def divide_range(start=0,stop=100,num=4):
+def divide_range(start=0,stop=100,num=4, precision=3):
     len = stop-start
     step = len/num
-    return [start+step*i for i in range(0,num+1)]
+    initial = [start+step*i for i in range(0,num+1)]
+    return [round(item,precision) for item in initial]
 
 
 def count_threshold_changes(df,threshold_list, corr=True):
