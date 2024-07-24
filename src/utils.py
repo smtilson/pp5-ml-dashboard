@@ -23,7 +23,7 @@ def get_df(name:str, dir)->'DataFrame':
     df = pd.read_csv(file_path)
     return df
 
-def save_df(df,name,dir,index=False):
+def save_df(df,name,dir,index=True):
     if 'workspace' not in dir:
         dir = BASE_DIR + dir
     if not os.path.exists(dir):
