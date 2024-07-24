@@ -78,7 +78,7 @@ def present_score_counts(results_df, display_num=4):
 		print(f"Count: {len(v)}")
 		count += 1
 		print()
-	return sorted_grouping
+	# return sorted_grouping
 
 def score_stats(results_df):
 	grouped_params = collect_like_estimators(results_df)
