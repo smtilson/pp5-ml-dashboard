@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 
 
 def find_features(X_train, fitted_pipe, initial_drop):
+    total = len(X_train.columns)
     corr_dropped = list(fitted_pipe['corr_selector'].features_to_drop_)
     auto_dropped = initial_drop + corr_dropped
     cols = [col for col in X_train.columns if col not in auto_dropped]
@@ -13,13 +14,23 @@ def find_features(X_train, fitted_pipe, initial_drop):
     if len(X.columns) != features.shape[0]:
         raise ValueError
     feat_selected_dropped = []
+    feat_selected = []
     for index, col in enumerate(X.columns):
         if not features[index]:
             X.drop(col, axis=1, inplace=True)
-        else:
             feat_selected_dropped.append(col)
+        else:
+            feat_selected.append(col)
+    dropped = set(auto_dropped + feat_selected_dropped)
+    kept = set(X.columns)
+    if set.intersection(dropped,kept):
+        raise ValueError(str(set.intersection(dropped,kept)))
+    missing = [col for col in X_train.columns if col not in set.union(dropped,kept)]
+    if missing:
+        raise ValueError(str(missing))
+    if total != len(kept)+len(dropped):
+        raise ValueError(str(total-len(kept)-len(dropped)))
     return list(X.columns), auto_dropped + feat_selected_dropped
-
 
 
 def feature_importance_logistic_regression(pipe, step_name, X_TrainSet, initial_drop):
