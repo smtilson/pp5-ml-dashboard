@@ -1,4 +1,4 @@
-# This file borrows heavily from the Churnometer walkthrough project
+# This file follows that of the Churnometer walkthrough project
 import streamlit as st
 
 
