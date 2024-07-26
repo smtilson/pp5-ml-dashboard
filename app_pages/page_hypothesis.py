@@ -3,8 +3,9 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.express as px
-from src.data_management import load_telco_data, load_pkl_file
+#from src.data_management import load_telco_data, load_pkl_file
 
 
 def page_hypothesis_body():
-    pass
+    st.write("## Hypotheses")
+    st.write("In progress...")

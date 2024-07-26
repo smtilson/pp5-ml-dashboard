@@ -3,11 +3,13 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.express as px
-from src.data_management import load_telco_data, load_pkl_file
+#from src.data_management import load_telco_data, load_pkl_file
 
 
 def page_cluster_body():
-
+    st.write("## Cluster Analysis")
+    st.write("In progress...")
+    '''
     # load cluster analysis files and pipeline
     version = 'v1'
     cluster_pipe = load_pkl_file(
@@ -113,3 +115,4 @@ def cluster_distribution_per_variable(df, target):
     fig.update_traces(mode='markers+lines')
     # we replaced fig.show() for a streamlit command to render the plot
     st.plotly_chart(fig)
+'''

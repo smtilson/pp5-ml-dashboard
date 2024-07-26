@@ -10,6 +10,23 @@ sns.set_style('whitegrid')
 
 
 def page_eda_body():
-    data = get_df('game_data_clean','datasets/clean/csv')
-    
-    pass
+    st.write("## Exploratory Data Analysis")
+    blurb = "We looked at several facets of our dataset.\n"\
+            "* We at the distribution of the features. We used a normality "\
+            "test to see if any of the features were normally distributed.\n"\
+            "* We looked at the correlation coefficients between different "\
+            "features. We then focused on the correlation coefficients where "\
+            "one feature was the home team.\n"\
+            "* We looked at the Predictive Power score between the different "\
+            "features. We then focused on their relation to our target: home "\
+            "team wins.\n"
+    st.write("We looked at several facets of our dataset. ")
+    st.write("In progress...")
+    '''data = get_df('game_data_clean','datasets/clean/csv')
+    corr_df = get_df('eda_spearman_corr','datasets/clean/csv')
+    features = list(corr_df.columns)
+    feature1 = st.selectbox("Feature 1", features, index=0)
+    feature2 = st.selectbox("Feature 2", features, index=1)
+    plot = sns.scatterplot(x=feature1, y=feature2, data=data, ax=ax)
+    st.write(f" The correlation between {feature1} and {feature2} is {corr_df[feature1][feature2]}")
+    st.pyplot(plot.fig)'''
