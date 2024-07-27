@@ -4,7 +4,6 @@ import numpy as np
 import scipy.stats as stats
 import matplotlib.pyplot as plt
 import seaborn as sns
-import io
 import os
 from feature_engine import transformation as vt
 from feature_engine.outliers import Winsorizer
@@ -16,25 +15,34 @@ warnings.filterwarnings('ignore')
 BASE_DIR = '/workspace/pp5-ml-dashboard/outputs/'
 # this dictionary is for converting column names to a more readable format
 proper_name = {}
-def get_df(name:str, dir)->'DataFrame':
-    if 'workspace' not in dir:
-        dir = BASE_DIR + dir
-    file_path = dir + '/' + name + '.csv'
+def get_df(name:str, target_dir) -> pd.DataFrame:
+    if 'workspace' not in target_dir:
+        target_dir = BASE_DIR + target_dir
+    file_path = target_dir + '/' + name + '.csv'
     df = pd.read_csv(file_path)
+    if "game_id" in df.columns:
+        print("hit game_id clause")
+        print(name)
+        df.set_index('game_id', inplace=True)
+    elif 'Unnamed: 0' in df.columns:
+        print("hit unnamed clause")
+        print(name)
+        df.rename(columns={'Unnamed: 0':'Index'}, inplace=True)
+        df.set_index('Index', inplace=True)
     return df
 
-def save_df(df,name,dir,index=True):
-    if 'workspace' not in dir:
-        dir = BASE_DIR + dir
-    if not os.path.exists(dir):
-        os.makedirs(dir)
-    df.to_csv(dir + '/' + name + '.csv', index=index)
+def save_df(df,name,target_dir,index=True):
+    if 'workspace' not in target_dir:
+        target_dir = BASE_DIR + target_dir
+    if not os.path.exists(target_dir):
+        os.makedirs(target_dir)
+    df.to_csv(target_dir + '/' + name + '.csv', index=index)
 
 
 def divide_range(start=0,stop=100,num=4, precision=3):
-    len = stop-start
-    step = len/num
-    initial = [start+step*i for i in range(0,num+1)]
+    length = stop-start
+    step = length/num
+    initial = [start+step*i for i in range(num+1)]
     return [round(item,precision) for item in initial]
 
 
@@ -43,16 +51,11 @@ def count_threshold_changes(df,threshold_list, corr=True):
     df should be a square matrix, like a matrix of correlation coefficients.
     Does this also work for pandas.series?
     """
-    if corr:
-        trivial = df.shape[0]
-    else:
-        trivial = 0
+    trivial = df.shape[0] if corr else 0
     changes = []
     for threshold in threshold_list:
         count = np.count_nonzero(abs(df) > threshold)-trivial
-        if not changes:
-            changes.append((threshold,count))
-        elif count != changes[-1][1]:
+        if not changes or count != changes[-1][0]:
             changes.append((threshold,count))
     return changes
 
@@ -73,7 +76,7 @@ def get_pairs(df,threshold):
     return pairs
 
 
-def add_cat_date(df:'DataFrame',date_name:str,symbol='-',year_pos=0, month_pos=1,day_pos=2) -> 'DataFrame':
+def add_cat_date(df:pd.DataFrame,date_name:str,symbol='-',year_pos=0, month_pos=1,day_pos=2) -> pd.DataFrame:
     # the date_name argument should be the name of the column containing the date data
     # maybe I should take into account the format
     
@@ -126,8 +129,9 @@ def check_user_entry_on_analysis_type(analysis_type, allowed_types):
 
 def check_missing_values(df):
     if df.isna().sum().sum() != 0:
-        raise SystemExit(
-            f"There is a missing value in your dataset. Please handle that before getting into feature engineering.")
+        msg = ("There is a missing value in your dataset. Please handle that "
+               "before getting into feature engineering.")
+        raise SystemExit(msg)
 
 
 def define_list_column_transformers(analysis_type):
@@ -169,16 +173,16 @@ def transformer_evaluation(column, list_applied_transformers, analysis_type, df_
     print(f"* Variable Analyzed: {column}")
     print(f"* Applied transformation: {list_applied_transformers} \n")
     for col in [column] + list_applied_transformers:
-
+        DiagnosticPlots_Numerical(df_feat_eng, col)
+        '''
+        I don't think I actually use the other cases below.
         if analysis_type != 'ordinal_encoder':
             DiagnosticPlots_Numerical(df_feat_eng, col)
-
         else:
             if col == column:
                 DiagnosticPlots_Categories(df_feat_eng, col)
             else:
-                DiagnosticPlots_Numerical(df_feat_eng, col)
-
+                DiagnosticPlots_Numerical(df_feat_eng, col)'''
         print("\n")
 
 

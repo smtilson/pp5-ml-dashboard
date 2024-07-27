@@ -22,11 +22,23 @@ def page_eda_body():
             "team wins.\n"
     st.write("We looked at several facets of our dataset. ")
     st.write("In progress...")
-    '''data = get_df('game_data_clean','datasets/clean/csv')
+    st.write(blurb)
+    data = get_df('game_data_clean','datasets/clean/csv')
     corr_df = get_df('eda_spearman_corr','datasets/clean/csv')
     features = list(corr_df.columns)
-    feature1 = st.selectbox("Feature 1", features, index=0)
-    feature2 = st.selectbox("Feature 2", features, index=1)
-    plot = sns.scatterplot(x=feature1, y=feature2, data=data, ax=ax)
+    feature_1 = st.selectbox("Feature 1", features, index=1)
+    feature_2 = st.selectbox("Feature 2", features, index=2)
+    feature1 = features[0]
+    feature2 = features[1]
+    chart_data = corr_df.filter([feature1,feature2])
+    #plot = sns.scatterplot(data=data, x=feature1, y=feature2)
+    fig, ax = plt.subplots(figsize=(10, 10)) 
+    sns.countplot(data=data, x=feature1,
+                       hue="home_wins",
+                       order=data[feature1].value_counts().index)
+    plt.xticks(rotation=90)
+    plt.title(f"{feature1}", fontsize=20, y=1.05)
+    st.pyplot(fig)
+
     st.write(f" The correlation between {feature1} and {feature2} is {corr_df[feature1][feature2]}")
-    st.pyplot(plot.fig)'''
+    #st.pyplot(plot.fig)
