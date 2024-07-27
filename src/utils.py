@@ -37,8 +37,17 @@ def save_df(df,name,target_dir,index=True):
 
 def display_feature_name(feature_name:str) -> str:
     string = feature_name.replace('_',' ')
-    return string.title()
+    words = string.split()
+    new_words = [special_caps(word) for word in words]
+    return ' '.join(new_words)
+    
 
+def special_caps(string:str) -> str:
+    title_words = {'plus', 'home', 'away'}
+    if len(string) <= 4 and string not in title_words:
+        return string.upper()
+    else:
+        return string.title()
 def divide_range(start=0,stop=100,num=4, precision=3):
     length = stop-start
     step = length/num
