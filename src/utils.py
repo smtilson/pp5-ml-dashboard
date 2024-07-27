@@ -21,12 +21,8 @@ def get_df(name:str, target_dir) -> pd.DataFrame:
     file_path = target_dir + '/' + name + '.csv'
     df = pd.read_csv(file_path)
     if "game_id" in df.columns:
-        print("hit game_id clause")
-        print(name)
         df.set_index('game_id', inplace=True)
     elif 'Unnamed: 0' in df.columns:
-        print("hit unnamed clause")
-        print(name)
         df.rename(columns={'Unnamed: 0':'Index'}, inplace=True)
         df.set_index('Index', inplace=True)
     return df
@@ -38,6 +34,10 @@ def save_df(df,name,target_dir,index=True):
         os.makedirs(target_dir)
     df.to_csv(target_dir + '/' + name + '.csv', index=index)
 
+
+def display_feature_name(feature_name:str) -> str:
+    string = feature_name.replace('_',' ')
+    return string.title()
 
 def divide_range(start=0,stop=100,num=4, precision=3):
     length = stop-start
