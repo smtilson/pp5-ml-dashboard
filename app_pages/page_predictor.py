@@ -21,12 +21,11 @@ def page_predictor_body():
         submitted = st.form_submit_button("Get Game List")
         if submitted:
             games = latest_season.query(f'team_name_home== "{home_team}" & team_name_away == "{away_team}"')
-            game_dates = []
-            for row in games.iterrows():
+            game_dates = {}
+            for index,row in games.iterrows():
                 date = row['day']+"/"+row['month']+"/"+row['year']
-                game_dates.append(date)
-            game_dates = list(set(game_dates))
-            game_date = st.selectbox(label="Game Date", options=game_dates, index=0)
+                game_dates[date] = index
+            game_date = st.selectbox(label="Game Date", options=list(game_dates.keys()), index=0)
     #date = st.selectbox(options=game_dates, index=0)
     #full_data = get_df()
 
