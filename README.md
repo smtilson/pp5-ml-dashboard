@@ -41,4 +41,4 @@ Many of the excluded features of the dataset contain metadata, such as whether o
        'team_id_away', 'fgm_away', 'fga_away', 'fg3m_away', 'fg3a_away',
        'ftm_away', 'fta_away', 'oreb_away', 'dreb_away', 'reb_away',
        'ast_away', 'stl_away', 'blk_away', 'tov_away', 'pf_away', 'pts_away',
-       'Day', 'Month', 'Year'
+       'Day', 'Month', 'year'

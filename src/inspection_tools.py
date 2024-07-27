@@ -5,7 +5,7 @@ def single_season(df,target_season_id) -> 'DataFrame':
     return df.query(f'season_id == {target_season_id}')
 
 def compute_years(df) -> list:
-    return df['Year'].unique()
+    return df['year'].unique()
 
 def cutoff_year(season_id:int,cutoff:int) -> bool:
     year_str =str(season_id)[1:]

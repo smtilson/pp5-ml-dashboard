@@ -32,12 +32,12 @@ def page_eda_body():
     st.write("## Feature Distributions")
     st.write("Select a feature to see what its score on the normality test "\
              "is.")
-    normality_check = st.selectbox("Feature", features, index=0)
-    score = normality_scores.loc[normality_check]['W']
-    pval = normality_scores.loc[normality_check]['pval']
-    st.write("In order to be considered normal, the p-value must be larger "\
-             f"than 0.05. {normality_check} scored {score} and has a p-value "\
-             f"of {pval}.")
+    feature = st.selectbox("Feature", features, index=0)
+    score = normality_scores.loc[feature]['W']
+    pval = normality_scores.loc[feature]['pval']
+    st.write(f"{disp(feature)} scored {score} and has a p-value f {pval}. In "\
+             "order to be considered normal, the p-value must be larger than "\
+             "0.05.")
     st.write("While none of the features were found to be normally "\
             "distributed, we were able to transform some of them in order to "\
             "obtain normal distributions.")
