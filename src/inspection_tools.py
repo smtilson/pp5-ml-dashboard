@@ -1,7 +1,8 @@
 # These functions are explicitly for inspecting the various dataframes we encounter.
 import pandas as pd
+import io
 
-def single_season(df,target_season_id) -> 'DataFrame':
+def single_season(df,target_season_id) -> pd.DataFrame:
     return df.query(f'season_id == {target_season_id}')
 
 def compute_years(df) -> list:
@@ -17,7 +18,7 @@ def cutoff_year(season_id:int,cutoff:int) -> bool:
 
 # This was gotten from the StackOverflow answer at
 # https://stackoverflow.com/questions/70748529/how-to-save-pandas-info-function-output-to-variable-or-data-frame
-def get_info_df(df:'DataFrame') -> 'DataFrame':
+def get_info_df(df:pd.DataFrame) -> pd.DataFrame:
     buffer = io.StringIO()
     df.info(buf=buffer)
     lines = buffer.getvalue().splitlines()
@@ -26,15 +27,15 @@ def get_info_df(df:'DataFrame') -> 'DataFrame':
        .rename(columns={'Non-Null':'Non-Null Count'}))
     return df
 
-def info_dtype_dict(df:'DataFrame') -> dict:
+def info_dtype_dict(df:pd.DataFrame) -> dict:
     info_df = get_info_df(df)
-    data_types = {row['Column']:row['Dtype'] for index,row in info_df.iterrows()}
-    return data_types
+    return {row['Column']:row['Dtype'] for index,row in info_df.iterrows()}
+    
 
-def get_season_df(df,beginning_year) -> 'DataFrame':
+def get_season_df(df,beginning_year) -> pd.DataFrame:
     return df.query(f'season_id in []')
 
-def season_data(game_df) -> 'DataFrame':
+def season_data(game_df) -> pd.DataFrame:
     season_ids = game_df['season_id'].unique()
     years_dict = {id:compute_years(single_season(game_df,id)) for id in season_ids}
     season_type_dict = {id:game_df.query(f'season_id=={id}')['season_type'].unique() for id in season_ids}
@@ -71,3 +72,25 @@ def reduce_corr_df(df_corr, threshold):
             #print('removing', row)
             df_corr.drop(row, axis=0, inplace=True)
     return df_corr
+
+def get_matchups(df,team_1, team_2):
+    matchups = df.query(f'team_name_home == "{team_1}" & '\
+                        f'team_name_away == "{team_2}"')
+    relevant_cols = ['season_id','day','month','year','team_name_home',
+                     'team_name_away', 'home_wins', 'pts_home', 'pts_away']
+    return matchups.filter(relevant_cols)
+
+
+def get_date(df_row):
+    return df_row['day']+"/"+df_row['month']+"/"+df_row['year']
+
+
+def get_dates(df):
+    return [get_date(row) for index,row in df.iterrows()]
+
+
+def lookup_game(df, home_team, away_team, date):
+    matchups = get_matchups(df, home_team, away_team)
+    for index,row in matchups.iterrows():
+        if get_date(row) == date:
+            return df.loc[index]
