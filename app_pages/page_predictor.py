@@ -12,7 +12,7 @@ from src.inspection_tools import get_matchups, get_dates, lookup_game, prepare_g
 def page_predictor_body():
     st.write("## Predictor")
     st.write("Using our two models, you can predict the outcome of a game "\
-             "from the 2022-2023 season, which our models have not yet seen.")
+             "from the 2022-2023 season, which our models were not trained or tested on.")
     latest_season = get_df("latest_season","datasets/clean/csv")
     version = 'v1'
     file_path = f'outputs/ml_pipeline/predict_home_wins/{version}'
@@ -32,20 +32,17 @@ def page_predictor_body():
     st.write("Our models do see a subset of the above data. See the page "\
             "related to the model in question for more details.")
     st.write("I guess I can hard code in the links once it is deployed...")
-    model = "Classifier"
-    prediction = None
+    mode_nname = "Classifier"
+    prediction = -1
     prob = None
     if st.button("Predict with Logistic Regression"):
-        prediction,prob = make_prediction(logistic_pipe, latest_season, game_id)
-        model = 'Logistic Regression'
-        #st.write(f"### {model} Prediction: {prediction}")
+        prediction, prob, outcome = make_prediction(logistic_pipe, latest_season, game_id)
+        model_name = 'Logistic Regression'
     if st.button("Predict with Adaptive Boost Classifier"):
-        prediction, prob = make_prediction(ada_pipe, latest_season, game_id)
-        model = 'Adaptive Boost Classifier'
-    if model and prediction:
-        st.write(f"### {model}Prediction: {prediction}")
-        st.write(f"Win probability: {prob}")
-        st.write()
+        prediction, prob, outcome = make_prediction(ada_pipe, latest_season, game_id)
+        model_name = 'Adaptive Boost Classifier'
+    if prediction >= 0:
+        interpret(model_name, home_team, away_team, prediction, prob, outcome)
     
     
 
@@ -74,9 +71,24 @@ def draw_game_selection_widget(df,home_team,away_team):
 def make_prediction(pipe, df, game_id):
     row = df.loc[game_id]
     game = pd.Series.to_frame(row).T
+    outcome = game['home_wins'].iloc[0]
     drop_list = ['team_name_home', 'team_name_away', 'day', 'month', 'year',
                  'home_wins']
     game.drop(drop_list, axis=1, inplace=True)
     game = game.astype('int32')
-    return pipe.predict(game), pipe.predict_proba(game)
-    
+    return pipe.predict(game), pipe.predict_proba(game), outcome
+
+
+def interpret(model_name, home_team, away_team, prediction, prob, outcome):
+    prob = prob[0]
+    msg = f"Our {model_name} model has predicted that "
+    if prediction == 1:
+        msg += f"the {home_team} will beat the {away_team} with a probability of **{prob[1]*100:.2f}%**."
+    elif prediction == 0:
+        msg += f"the {away_team} will beat the {home_team} with a probability of **{prob[0]*100:.2f}%**."
+    if prediction == outcome:
+        msg += "\n\nOur model is **correct**!"
+    else:
+        msg += "\n\nOur model is **incorrect**."
+    st.write("### Prediction")
+    st.write(msg)
