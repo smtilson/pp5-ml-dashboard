@@ -4,7 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.express as px
 from src.utils import get_df
-from src.inspection_tools import get_matchups, get_dates, lookup_game
+from src.inspection_tools import get_matchups, get_dates, lookup_game, prepare_game_data
 #from src.data_management import load_telco_data, load_pkl_file
 
 
@@ -15,26 +15,35 @@ def page_predictor_body():
              "from the 2022-2023 season, which was not included in our "\
              "training or test data.")
     latest_season = get_df("latest_season","datasets/clean/csv")
-    teams = get_teams(latest_season)
+    game_id = draw_selection_widget(latest_season)
+    game_data = prepare_game_data(latest_season, game_id)
+    game_data = game_data.astype("int32")
+    st.write(f"{game_data.dtypes}")
+    st.table(game_data)
     
-    home_index = teams.index('Denver Nuggets')
-    away_index= teams.index('Minnesota Timberwolves')
-    with st.form("Game Selection"):
-        home_team = st.selectbox(label="Home Team", options=teams, index=home_index)
-        away_team = st.selectbox(label="Away Team", options=teams, index=away_index)
-        if st.form_submit_button("Get List of Matchups"):
-            matchups = get_matchups(latest_season, home_team, away_team)
-            dates = get_dates(matchups)
-            st.dataframe(matchups,selection_mode="single-row")
-            if game_date:= st.selectbox(label="Game Date (DD/MM/YYYY)",
-                                        options=dates, index=0):
-                st.write(f"## {home_team} vs. {away_team} on {game_date}")
-                game_id = lookup_game(latest_season, home_team, away_team, game_date)
-                st.write(f"score: {latest_season.loc[game_id]['plus_minus_home']}")
-    #date = st.selectbox(options=game_dates, index=0)
-    #full_data = get_df()
+    
 
 def get_teams(df):
     teams = list(df['team_name_home'].unique())
     teams += list(df['team_name_away'].unique())
     return list(set(teams))
+
+def draw_selection_widget(df):
+    teams = get_teams(df)
+    home_index = teams.index('Denver Nuggets')
+    away_index= teams.index('Minnesota Timberwolves')
+    home_team = st.selectbox(label="Home Team", options=teams, index=home_index)
+    away_team = st.selectbox(label="Away Team", options=teams, index=away_index)
+    matchups = get_matchups(df, home_team, away_team)
+    dates = get_dates(matchups)
+    #df_choice = st.dataframe(matchups)
+    #st.write(df_choice['pts_away'])
+    #st.write("is there a score above this text?")
+    game_date = st.selectbox(label="Game Date (DD/MM/YYYY)",
+                                        options=dates, index=0)
+    st.write(f"## {home_team} vs. {away_team} on {game_date}")
+    game_id = lookup_game(df, home_team, away_team, game_date)
+    st.write(f"score: {df.loc[game_id]['plus_minus_home']}")
+    return game_id
+def make_prediction(pipe, df, game_id):
+    pass

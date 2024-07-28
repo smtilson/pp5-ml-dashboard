@@ -1,6 +1,7 @@
 # These functions are explicitly for inspecting the various dataframes we encounter.
 import pandas as pd
 import io
+from src.utils import display_feature_name
 
 def single_season(df,target_season_id) -> pd.DataFrame:
     return df.query(f'season_id == {target_season_id}')
@@ -96,3 +97,27 @@ def lookup_game(df, home_team, away_team, date):
     for index,row in matchups.iterrows():
         if get_date(row) == date:
             return index
+
+def prepare_game_data(df, index):
+    row = df.loc[index]
+    home_team_data = {}
+    away_team_data = {}
+    for col in df.columns:
+        if '_home' in col:
+            if 'plus_minus' in col:
+                continue
+            new_col = display_feature_name(col.replace('_home', ''))
+            home_team_data[new_col] = row[col]
+        elif '_away' in col:
+            new_col = display_feature_name(col.replace('_away', ''))
+            away_team_data[new_col] = row[col]
+    data_dict={key:[ val] for key,val in home_team_data.items()}
+    for key, val in away_team_data.items():
+        data_dict[key].append(val)
+    df = pd.DataFrame.from_dict(data_dict)
+    df.set_index('TEAM NAME', inplace=True)
+    df.astype(str)
+    return df
+    
+        
+
