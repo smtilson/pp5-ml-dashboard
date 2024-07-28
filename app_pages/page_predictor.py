@@ -25,9 +25,12 @@ def page_predictor_body():
         if st.form_submit_button("Get List of Matchups"):
             matchups = get_matchups(latest_season, home_team, away_team)
             dates = get_dates(matchups)
-            game_date = st.selectbox(label="Game Date (DD/MM/YYYY)", options=dates, index=0)
-    st.write(f"## {home_team} vs. {away_team} on {game_date}")
-    st.write(lookup_game(latest_season, home_team, away_team, game_date))
+            st.dataframe(matchups,selection_mode="single-row")
+            if game_date:= st.selectbox(label="Game Date (DD/MM/YYYY)",
+                                        options=dates, index=0):
+                st.write(f"## {home_team} vs. {away_team} on {game_date}")
+                game_id = lookup_game(latest_season, home_team, away_team, game_date)
+                st.write(f"score: {latest_season.loc[game_id]['plus_minus_home']}")
     #date = st.selectbox(options=game_dates, index=0)
     #full_data = get_df()
 
@@ -35,11 +38,3 @@ def get_teams(df):
     teams = list(df['team_name_home'].unique())
     teams += list(df['team_name_away'].unique())
     return list(set(teams))
-
-def find_game(df, home_team, away_team,date):
-    matchups = df.query(f'team_name_home == "{home_team}" &'\
-                        f'team_name_away == "{away_team}"')
-    day, month, year = date.split("/")
-    game = matchups.query(f'day == "{day}" & month == "{month}" &'\
-                          f'year == "{year}"')
-    return game.index

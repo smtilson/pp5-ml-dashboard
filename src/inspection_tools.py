@@ -33,7 +33,7 @@ def info_dtype_dict(df:pd.DataFrame) -> dict:
     
 
 def get_season_df(df,beginning_year) -> pd.DataFrame:
-    return df.query(f'season_id in []')
+    return #df.query(f'season_id in []')
 
 def season_data(game_df) -> pd.DataFrame:
     season_ids = game_df['season_id'].unique()
@@ -81,16 +81,18 @@ def get_matchups(df,team_1, team_2):
     return matchups.filter(relevant_cols)
 
 
-def get_date(df_row):
-    return df_row['day']+"/"+df_row['month']+"/"+df_row['year']
+def get_date(row):
+    day, month, year = int(row['day']), int(row['month']), int(row['year'])
+    day, month, year = str(day), str(month), str(year)
+    return f"{day}/{month}/{year}"
 
 
 def get_dates(df):
-    return [get_date(row) for index,row in df.iterrows()]
+    return [get_date(row) for _,row in df.iterrows()]
 
 
 def lookup_game(df, home_team, away_team, date):
     matchups = get_matchups(df, home_team, away_team)
     for index,row in matchups.iterrows():
         if get_date(row) == date:
-            return df.loc[index]
+            return index
