@@ -15,21 +15,37 @@ def page_predictor_body():
              "from the 2022-2023 season, which our models have not yet seen.")
     latest_season = get_df("latest_season","datasets/clean/csv")
     version = 'v1'
-    logistic_path = f"workspace/"
-    logistic_pipe = joblib.load(filename=file_path) 
-    ada_pipe = 1
+    file_path = f'outputs/ml_pipeline/predict_home_wins/{version}'
+    logistic_path = file_path+'/logistic_pipeline.pkl'
+    logistic_pipe = joblib.load(filename=logistic_path) 
+    ada_path = file_path+'/ada_pipeline.pkl'
+    ada_pipe = joblib.load(filename=ada_path)
     
-    
-    game_id = draw_selection_widget(latest_season)
+    home_team, away_team = draw_team_selection_widget(latest_season)
+    game_id, game_date = draw_game_selection_widget(latest_season, home_team, away_team)
     game_data = prepare_game_data(latest_season, game_id)
     game_data = game_data.astype("int32")
-    home_team = game_data.iloc[0].index
-    awa_team = game_data.iloc[1].index
     st.write(f"### {home_team} vs. {away_team} on {game_date}")
     st.write("### Game Stats")
     st.table(game_data)
-    
-    
+    st.write("### Prediction")
+    st.write("Our models do see a subset of the above data. See the page "\
+            "related to the model in question for more details.")
+    st.write("I guess I can hard code in the links once it is deployed...")
+    model = "Classifier"
+    prediction = None
+    prob = None
+    if st.button("Predict with Logistic Regression"):
+        prediction,prob = make_prediction(logistic_pipe, latest_season, game_id)
+        model = 'Logistic Regression'
+        #st.write(f"### {model} Prediction: {prediction}")
+    if st.button("Predict with Adaptive Boost Classifier"):
+        prediction, prob = make_prediction(ada_pipe, latest_season, game_id)
+        model = 'Adaptive Boost Classifier'
+    if model and prediction:
+        st.write(f"### {model}Prediction: {prediction}")
+        st.write(f"Win probability: {prob}")
+        st.write()
     
     
 
@@ -38,17 +54,29 @@ def get_teams(df):
     teams += list(df['team_name_away'].unique())
     return list(set(teams))
 
-def draw_selection_widget(df):
+def draw_team_selection_widget(df):
     teams = get_teams(df)
     home_index = teams.index('Denver Nuggets')
     away_index= teams.index('Minnesota Timberwolves')
     home_team = st.selectbox(label="Home Team", options=teams, index=home_index)
     away_team = st.selectbox(label="Away Team", options=teams, index=away_index)
+    return home_team, away_team
+
+
+def draw_game_selection_widget(df,home_team,away_team):
     matchups = get_matchups(df, home_team, away_team)
     dates = get_dates(matchups)
     game_date = st.selectbox(label="Game Date (DD/MM/YYYY)",
                                         options=dates, index=0)
-    game_id = lookup_game(df, home_team, away_team, game_date)
-    return game_id
+    return lookup_game(df, home_team, away_team, game_date), game_date
+    
+    
 def make_prediction(pipe, df, game_id):
-    pass
+    row = df.loc[game_id]
+    game = pd.Series.to_frame(row).T
+    drop_list = ['team_name_home', 'team_name_away', 'day', 'month', 'year',
+                 'home_wins']
+    game.drop(drop_list, axis=1, inplace=True)
+    game = game.astype('int32')
+    return pipe.predict(game), pipe.predict_proba(game)
+    
