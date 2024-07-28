@@ -54,7 +54,7 @@ def get_teams(df):
 def draw_team_selection_widget(df):
     teams = get_teams(df)
     home_index = teams.index('Denver Nuggets')
-    away_index= teams.index('Minnesota Timberwolves')
+    away_index = teams.index('Minnesota Timberwolves')
     home_team = st.selectbox(label="Home Team", options=teams, index=home_index)
     away_team = st.selectbox(label="Away Team", options=teams, index=away_index)
     return home_team, away_team
@@ -63,8 +63,7 @@ def draw_team_selection_widget(df):
 def draw_game_selection_widget(df,home_team,away_team):
     matchups = get_matchups(df, home_team, away_team)
     dates = get_dates(matchups)
-    game_date = st.selectbox(label="Game Date (DD/MM/YYYY)",
-                                        options=dates, index=0)
+    game_date = st.selectbox(label="Date", options=dates, index=0)
     return lookup_game(df, home_team, away_team, game_date), game_date
     
     
