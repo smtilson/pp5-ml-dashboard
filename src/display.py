@@ -3,6 +3,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import streamlit as st
+from model_eval import gen_clf_report
 
 
 def heatmap_threshold(df,threshold, figsize=(8,8)):
@@ -18,3 +20,11 @@ def heatmap_threshold(df,threshold, figsize=(8,8)):
       
       plt.ylim(len(df.columns),0)
       plt.show()
+
+def display_report(pipe, X, Y):
+    matrix, performance, acc = gen_clf_report(X, Y, pipe)
+    st.write("#### Confusion Matrix\n")
+    st.dataframe(matrix)
+    st.write("#### Performance\n")
+    st.write(f"Accuracy: {acc*100:.2f}%\n")
+    st.dataframe(performance)

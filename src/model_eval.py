@@ -178,6 +178,23 @@ def clf_performance(X_train,y_train,X_test,y_test,pipeline,label_map):
 	print("#### Test Set ####\n")
 	confusion_matrix_and_report(X_test,y_test,pipeline,label_map)
 
+
+def gen_clf_report(X,y,pipeline):
+	label_map = ['Away Wins','Home Wins']
+	prediction = pipeline.predict(X)
+	conf_matrix = pd.DataFrame(confusion_matrix(y_pred=prediction, y_true=y),
+				columns=[ ["Actual " + sub for sub in label_map] ], 
+				index= [ ["Prediction " + sub for sub in label_map ]]
+				).T
+	perfomance_dict = classification_report(y, prediction,
+								target_names=label_map,output_dict=True)
+	accuracy_score = perfomance_dict['accuracy']
+	del perfomance_dict['accuracy']
+	performance_report = pd.DataFrame.from_dict(perfomance_dict).T
+	return conf_matrix, performance_report, accuracy_score
+
+
+
 def grid_search_report_best(grid_collection,X_train,Y_train,X_test,Y_test, label_map):
 		for name, grid in grid_collection.items():
 				best_pipe = grid.best_estimator_
