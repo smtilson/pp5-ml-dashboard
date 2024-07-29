@@ -8,4 +8,6 @@ import plotly.express as px
 
 def page_summary_body():
     st.write("## Summary")
-    st.write("In progress...")
+    st.write("Americans wagered more than $100 billion on sports in 2023. The"
+             " market is continuing to grow as legal outlets for sports "
+             "betting are becoming more and more popular. ")
