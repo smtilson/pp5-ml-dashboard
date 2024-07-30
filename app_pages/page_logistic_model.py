@@ -18,10 +18,21 @@ def page_logistic_model_body():
         "average precision of 85.5% and an accuracy of 86%."
     )
     st.write("\n")
-    st.write(
+    st.info(
         "Note that we set the correlation threshold at 60%. We treated it as "
         "a hyperparameter when tuning the model."
     )
+    st.write("\n")
+    st.info(
+        " When training these models, we removed the features related to"
+        " made shots and points. These are:\n"
+        "* `plus_minus_home (`plus_minus_away` was already removed)\n"
+        "* `pts_home`, `pts_away`\n"
+        "* `ftm_home`, `ftm_away`\n"
+        "* `fgm_home`, `fgm_away` \n"
+        "* `fg3m_home`, `fg3m_away` \n"
+        "We did this to test Hypothesis 3: that a good pipeline can be made"
+        " without these features.")
     st.write("### Interesting findings")
     st.write(
         "Our Logistic Regression model found that the total rebounds "
@@ -29,6 +40,9 @@ def page_logistic_model_body():
         "also found that this statistic for the home team was noticeably "
         "more important than that for the away team."
     )
+    st.write("\n")
+    st.success("This satisfies our first Business requirement.")
+
 
     # Load Data
     pipe_dir = f"outputs/ml_pipeline/predict_home_wins/v1/"
@@ -75,7 +89,7 @@ def page_logistic_model_body():
     st.write("### Test Set")
     st.write("\n")
     display_report(logistic_pipe_v1, X_TestSet, Y_TestSet)
-    st.write(
+    st.success(
         "We are quite happy with our model. It has an average precision of "
         "87.64% and an accuracy of 87.9%. We feel that we were approaching the"
         " limit of what the model was capable of. Please see our notebook "
@@ -83,7 +97,7 @@ def page_logistic_model_body():
     )
     st.write("\n\n")
     st.write("## Important Features")
-    st.write(
+    st.info(
         "Using the (absolute values of the) coefficients or weights that the "
         "model attached to each feature, we are able to determine their "
         "relative importance."

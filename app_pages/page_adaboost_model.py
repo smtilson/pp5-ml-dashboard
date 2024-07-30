@@ -18,10 +18,21 @@ def page_adaboost_model_body():
         "of 82.5% and an accuracy of 82%."
     )
     st.write("\n")
-    st.write(
+    st.info(
         "Note that we set the correlation threshold at 60%. We treated this as a "
         " hyperparameter when tuning the model."
     )
+    st.write("\n")
+    st.info(
+        " When training these models, we removed the features related to"
+        " made shots and points. These are:\n"
+        "* `plus_minus_home (`plus_minus_away` was already removed)\n"
+        "* `pts_home`, `pts_away`\n"
+        "* `ftm_home`, `ftm_away`\n"
+        "* `fgm_home`, `fgm_away` \n"
+        "* `fg3m_home`, `fg3m_away` \n"
+        "We did this to test Hypothesis 3: that a good pipeline can be made"
+        " without these features.")
     st.write("### Interesting findings")
     st.write(
         "Our Adaptive boost model found that the defensive rebounds "
@@ -29,6 +40,8 @@ def page_adaboost_model_body():
         "also found that this statistic for the home team was noticeably "
         "more important than that for the away team."
     )
+    st.write("\n")
+    st.success("This satisfies our first Business requirement.")
 
     # Load Data
     pipe_dir = f"outputs/ml_pipeline/predict_home_wins/"
@@ -71,15 +84,16 @@ def page_adaboost_model_body():
     st.write("### Test Set")
     st.write("\n")
     display_report(ada_pipe_v1, X_TestSet, Y_TestSet)
-    st.write(
+    st.success(
         "We are quite happy with our model. It has an average precision of "
         "86.97% and an accuracy of 87.44%. During our search, it felt like "
         "we were approaching the limit of what the model was capable of. Please "
         "see our notebook Tuning Hyperparameters for more details."
     )
+    st.success("This validates Hypothesis 3.")
     st.write("\n\n")
     st.write("## Important Features")
-    st.writw(
+    st.info(
         "Tree based models come with an `feature_importance_` attribute "
         "that we can access after they have been trained."
     )
