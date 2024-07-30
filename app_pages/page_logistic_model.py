@@ -8,7 +8,7 @@ from src.utils import get_df
 
 
 def page_logistic_model_body():
-
+    # Introduction
     st.write("## Logistic Regression Model")
     st.write(
         "During an initial search, we found that a Logistic Regression "
@@ -22,6 +22,13 @@ def page_logistic_model_body():
         "Note that we set the correlation threshold at 60%. We treated it as "
         "a hyperparameter when tuning the model."
     )
+    st.write("### Interesting findings")
+    st.write(
+        "Our Logistic Regression model found that the total rebounds "
+        " were important features for this classification problem. It "
+        "also found that this statistic for the home team was noticeably "
+        "more important than that for the away team."
+    )
 
     # Load Data
     pipe_dir = f"outputs/ml_pipeline/predict_home_wins/v1/"
@@ -33,7 +40,9 @@ def page_logistic_model_body():
     X_TestSet = get_df("X_TestSet", test_dir)
     Y_TestSet = get_df("Y_TestSet", test_dir)
 
-    st.write("\n\n")
+    # Hyperparameters
+    st.write("\n")
+    st.write("### Hyperparameters")
     st.write("We considered the following hyperparameters during tuning.")
     st.write("* `solver = newton-cg`: specifies the type of algorithm used")
     st.write("* `C = 500.5`: determines the strength of the penalty function")
@@ -51,16 +60,13 @@ def page_logistic_model_body():
         "different combinations of parameters with exactly the same "
         "performance grew dramatically. This meant that it was harder to "
         "narrow down which combinations of parameters would improve the "
-        "performance."
+        "performance. This is quite unlike the Adaptive boost model,"
     )
 
     # Report
-    st.write("## Performance Report")
     st.write("\n")
-    st.write(
-        "We were able to achieve a model that performed well above our "
-        "business requirements."
-    )
+    st.write("## Performance Report")
+    st.write("Our Logistic Regression model exceed our business requirements.")
     st.write("\n")
     st.write("### Training Set")
     st.write("\n")
@@ -76,16 +82,20 @@ def page_logistic_model_body():
         "Tuning Hyperparameters for more details."
     )
     st.write("\n\n")
-    st.write("## Important features")
+    st.write("## Important Features")
     st.write(
         "Using the (absolute values of the) coefficients or weights that the "
         "model attached to each feature, we are able to determine their "
         "relative importance."
     )
+    st.write("\n")
+    st.write(
+        "Below, we indicate the importance of the different features "
+        "that the final model was trained on. This collection of "
+        "features was determined by the `SmartCorrelatedSelection` "
+        "from `feature_engine` and `FeatureSelection` from `sklearn`. "
+        "The correlation threshold above is a parameter for "
+        "`SmartCorrelationSelection`. This is in addition to the "
+        "features we removed during the model selection process."
+    )
     display_features_logistic(logistic_pipe_v1, X_TrainSet)
-    # talk about type of model
-    # talk about hyperparameters
-    # talk about accuracy
-    # talk about confusion matrix
-    # talk about important features
-    # talk about feature importance

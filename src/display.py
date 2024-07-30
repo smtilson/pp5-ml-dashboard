@@ -31,9 +31,10 @@ def heatmap_threshold(df, threshold, figsize=(8, 8)):
 
 def display_report(pipe, X, Y):
     matrix, performance, acc = gen_clf_report(X, Y, pipe)
-    st.write("#### Confusion Matrix\n")
+    st.write("#### Confusion Matrix")
     st.dataframe(matrix)
-    st.write("#### Performance\n")
+    st.write("\n")
+    st.write("#### Performance")
     st.write(f"Accuracy: {acc*100:.2f}%\n")
     st.dataframe(performance)
 
@@ -60,6 +61,7 @@ def display_features_logistic(pipe, X):
         "descending order. The model was trained on them: \n"
         f"{df_feature_importance['Features'].to_list()}"
     )
+    st.write("\n")
     fig, axes = plt.subplots(figsize=(7.5, 5))
     sns.barplot(data=df_feature_importance, x="Features", y="Importance")
     plt.title("Feateure Importance")
@@ -82,6 +84,7 @@ def display_features_tree_based(pipe, X):
         "descending order. The model was trained on them: \n"
         f"{df_feature_importance['Features'].to_list()}"
     )
+    st.write("\n")
     fig, axes = plt.subplots(figsize=(7.5, 5))
     sns.barplot(data=df_feature_importance, x="Features", y="Importance")
     plt.title("Feateure Importance")
