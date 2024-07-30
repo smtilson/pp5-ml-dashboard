@@ -6,6 +6,6 @@ import plotly.express as px
 #from src.data_management import load_telco_data, load_pkl_file
 
 
-def page_hypothesis_body():
+def page_hypotheses_body():
     st.write("## Hypotheses")
     st.write("In progress...")

@@ -91,7 +91,7 @@ def page_logistic_model_body():
     display_report(logistic_pipe_v1, X_TestSet, Y_TestSet)
     st.success(
         "We are quite happy with our model. It has an average precision of "
-        "87.64% and an accuracy of 87.9%. We feel that we were approaching the"
+        "87.64% and an accuracy of 87.93%. We feel that we were approaching the"
         " limit of what the model was capable of. Please see our notebook "
         "Tuning Hyperparameters for more details."
     )
