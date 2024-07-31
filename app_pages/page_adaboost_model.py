@@ -46,8 +46,8 @@ def page_adaboost_model_body():
     # Load Data
     pipe_dir = f"outputs/ml_pipeline/predict_home_wins/"
     ada_pipe_v1 = joblib.load(filename=pipe_dir + "v1/ada_pipeline.pkl")
-    train_dir = "datasets/train/csv"
-    test_dir = "datasets/test/csv"
+    train_dir = "datasets/train/classification"
+    test_dir = "datasets/test/classification"
     X_TrainSet = get_df("X_TrainSet", train_dir)
     Y_TrainSet = get_df("Y_TrainSet", train_dir)
     X_TestSet = get_df("X_TestSet", test_dir)

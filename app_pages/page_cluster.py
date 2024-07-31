@@ -3,12 +3,73 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.express as px
+from src.display import display_report
 #from src.data_management import load_telco_data, load_pkl_file
 
 
 def page_cluster_body():
-    st.write("## Cluster Analysis")
-    st.write("In progress...")
+    # Introduction
+    st.write("# Cluster Analysis")
+    st.write("## Summary")
+    st.write("We removed the season feature and trained a K-Means model. Then"
+             " we trained a classification algorithm on the data with season "
+             "added back in. This gave us an initial profile and indicated "
+             "which features were most important to our clustering. Removing "
+             "all other features, we retrained the K-Means model, and went "
+             "through the classification process again. This gave us a profile"
+             " of the different clusters")
+    st.info("We will only concern ourselves with the final clustering and "
+                "classification models.")
+    st.write("\n")
+
+    # Load data
+    pipe_dir = f"outputs/ml_pipeline/era_clusters/v1/"
+    cluster_pipe_v1 = joblib.load(filename=pipe_dir + "cluster_pipeline.pkl")
+    train_dir = "datasets/train/clustering"
+    test_dir = "datasets/test/clustering"
+    X_TrainSet = get_df("X_TrainSet", train_dir)
+    Y_TrainSet = get_df("Y_TrainSet", train_dir)
+    X_TestSet = get_df("X_TestSet", test_dir)
+    Y_TestSet = get_df("Y_TestSet", test_dir)
+
+
+    # Cluster Profiles
+    st.write("## Elbow method and Silhouette scores")
+    st.write(" We used the Elbow method and Silhouette scores to determine "
+             "that 3 clusters was optimal.")
+    st.write("\n")
+    st.write("## Cluster Profiles")
+    st.write("We used an Adaptive Boost Classifier with the hyperparameters "
+             "from we used in the previous classification problem. Our "
+             "classification model performed exceedingly well, with an "
+             "accuracy of 96%.")
+    # performance report
+    st.write("\n")
+    st.write("By examining the distribution of the features across each "
+             "cluster, we can form a profile for each cluster.")
+    st.write("\n")
+    st.info("Note that for 3 point attempts (both home and away) and season, "
+            "the ranges for the clusters have minimal overlap. For the other "
+            "features, the distributions have large overlap. This is reflected"
+            " in the graphs below as well.")
+    # classification profile.
+    st.success("The clusters can be most simply described as follows:"
+               "* **Cluster 0**: " 
+               "* **Cluster 1**: " 
+               "* **Cluster 2**: " 
+               )
+
+
+    # Feature Distributions
+    st.write("## Distribution of Features by Cluster")
+    st.write("We will look at the distribution of the different important "
+             "features across each cluster. We will start by considering how "
+             "the season is distributed by cluster.")
+    st.write("\n")
+    st.write("### Distribution of Seasons")
+    st.write("In the above profiles, we saw that the seasons of each cluster "
+             "had minimal overlap. This is is reflected in the distributions.")
+    # distributions of seasons
     '''
     # load cluster analysis files and pipeline
     version = 'v1'
