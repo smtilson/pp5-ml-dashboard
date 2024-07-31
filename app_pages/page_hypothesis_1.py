@@ -33,7 +33,7 @@ def page_hypothesis_1_body():
     st.write("Specifically, we attempted to validate Hypothesis 1 by doing "
              "the following:")
     st.info("Train the above models on all features and investigate which are"
-            " selected.")
+            " selected. The details can be found in notebook 05.")
     st.write("\n")
     st.write("The 'point related' statistics are the following:\n"
              "* `plus_minus_home (`plus_minus_away` was already removed)\n"
@@ -42,7 +42,31 @@ def page_hypothesis_1_body():
              "* `fgm_home`, `fgm_away` \n"
              "* `fg3m_home`, `fg3m_away` \n"
              "The first 2 rows are features from which the winner of the game "
-             "can be directly determined. We saw in our correlation study that"
-    
-        "We did this to test Hypothesis 3: that a good pipeline can be made"
-        " without these features.")
+             "can be directly determined. "
+            )
+    st.write("\n")
+    st.write("Initially, most models only used plus/minus score. Half also "
+             "used total points. All models performed at 100%, as expected. "
+             "After dropping plus/minus score and refitting the pipelines, "
+             "the models only used total points. Surprisingly, the performance"
+             " of all models, except for the Logistic Regression model, "
+             "dropped to 99.9%. Next, we dropped total points as well and "
+             "refitted the pipelines. The worst performing model was the "
+             "Decission Tree Classifier with avg precision of 87.5% and avg "
+             "accuracy of 84.5%. While many models used attempted shots in "
+             "addition to made shots, only the Extra Trees Classifier used a "
+             "feature unrelated to shots, which was total rebounds.")
+    st.write("\n")
+    st.success("This validates Hypothesis 1. At each stage, all models "
+               "gravitated towards made shots. At stage one, all models used "
+               "plus/minus score. At stage two, all models used total points."
+               " At stage three, all models used made field goals. Thus, when "
+               "possible, the models used features related to made shots.")
+    st.info("Interestingly, all models at stage three also used attempted free"
+            " throws. This is likely due to the made free throws being dropped"
+            " by the Smart Correlated Selection step of the pipeline. Only the"
+            " Logistic Regression model used the 3 point shots. Similarly, "
+            "half of the 3 point features were dorpped by the Smart "
+            "Correlated Selection step of the pipeline."
+             )
+             

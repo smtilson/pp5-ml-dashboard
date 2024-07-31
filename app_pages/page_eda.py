@@ -78,12 +78,12 @@ def page_eda_body():
         "used measurement."
     )
     st.write(
-        "The Predictive Power score is an asymmetric statistic that "
+        "Predictive Power score is an asymmetric statistic that "
         "can be used to analyze data. It can often find patterns that "
         "correlation coefficients miss."
     )
     st.write(
-        "Select two features to compare. they will be plotted against "
+        "Select two features to compare. They will be plotted against "
         "each other in a scatter plot."
     )
     st.write("The features with the highest correlation coefficients are: \n")
@@ -109,15 +109,15 @@ def page_eda_body():
     st.write(
         "* Aside from point related statistics, the features that had "
         f"the highest correlation with {disp('home_wins')} are (in order): \n"
-        f"  * {disp('ast_away')}\n"
-        f"  * {disp('ast_home')}\n"
         f"  * {disp('dreb_away')}\n"
+        f"  * {disp('ast_home')}\n"
         f"  * {disp('dreb_home')}\n"
+        f"  * {disp('ast_away')}\n"
     )
     st.write(
         "* Only Plus/Minus Home and Pts Home have non-trivial predictive"
         " power scores with respect to Home Wins."
     )
     st.write("\n")
-    st.write("These relationships address Business Requirement 1 and "
+    st.write("These relationships address Business Requirement 1 and " 
              "Hytpothesis 2.")
