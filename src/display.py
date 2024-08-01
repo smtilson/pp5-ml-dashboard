@@ -29,8 +29,8 @@ def heatmap_threshold(df, threshold, figsize=(8, 8)):
         plt.show()
 
 
-def display_report(pipe, X, Y):
-    matrix, performance, acc = gen_clf_report(X, Y, pipe)
+def display_report(pipe, X, Y, label_map=None):
+    matrix, performance, acc = gen_clf_report(X, Y, pipe, label_map)
     st.write("#### Confusion Matrix")
     st.dataframe(matrix)
     st.write("\n")
@@ -41,7 +41,13 @@ def display_report(pipe, X, Y):
 
 def display_features_logistic(pipe, X):
     coefficients = pipe['model'].coef_[0]
-    initial_drop = pipe.steps[0][1].features_to_drop_
+    try:
+        initial_drop = pipe.steps[0][1].features_to_drop_
+    except AttributeError as e:
+        if "features_to_drop" in str(e):
+            initial_drop = []
+        else:
+            raise e
     features = [col for col in X.columns if col not in initial_drop]
     importance_list = [
         (feature, X[feature].std() * coeff)
@@ -71,7 +77,13 @@ def display_features_logistic(pipe, X):
     
 
 def display_features_tree_based(pipe, X):
-    initial_drop = pipe.steps[0][1].features_to_drop_
+    try:
+        initial_drop = pipe.steps[0][1].features_to_drop_
+    except AttributeError as e:
+        if "features_to_drop" in str(e):
+            initial_drop = []
+        else:
+            raise e
     features = [col for col in X.columns if col not in initial_drop]
     df_feature_importance = pd.DataFrame(
         data={"Features": features, 

@@ -179,8 +179,9 @@ def clf_performance(X_train,y_train,X_test,y_test,pipeline,label_map):
 	confusion_matrix_and_report(X_test,y_test,pipeline,label_map)
 
 
-def gen_clf_report(X,y,pipeline):
-	label_map = ['Away Wins','Home Wins']
+def gen_clf_report(X,y,pipeline, label_map=None):
+	if label_map is None:
+		label_map = ['Away Wins','Home Wins']
 	prediction = pipeline.predict(X)
 	conf_matrix = pd.DataFrame(confusion_matrix(y_pred=prediction, y_true=y),
 				columns=[ ["Actual " + sub for sub in label_map] ], 

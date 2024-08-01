@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 import joblib
 from src.utils import get_df, BASE_DIR, disp, undisp
-from src.display import display_report
+from src.display import display_report, display_features_tree_based
 
 # from src.data_management import load_telco_data, load_pkl_file
 
@@ -37,17 +37,18 @@ def page_cluster_body():
     # Load Data
     cluster_dir = "outputs/ml_pipeline/era_clusters/v1"
     cluster_pipe_v1 = joblib.load(filename=cluster_dir + "/cluster_pipeline.pkl")
-    clf_pipe = joblib.load(filename=cluster_dir + "/classification_pipeline.pkl")
+    clf_pipe_v1 = joblib.load(filename=cluster_dir + "/classification_pipeline.pkl")
     train_dir = "datasets/train/clustering"
     test_dir = "datasets/test/clustering"
     X_TrainSet = get_df("X_TrainSet", train_dir)
     y_TrainSet = get_df("y_TrainSet", train_dir)
     X_TestSet = get_df("X_TestSet", test_dir)
     y_TestSet = get_df("y_TestSet", test_dir)
-    season_by_cluster = get_df("season_by_cluster", cluster_dir)
+    #season_by_cluster = get_df("season_by_cluster", cluster_dir)
     clusters_profile = get_df("clusters_profile", cluster_dir)
     clusters_profile.set_index("Cluster", inplace=True)
     im_dir = BASE_DIR + cluster_dir
+    st.write(im_dir)
     silhouette_img = plt.imread(im_dir + "/clusters_silhouette.png")
     full_data = get_df("game_w_clusters", cluster_dir)
 
@@ -65,7 +66,7 @@ def page_cluster_body():
         "By examining the distribution of the features across each "
         "cluster, we can form a profile for each cluster."
     )
-    st.table(clusters_profile)
+    st.dataframe(clusters_profile)
     st.write("\n")
     st.info(
         "The only features that do not have a significant overlap between"
@@ -73,7 +74,7 @@ def page_cluster_body():
         "following cluster profiles."
     )
     small_profile = clusters_profile.filter(["fg3a_home", "fg3a_away", "season"])
-    st.table(small_profile)
+    st.dataframe(small_profile)
     st.success(
         "Therefore the cleanest profiles of the clusters are as follows"
         ":\n"
@@ -97,8 +98,8 @@ def page_cluster_body():
         "had minimal overlap. This is is reflected in the distributions."
     )
     for i in range(3):
-        fig, ax = plt.subplots(figsize=(10, 5))
-        cluster = season_by_cluster.query(f"Clusters == {i}")
+        fig, ax = plt.subplots(figsize=(7, 4))
+        cluster = game_w_clusters.query(f"Clusters == {i}")
         sns.countplot(data=cluster, x="season").set_title(f"Old Cluster {i}")
 
         plt.title(f"Season distribution for Cluster {i}")
@@ -116,29 +117,39 @@ def page_cluster_body():
     st.write("\n")
     features = list(clusters_profile.columns)
     feature_pairs = gen_feature_pairs(features)
-    pair = st.selectbox("Feature", features, index=0)
+    pair = st.selectbox("Feature", feature_pairs, index=0)
     feature_distribution_by_cluster(pair, full_data)
-    fig, axes = plt.subplots(figsize=(7, 5))
-    sns.scatterplot(data=data, x=feature_1, y=feature_2, ax=axes)
-    plt.title(
-        f"{disp(feature_1)} vs. {disp(feature_2)}: " f"{corr_df[feature_1][feature_2]}"
-    )
-    st.pyplot(fig)
-
-    st.write("## Pipeline")
+    
+    st.write("## Cluster Pipeline")
     st.write("### Silhouette scores")
     st.write(
         " We used the Elbow method and Silhouette scores to determine "
         "that 3 clusters was optimal."
     )
     st.write("\n")
-    st.image(silhouette_img)
+    st.image(silhouette_img, width=10)
+    st.image(silhouette_img, width=5)
     st.write("\n")
     st.write("### Cluster Pipeline Steps")
     st.write(cluster_pipe_v1)
     st.write("\n")
+    st.write("## Classification Pipeline")
+    st.write("We trained an Adaptive Boost Classifier to determine which "
+             "cluster games belonged to, with season data added back in. This "
+             "allowed us to construct profiles of the clusters by looking at "
+             "the important features of these classifiers. We then dropped the"
+             " unimportant features, retrained the clustering, and refit the "
+             "classifier based on the new clustering to arrive at our current "
+             "clustering and cluster profiles.")
+    st.write("### Test Set Performance")
+    labels = ["Cluster 0", "Cluster 1", "Cluster 2"]
+    display_report(clf_pipe_v1, X_TestSet, y_TestSet, label_map=labels)
+    st.write("### Important Features")
+    st.write("These are the features that our final clustering and "
+             "classifiacation models were trained on.")
+    display_features_tree_based(clf_pipe_v1, X_TestSet)
     st.write("### Classification Pipeline Steps")
-    st.write(clf_pipe)
+    st.write(clf_pipe_v1)
     """
     # load cluster analysis files and pipeline
     version = 'v1'
@@ -255,21 +266,28 @@ def gen_feature_pairs(best_features):
         home_stat = stem + "_home"
         away_stat = stem + "_away"
         if home_stat in best_features and away_stat in best_features:
-            feature_pairs.append((home_stat, away_stat))
+            feature_pairs.append(disp(home_stat)+" vs. "+disp(away_stat))
         elif home_stat in best_features:
-            feature_pairs.append((home_stat, ""))
+            feature_pairs.append(disp(home_stat))
         elif away_stat in best_features:
-            feature_pairs.append(("", away_stat))
+            feature_pairs.append(disp( away_stat))
     return feature_pairs
 
 
-def feature_distribution_by_cluster(feature_pair, df):
-    home, away = feature_pair
+def feature_distribution_by_cluster(pair, df):
+    if " vs. " in pair:
+        home, away = pair.split(" vs. ")
+    elif "home" in pair.lower():
+        home = pair
+        away = False
+    elif "away" in pair.lower():
+        away = pair
+        home = False
     if home and away:
-        fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
+        fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(8, 4))
         sns.histplot(
             data=df,
-            x=home,
+            x=undisp(home),
             kde=True,
             element="step",
             ax=axes[0],
@@ -278,7 +296,7 @@ def feature_distribution_by_cluster(feature_pair, df):
         )
         sns.histplot(
             data=df,
-            x=away,
+            x=undisp(away),
             kde=True,
             element="step",
             ax=axes[1],
@@ -289,10 +307,10 @@ def feature_distribution_by_cluster(feature_pair, df):
         axes[1].set_title(f"{away}")
         st.pyplot(fig)
     elif home:
-        fig, axes = plt.subplots(nrows=1, ncols=1, figsize=(10, 5))
+        fig, axes = plt.subplots(nrows=1, ncols=1, figsize=(7, 4))
         sns.histplot(
             data=df,
-            x=home,
+            x=undisp(home),
             kde=True,
             element="step",
             ax=axes,
@@ -302,10 +320,10 @@ def feature_distribution_by_cluster(feature_pair, df):
         axes.set_title(f"{home}")
         st.pyplot(fig)
     elif away:
-        fig, axes = plt.subplots(nrows=1, ncols=1, figsize=(10, 5))
+        fig, axes = plt.subplots(nrows=1, ncols=1, figsize=(7, 4))
         sns.histplot(
             data=df,
-            x=away,
+            x=undisp(away),
             kde=True,
             element="step",
             ax=axes,
