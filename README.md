@@ -3,6 +3,15 @@
 
 ## Table of Contents
 - Dataset
+- Business Requirements and Hypotheses
+- Mapping Business Requirements
+- ML Business Case
+- Epics and User Stories
+- Dashboard Design
+- Testing
+- Deployment
+- References
+
 
 ## Dataset
 We use a [dataset](https://www.kaggle.com/datasets/wyattowalsh/basketball) from Kaggle. It was collected by Wyatt Walsh (wyattowalsh) using the NBA api. Each row of the table is the stats from a single NBA game. All of the data is public and there are no privacy or ethical issues. 
@@ -49,6 +58,7 @@ The `_away` statistics have the same meaning, but for the opposing team.
 
 
 ## Business Requirements and Hytpotheses
+
 The NBA is the premier basketball league in the world. A fictional online fantasty sports guru has asked us to help give them insight based on the statistics kept by the NBA. This insight will be used to rate players for their fantasy league.
 
 ### Business Requirements
@@ -74,3 +84,36 @@ The NBA is the premier basketball league in the world. A fictional online fantas
 - Hypothesis 4:
   - Eras of the NBA can be seen through their statistics.
   - **Validation**: train a clustering model with time removed and use a classification model with time added back to determine the profile of the clusters.
+
+
+# Second to last section
+## Mapping Business Requirements
+**Business Requirement 1**:
+
+- We need to perform a correlation study to look at what is correlated with wins.
+- Pearson's method will detect linear relationships.
+- Spearman's method will detect monotonic relationships.
+- Predictive Power score will detect more subtle relationships thta may be asymmetric.
+- We will also get such statistics from the important features of our finished classification models.
+- All, except the last, will be done in the **EDA** epic.
+
+**Business Requirement 2**:
+
+- We need to predict which team won based on the relevant subset of features. 
+- We will need to build a binary classification model.
+- We will use a standard pipeline to determine the relationship between the features and the target.
+- A thorough hyperparameter search will optimize our model for the problem at hand.
+- This will be done in the **Classification** epic.
+
+**Business Requirement 3**:
+- Business Requirement 3: The client has asked us for a clustering model in order to determine if meaningful trends can be detected by these methods.
+- We need to cluster the data and determine any relationship between the clusters and season.
+- We will determine the proper number of clusters using the Elbow method and Silhouette scores.
+- We will use a standard clustering pipline with PCA to train our initial clustering.
+- We will use a classification pipeline to determine the most important features of the clusters and determine an initial profile.
+- Using the important features, we will refit the cluster pipeline, refit the classification pipeline, and inspect the important features of the classification to determine the profile of the clusters.
+- This will be done in the **Clustering** epic. 
+
+## ML Business Case
+
+# Final section
