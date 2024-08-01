@@ -1,5 +1,5 @@
 # NBA Home Team
-[NBA Home Team]() is a machine learning (ML) project aimed at gaining insight into NBA statistics and building ML pipelines that can predict the outcome of games. We used publicly available data to build 2 classification pipelines and one clustering pipeline. The two classification pipelines give insight into which statistics may be undervalued when assessing future performance. After removing key features that can be used to compute which team won the game, we built two classification pipelines that could predict if the home team won or not. We also clustered the data to see what, if any, the clustering algorithm might be able to determine about the game of Basketball.
+[NBA Home Team]() is a machine learning (ML) project aimed at gaining insight into NBA statistics and building ML pipelines that can predict the outcome of games. We used publicly available data to build two classification pipelines and one clustering pipeline. The two classification pipelines give insight into which statistics may be undervalued when assessing future performance. We also clustered the data to see if the statistics could be used to determine which era of basketball a game belonged to.
 
 ## Table of Contents
 - Dataset

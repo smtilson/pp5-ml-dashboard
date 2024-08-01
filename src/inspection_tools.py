@@ -1,7 +1,7 @@
 # These functions are explicitly for inspecting the various dataframes we encounter.
 import pandas as pd
 import io
-from src.utils import display_feature_name
+from src.utils import disp
 
 def single_season(df,target_season_id) -> pd.DataFrame:
     return df.query(f'season_id == {target_season_id}')
@@ -106,10 +106,10 @@ def prepare_game_data(df, index):
         if '_home' in col:
             if 'plus_minus' in col:
                 continue
-            new_col = display_feature_name(col.replace('_home', ''))
+            new_col = disp(col.replace('_home', ''))
             home_team_data[new_col] = row[col]
         elif '_away' in col:
-            new_col = display_feature_name(col.replace('_away', ''))
+            new_col = disp(col.replace('_away', ''))
             away_team_data[new_col] = row[col]
     data_dict={key:[ val] for key,val in home_team_data.items()}
     for key, val in away_team_data.items():

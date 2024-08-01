@@ -42,12 +42,15 @@ def save_df(df, name, target_dir, index=True):
     df.to_csv(target_dir + "/" + name + ".csv", index=index)
 
 
-def display_feature_name(feature_name: str) -> str:
+def disp(feature_name: str) -> str:
     string = feature_name.replace("_", " ")
     words = string.split()
     new_words = [special_caps(word) for word in words]
     return " ".join(new_words)
 
+def undisp(display_name:str) -> str:
+    string = display_name.replace(" ", "_")
+    return string.lower()
 
 def special_caps(string: str) -> str:
     title_words = {"plus", "home", "away"}

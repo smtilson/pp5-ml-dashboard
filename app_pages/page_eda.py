@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 import seaborn as sns
 from src.utils import get_df
-from src.utils import display_feature_name as disp
+from src.utils import disp
 
 sns.set_style("whitegrid")
 

@@ -1,3 +1,4 @@
+
 # This file follows that of the Churnometer walkthrough project
 import streamlit as st
 import pandas as pd
@@ -5,7 +6,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import plotly.express as px
 import joblib
-from src.utils import get_df, BASE_DIR
+from src.utils import get_df, BASE_DIR, disp, undisp
 from src.display import display_report
 
 # from src.data_management import load_telco_data, load_pkl_file
