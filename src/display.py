@@ -48,9 +48,9 @@ def display_features_logistic(pipe, X):
             initial_drop = []
         else:
             raise e
-    features = [col for col in X.columns if col not in initial_drop]
+    features = [disp(col) for col in X.columns if col not in initial_drop]
     importance_list = [
-        (feature, X[feature].std() * coeff)
+        (feature, X[undisp(feature)].std() * coeff)
         for feature, coeff in zip(features, coefficients)
     ]
     df_feature_importance = pd.DataFrame(
@@ -68,7 +68,7 @@ def display_features_logistic(pipe, X):
         f"{df_feature_importance['Features'].to_list()}"
     )
     st.write("\n")
-    fig, axes = plt.subplots(figsize=(7.5, 5))
+    fig, axes = plt.subplots(figsize=(4, 2))
     sns.barplot(data=df_feature_importance, x="Features", y="Importance")
     plt.title("Feateure Importance")
     plt.xticks(rotation=70)
@@ -84,7 +84,7 @@ def display_features_tree_based(pipe, X):
             initial_drop = []
         else:
             raise e
-    features = [col for col in X.columns if col not in initial_drop]
+    features = [disp(col) for col in X.columns if col not in initial_drop]
     df_feature_importance = pd.DataFrame(
         data={"Features": features, 
               "Importance": pipe['model'].feature_importances_}
@@ -97,7 +97,7 @@ def display_features_tree_based(pipe, X):
         f"{df_feature_importance['Features'].to_list()}"
     )
     st.write("\n")
-    fig, axes = plt.subplots(figsize=(7.5, 5))
+    fig, axes = plt.subplots(figsize=(4, 2))
     sns.barplot(data=df_feature_importance, x="Features", y="Importance")
     plt.title("Feateure Importance")
     plt.xticks(rotation=70)

@@ -29,7 +29,7 @@ def page_predictor_body():
     st.write("### Game Stats")
     st.table(game_data)
     st.write("### Prediction")
-    st.write("Our models do see a subset of the above data. See the page "\
+    st.write("Our models see a subset of the above data. See the page "\
             "related to the model in question for more details.")
     st.write("I guess I can hard code in the links once it is deployed...")
     mode_nname = "Classifier"

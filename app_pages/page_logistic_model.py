@@ -9,7 +9,7 @@ from src.utils import get_df
 
 def page_logistic_model_body():
     # Introduction
-    st.write("## Logistic Regression Model")
+    st.write("# Logistic Regression Model")
     st.write(
         "During an initial search, we found that a Logistic Regression "
         "model based on performed well. Our target metrics, from the "
@@ -17,22 +17,15 @@ def page_logistic_model_body():
         "Logistic Regression model with the default hyperparameters has "
         "average precision of 85.5% and an accuracy of 86%."
     )
-    st.write("\n")
     st.info(
-        "Note that we set the correlation threshold at 60%. We treated it as "
+        "Initially, we set the correlation threshold at 60%. We treated it as "
         "a hyperparameter when tuning the model."
     )
-    st.write("\n")
     st.info(
         " When training these models, we removed the features related to"
-        " made shots and points. These are:\n"
-        "* `plus_minus_home (`plus_minus_away` was already removed)\n"
-        "* `pts_home`, `pts_away`\n"
-        "* `ftm_home`, `ftm_away`\n"
-        "* `fgm_home`, `fgm_away` \n"
-        "* `fg3m_home`, `fg3m_away` \n"
-        "We did this to test Hypothesis 3: that a good pipeline can be made"
-        " without these features.")
+        " made shots and points. See the **ML: Naive Features Selection** page"
+        " for details. We did this to test Hypothesis 3: that a good pipeline "
+        "can be made without these features.")
     st.write("### Interesting findings")
     st.write(
         "Our Logistic Regression model found that the total rebounds "
@@ -40,9 +33,7 @@ def page_logistic_model_body():
         "also found that this statistic for the home team was noticeably "
         "more important than that for the away team."
     )
-    st.write("\n")
     st.success("This satisfies our first Business requirement.")
-
 
     # Load Data
     pipe_dir = f"outputs/ml_pipeline/predict_home_wins/v1/"
@@ -55,8 +46,7 @@ def page_logistic_model_body():
     y_TestSet = get_df("y_TestSet", test_dir)
 
     # Hyperparameters
-    st.write("\n")
-    st.write("### Hyperparameters")
+    st.write("## Hyperparameters")
     st.write("We considered the following hyperparameters during tuning.")
     st.write("* `solver = newton-cg`: specifies the type of algorithm used")
     st.write("* `C = 500.5`: determines the strength of the penalty function")
@@ -78,14 +68,11 @@ def page_logistic_model_body():
     )
 
     # Report
-    st.write("\n")
     st.write("## Performance Report")
     st.write("Our Logistic Regression model exceed our business requirements.")
     st.write("### Training Set")
     display_report(logistic_pipe_v1, X_TrainSet, y_TrainSet)
-    st.write("\n\n")
     st.write("### Test Set")
-    st.write("\n")
     display_report(logistic_pipe_v1, X_TestSet, y_TestSet)
     st.success(
         "We are quite happy with our model. It has an average precision of "
@@ -93,7 +80,6 @@ def page_logistic_model_body():
         " limit of what the model was capable of. Please see our notebook "
         "Tuning Hyperparameters for more details."
     )
-    st.write("\n\n")
     st.write("## Pipeline")
     st.write("### Important Features")
     st.info(
@@ -101,7 +87,6 @@ def page_logistic_model_body():
         "model attached to each feature, we are able to determine their "
         "relative importance."
     )
-    st.write("\n")
     st.write(
         "Below, we indicate the importance of the different features "
         "that the final model was trained on. This collection of "
@@ -112,6 +97,5 @@ def page_logistic_model_body():
         "features we removed during the model selection process."
     )
     display_features_logistic(logistic_pipe_v1, X_TrainSet)
-    st.write("\n")
     st.write("### Pipeline Steps")
     st.write(logistic_pipe_v1)

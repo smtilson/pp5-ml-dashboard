@@ -7,7 +7,7 @@ from app_pages.page_eda import page_eda_body
 from app_pages.page_hypotheses import page_hypotheses_body
 from app_pages.page_hypothesis_1 import page_hypothesis_1_body
 from app_pages.page_predictor import page_predictor_body
-from app_pages.page_cluster_2 import page_cluster_body
+from app_pages.page_cluster import page_cluster_body
 from app_pages.page_adaboost_model import page_adaboost_model_body
 from app_pages.page_logistic_model import page_logistic_model_body
 

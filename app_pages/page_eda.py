@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 import seaborn as sns
 from src.utils import get_df
-from src.utils import disp
+from src.utils import disp, undisp
 
 sns.set_style("whitegrid")
 
@@ -29,15 +29,16 @@ def page_eda_body():
     corr_df = get_df("eda_spearman_corr", "eda")
     normality_scores = get_df("normality_scores", "eda")
     pps_results = get_df("pps_results", "eda")
-    features = list(corr_df.columns)
+    features = [disp(col) for col in corr_df.columns]
 
     st.write("## Feature Distributions")
     st.write("Select a feature to see what its score on the normality test " "is.")
-    feature = st.selectbox("Feature", features, index=0)
+    feature = st.selectbox("Feature", features, index=0, key="widget_1")
+    feature = undisp(feature)
     score = round(normality_scores.loc[feature]["W"], 3)
     pval = round(normality_scores.loc[feature]["pval"], 3)
     st.write(
-        f"{disp(feature)} scored {score} and has a p-value f {pval}. In "
+        f"{disp(feature)} scored {score} and has a p-value of **{pval}**. In "
         "order to be considered normal, the p-value must be larger than "
         "0.05."
     )
@@ -89,8 +90,8 @@ def page_eda_body():
     st.write("The features with the highest correlation coefficients are: \n")
     home_wins_index = features.index("home_wins")
     pm_index = features.index("plus_minus_home")
-    feature_1 = st.selectbox("Feature 1", features, index=home_wins_index)
-    feature_2 = st.selectbox("Feature 2", features, index=pm_index)
+    feature_1 = st.selectbox("Feature 1", features, index=home_wins_index, key="widget_2")
+    feature_2 = st.selectbox("Feature 2", features, index=pm_index, key="widget_3")
     fig, axes = plt.subplots(figsize=(7, 5))
     sns.scatterplot(data=data, x=feature_1, y=feature_2, ax=axes)
     plt.title(
@@ -118,6 +119,5 @@ def page_eda_body():
         "* Only Plus/Minus Home and Pts Home have non-trivial predictive"
         " power scores with respect to Home Wins."
     )
-    st.write("\n")
     st.write("These relationships address Business Requirement 1 and " 
              "Hytpothesis 2.")

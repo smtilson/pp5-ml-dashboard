@@ -35,23 +35,27 @@ def page_summary_body():
     st.info("- **Hypothesis 1**: ML algorithms will gravitate towards the "
             "obvious statistics (point related, such as made shots) in order "
             "to construct their models.\n")
-    st.warning("- **Validation**: train models on all features and determine "
+    st.warning("- **Validation Method**: train models on all features and determine "
                "which are selected most frequently.")
+    st.write("This is validated on the **ML: Naive Feature Selection** page.")
     st.info("- **Hypothesis 2**: There are features that don't involve made "
             "shots which correlate with winning.")
-    st.warning("- **Validation**: correlation study analyzing the relationship"
+    st.warning("- **Validation Method**: correlation study analyzing the relationship"
                " between the above features and winning.")
+    st.write("This is validated on the **Exploratory Data Analysis** page.")
     st.info("- **Hypothesis 3**: A good pipeline can be built based on "
             "features that don't include made shots.")
-    st.warning("- **Validation**: drop made shots features and train a model "
+    st.warning("- **Validation Method**: drop made shots features and train a model "
                "achieving at least 75% avg. precision and 70% accuracy.")
+    st.write("This is validated on the **ML: Logistic Regression Model** and "
+             "**ML: Adaptive Boost Model** pages.")
     st.info("- **Hypothesis 4**: Eras of the NBA can be seen through their "
             "statistics.")
-    st.warning("- **Validation**: train a clustering model with time removed "
+    st.warning("- **Validation Method**: train a clustering model with time removed "
                "and use a classification model with time added back to "
                "determine the profile of the clusters.")
+    st.write("This is validated on the **ML: Cluster Analysis** page.")
 
-    st.write("\n")
     st.write("## Results")
     st.success("We have validated all of our hypotheses. The jupyter notebooks "
              "in the repository can be followed to see our methods and "

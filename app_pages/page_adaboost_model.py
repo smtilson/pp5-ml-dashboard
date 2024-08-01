@@ -9,7 +9,7 @@ from src.utils import get_df
 
 def page_adaboost_model_body():
     # Introduction
-    st.write("## Adaptive Boost Model")
+    st.write("# Adaptive Boost Model")
     st.write(
         "During an initial search, we found that an Adaptive Boost model "
         "based on Decision Trees performed well. Our target metrics, from the"
@@ -17,22 +17,15 @@ def page_adaboost_model_body():
         " Boost model with the default hyperparameters has average precision "
         "of 82.5% and an accuracy of 82%."
     )
-    st.write("\n")
     st.info(
-        "Note that we set the correlation threshold at 60%. We treated this as a "
+        "Initially, we set the correlation threshold at 60%. We treated this as a "
         " hyperparameter when tuning the model."
     )
-    st.write("\n")
     st.info(
         " When training these models, we removed the features related to"
-        " made shots and points. These are:\n"
-        "* `plus_minus_home (`plus_minus_away` was already removed)\n"
-        "* `pts_home`, `pts_away`\n"
-        "* `ftm_home`, `ftm_away`\n"
-        "* `fgm_home`, `fgm_away` \n"
-        "* `fg3m_home`, `fg3m_away` \n"
-        "We did this to test Hypothesis 3: that a good pipeline can be made"
-        " without these features.")
+        " made shots and points. See the **ML: Naive Features Selection** page"
+        " for details. We did this to test Hypothesis 3: that a good pipeline "
+        "can be made without these features.")
     st.write("### Interesting findings")
     st.write(
         "Our Adaptive boost model found that the defensive rebounds "
@@ -40,7 +33,6 @@ def page_adaboost_model_body():
         "also found that this statistic for the home team was noticeably "
         "more important than that for the away team."
     )
-    st.write("\n")
     st.success("This satisfies our first Business requirement.")
 
     # Load Data
@@ -54,7 +46,6 @@ def page_adaboost_model_body():
     y_TestSet = get_df("y_TestSet", test_dir)
 
     # Hyperparameters
-    st.write("\n")
     st.write("### Hyperparameters")
     st.write("We considered the following hyperparameters during tuning.")
     st.write("* `algorithm = SAMME.R`: specifies the algorithm used")
@@ -73,32 +64,25 @@ def page_adaboost_model_body():
     )
 
     # Report
-    st.write("\n")
     st.write("## Performance Report")
     st.write("Our Adaptive Boost model exceed our business requirements.")
-    st.write("\n")
     st.write("### Training Set")
-    st.write("\n")
     display_report(ada_pipe_v1, X_TrainSet, y_TrainSet)
-    st.write("\n\n")
     st.write("### Test Set")
-    st.write("\n")
     display_report(ada_pipe_v1, X_TestSet, y_TestSet)
     st.success(
         "We are quite happy with our model. It has an average precision of "
         "86.97% and an accuracy of 87.44%. During our search, it felt like "
-        "we were approaching the limit of what the model was capable of. Please "
-        "see our notebook Tuning Hyperparameters for more details."
+        "we were approaching the limit of what the model was capable of. "
+        "Please see our notebook Tuning Hyperparameters for more details."
     )
     st.success("This validates Hypothesis 3.")
-    st.write("\n\n")
     st.write("## Pipeline")
     st.write("### Important Features")
     st.info(
         "Tree based models come with an `feature_importance_` attribute "
         "that we can access after they have been trained."
     )
-    st.write("\n")
     st.write(
         "Below, we indicate the importance of the different features "
         "that the final model was trained on. This collection of "
@@ -109,6 +93,5 @@ def page_adaboost_model_body():
         "features we removed during the model selection process."
     )
     display_features_tree_based(ada_pipe_v1, X_TrainSet)
-    st.write("\n")
     st.write("### Pipeline Steps")
     st.write(ada_pipe_v1)
