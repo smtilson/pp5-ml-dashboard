@@ -145,14 +145,14 @@ def present_param_counts(results_df, score, exclude=None):
 		print(f"{key[0]}: {key[1]}, Count: {value}")
 
 
-def evaluate_param_on_test_set(pipe,X_test, Y_test):
+def evaluate_param_on_test_set(pipe,X_test, y_test):
     y_pred = pipe.predict(X_test)
-    accuracy = accuracy_score(Y_test, y_pred)
-    precision = precision_score(Y_test, y_pred)
+    accuracy = accuracy_score(y_test, y_pred)
+    precision = precision_score(y_test, y_pred)
     return ((precision, accuracy), pipe.param_dict)
 
-def evaluate_and_sort(fitted_pipes, X_test, Y_test):
-    evaluations = [evaluate_param_on_test_set(pipe, X_test, Y_test)
+def evaluate_and_sort(fitted_pipes, X_test, y_test):
+    evaluations = [evaluate_param_on_test_set(pipe, X_test, y_test)
                for pipe in fitted_pipes]
     evaluation_dict = {eval[0]:eval[1] for eval in evaluations}
     sorted_eval_dict = {k:v for k,v in sorted(evaluation_dict.items(),
@@ -195,9 +195,9 @@ def gen_clf_report(X,y,pipeline):
 
 
 
-def grid_search_report_best(grid_collection,X_train,Y_train,X_test,Y_test, label_map):
+def grid_search_report_best(grid_collection,X_train,y_train,X_test,y_test, label_map):
 		for name, grid in grid_collection.items():
 				best_pipe = grid.best_estimator_
 				print(name)
-				clf_performance(X_train, Y_train, X_test, Y_test, best_pipe, label_map)
+				clf_performance(X_train, y_train, X_test, y_test, best_pipe, label_map)
  

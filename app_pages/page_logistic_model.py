@@ -50,9 +50,9 @@ def page_logistic_model_body():
     train_dir = "datasets/train/classification"
     test_dir = "datasets/test/classification"
     X_TrainSet = get_df("X_TrainSet", train_dir)
-    Y_TrainSet = get_df("Y_TrainSet", train_dir)
+    y_TrainSet = get_df("y_TrainSet", train_dir)
     X_TestSet = get_df("X_TestSet", test_dir)
-    Y_TestSet = get_df("Y_TestSet", test_dir)
+    y_TestSet = get_df("y_TestSet", test_dir)
 
     # Hyperparameters
     st.write("\n")
@@ -84,11 +84,11 @@ def page_logistic_model_body():
     st.write("\n")
     st.write("### Training Set")
     st.write("\n")
-    display_report(logistic_pipe_v1, X_TrainSet, Y_TrainSet)
+    display_report(logistic_pipe_v1, X_TrainSet, y_TrainSet)
     st.write("\n\n")
     st.write("### Test Set")
     st.write("\n")
-    display_report(logistic_pipe_v1, X_TestSet, Y_TestSet)
+    display_report(logistic_pipe_v1, X_TestSet, y_TestSet)
     st.success(
         "We are quite happy with our model. It has an average precision of "
         "87.64% and an accuracy of 87.93%. We feel that we were approaching the"
@@ -96,7 +96,8 @@ def page_logistic_model_body():
         "Tuning Hyperparameters for more details."
     )
     st.write("\n\n")
-    st.write("## Important Features")
+    st.write("## Pipeline")
+    st.write("### Important Features")
     st.info(
         "Using the (absolute values of the) coefficients or weights that the "
         "model attached to each feature, we are able to determine their "
@@ -113,3 +114,6 @@ def page_logistic_model_body():
         "features we removed during the model selection process."
     )
     display_features_logistic(logistic_pipe_v1, X_TrainSet)
+    st.write("\n")
+    st.write("### Pipeline Steps")
+    st.write(logistic_pipe_v1)
