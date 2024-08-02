@@ -5,3 +5,7 @@ ydata-profiling==4.4.0
 ppscore==1.2.0
 pingouin
 numpy==1.18.5
+ipython
+feature-engine
+scikit-learn==0.24.2
+xgboostprotobuf==3.20
