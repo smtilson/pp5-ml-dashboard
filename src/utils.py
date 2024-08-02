@@ -10,9 +10,9 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
-BASE_DIR = "/workspace/pp5-ml-dashboard/"
-# this dictionary is for converting column names to a more readable format
-proper_name = {}
+if os.path.isfile("env.py"):
+    import env
+BASE_DIR = os.environ.get("BASE_DIR")
 
 
 def get_df(name: str, target_dir) -> pd.DataFrame:

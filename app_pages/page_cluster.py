@@ -3,10 +3,14 @@ import streamlit as st
 import seaborn as sns
 import matplotlib.pyplot as plt
 import joblib
-from src.utils import get_df, BASE_DIR, disp, undisp
+from src.utils import get_df, disp, undisp
 from src.display import display_report, display_features_tree_based
+import os
 
-# from src.data_management import load_telco_data, load_pkl_file
+
+if os.path.isfile("env.py"):
+    import env
+BASE_DIR = os.environ.get("BASE_DIR")
 
 
 def page_cluster_body():
