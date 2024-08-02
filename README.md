@@ -127,8 +127,6 @@ This assumes that you already have a Heroku account.
 5. Add a second Config Var with key "PORT" and value "8000". (I don't think this is necessary)
 6. Scroll down to "Buildpacks". Click "Add buildpack", select "python", and click "Add buildpack".
 7. Log in to Heroku from the command line. Execute the command `heroku stack:set heroku-20 --app <your-app-name>`.
+8. Go to the "Deploy" tab. Scroll down to "Deployment method" and select "GitHub". Search for your repository that you copied/cloned in step 1 above. Click "Connect" once you have found it. Scroll down to "Manual deploy" and click "Deploy Branch". Once the build is complete, click "View" to be taken to your deployed app. You may wish to select automatic deployment.
 
-Go to the "Deploy" tab. Scroll down to "Deployment method" and select "GitHub". Search for your repository that you copied/cloned in step 1 above. Click "Connect" once you have found it.
-Scroll down to "Manual deploy" and click "Deploy Branch". Once the build is complete, click "View" to be taken to your deployed app.
-Log in to your Heroku account, click on 'New,' and then 'Create new app.'
 # Final section 
