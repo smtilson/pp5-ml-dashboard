@@ -25,8 +25,8 @@ def find_features(X_train, fitted_pipe, initial_drop):
     kept = set(X.columns)
     if set.intersection(dropped, kept):
         raise ValueError(str(set.intersection(dropped, kept)))
-    missing = [col for col in X_train.columns 
-                if col not in set.union(dropped, kept)]
+    missing = [col for col in X_train.columns
+               if col not in set.union(dropped, kept)]
     if missing:
         raise ValueError(str(missing))
     if total != len(kept) + len(dropped):
@@ -34,7 +34,7 @@ def find_features(X_train, fitted_pipe, initial_drop):
     return list(X.columns), auto_dropped + feat_selected_dropped
 
 
-def feature_importance_logistic_regression(pipe, step_name, 
+def feature_importance_logistic_regression(pipe, step_name,
                                            X_TrainSet, initial_drop):
     coefficients = pipe[step_name].coef_[0]
     features, _ = find_features(X_TrainSet, pipe, initial_drop)
@@ -53,8 +53,10 @@ def feature_importance_logistic_regression(pipe, step_name,
 
     # Most important features statement and plot
     print(
-        f"* These are the {len(best_features)} most important features in descending order. "
-        f"The model was trained on them: \n{df_feature_importance['Features'].to_list()}"
+        f"* These are the {len(best_features)} most important features in "
+        f"descending order. "
+        f"The model was trained on them: \n"
+        f"{df_feature_importance['Features'].to_list()}"
     )
 
     df_feature_importance.plot(kind="bar", x="Features", y="Importance")
@@ -74,8 +76,10 @@ def feature_importance_tree_based_models(model, columns):
 
     # Most important features statement and plot
     print(
-        f"* These are the {len(best_features)} most important features in descending order. "
-        f"The model was trained on them: \n{df_feature_importance['Features'].to_list()}"
+        f"* These are the {len(best_features)} most important features in "
+        f"descending order. "
+        f"The model was trained on them: \n"
+        f"{df_feature_importance['Features'].to_list()}"
     )
 
     df_feature_importance.plot(kind="bar", x="Features", y="Importance")

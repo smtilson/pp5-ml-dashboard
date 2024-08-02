@@ -6,8 +6,6 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import os
 from feature_engine import transformation as vt
-from feature_engine.outliers import Winsorizer
-from feature_engine.encoding import OrdinalEncoder
 import warnings
 
 warnings.filterwarnings("ignore")
@@ -108,26 +106,31 @@ def add_cat_date(
     df["day"] = df.apply(
         lambda x: int(x[date_name].split(symbol)[d_pos].split()[0]), axis=1
     )
-    df["month"] = df.apply(lambda x: int(x[date_name].split(symbol)[m_pos]), axis=1)
-    df["year"] = df.apply(lambda x: int(x[date_name].split(symbol)[y_pos]), axis=1)
+    df["month"] = df.apply(lambda x: int(x[date_name].split(symbol)[m_pos]),
+                           axis=1)
+    df["year"] = df.apply(lambda x: int(x[date_name].split(symbol)[y_pos]),
+                          axis=1)
     return df
 
 
-# The following are from a feature engineering notebook in the walkthrough
-# project.abs
-
-
-def FeatureEngineeringAnalysis(df, analysis_type=None):
+# The following are from the feature engineering notebook in the walkthrough
+# project with minor modifications.
+def FeatureEngineeringAnalysis(df):
     """
-    - used for quick feature engineering on numerical and categorical variables
+    - used for quick feature engineering on numerical variables
     to decide which transformation can better transform the distribution shape
     - Once transformed, use a reporting tool, like ydata-profiling, to evaluate
     the distributions
     """
     check_missing_values(df)
-    allowed_types = ["numerical", "ordinal_encoder", "outlier_winsorizer"]
-    check_user_entry_on_analysis_type(analysis_type, allowed_types)
-    list_column_transformers = define_list_column_transformers(analysis_type)
+    list_column_transformers = [
+            "log_e",
+            "log_10",
+            "reciprocal",
+            "power",
+            "box_cox",
+            "yeo_johnson",
+        ]
 
     # Loop in each variable and engineer the data according to the analysis
     # type
@@ -140,28 +143,15 @@ def FeatureEngineeringAnalysis(df, analysis_type=None):
 
         # Apply transformers in respective column_transformers
         df_feat_eng, list_applied_transformers = apply_transformers(
-            analysis_type, df_feat_eng, column
+            df_feat_eng, column
         )
 
         # For each variable, assess how the transformations perform
         transformer_evaluation(
-            column, list_applied_transformers, analysis_type, df_feat_eng
+            column, list_applied_transformers, df_feat_eng
         )
 
     return df_feat_eng
-
-
-def check_user_entry_on_analysis_type(analysis_type, allowed_types):
-    """Check analysis type"""
-    if analysis_type is None:
-        raise SystemExit(
-            "You should pass analysis_type parameter as one of the following "
-            f"options: {allowed_types}"
-        )
-    if analysis_type not in allowed_types:
-        raise SystemExit(
-            "analysis_type argument should be one of these options: " f"{allowed_types}"
-        )
 
 
 def check_missing_values(df):
@@ -173,33 +163,10 @@ def check_missing_values(df):
         raise SystemExit(msg)
 
 
-def define_list_column_transformers(analysis_type):
-    """Set suffix columns according to analysis_type"""
-    if analysis_type == "numerical":
-        list_column_transformers = [
-            "log_e",
-            "log_10",
-            "reciprocal",
-            "power",
-            "box_cox",
-            "yeo_johnson",
-        ]
-
-    elif analysis_type == "ordinal_encoder":
-        list_column_transformers = ["ordinal_encoder"]
-
-    elif analysis_type == "outlier_winsorizer":
-        list_column_transformers = ["iqr"]
-
-    return list_column_transformers
-
-
-def apply_transformers(analysis_type, df_feat_eng, column):
+def apply_transformers(df_feat_eng, column):
     for col in df_feat_eng.select_dtypes(include="category").columns:
         df_feat_eng[col] = df_feat_eng[col].astype("object")
 
-    if analysis_type != "numerical":
-        raise ValueError("Only numerical analysis is implemented.")
     df_feat_eng, list_applied_transformers = FeatEngineering_Numerical(
         df_feat_eng, column
     )
@@ -208,37 +175,14 @@ def apply_transformers(analysis_type, df_feat_eng, column):
 
 
 def transformer_evaluation(
-    column, list_applied_transformers, analysis_type, df_feat_eng
+    column, list_applied_transformers, df_feat_eng
 ):
     # For each variable, assess how the transformations perform
     print(f"* Variable Analyzed: {column}")
     print(f"* Applied transformation: {list_applied_transformers} \n")
     for col in [column] + list_applied_transformers:
         DiagnosticPlots_Numerical(df_feat_eng, col)
-        """
-        I don't think I actually use the other cases below.
-        if analysis_type != 'ordinal_encoder':
-            DiagnosticPlots_Numerical(df_feat_eng, col)
-        else:
-            if col == column:
-                DiagnosticPlots_Categories(df_feat_eng, col)
-            else:
-                DiagnosticPlots_Numerical(df_feat_eng, col)"""
         print("\n")
-
-
-def DiagnosticPlots_Categories(df_feat_eng, col):
-    plt.figure(figsize=(4, 3))
-    sns.countplot(
-        data=df_feat_eng,
-        x=col,
-        palette=["#432371"],
-        order=df_feat_eng[col].value_counts().index,
-    )
-    plt.xticks(rotation=90)
-    plt.suptitle(f"{col}", fontsize=30, y=1.05)
-    plt.show()
-    print("\n")
 
 
 def DiagnosticPlots_Numerical(df, variable):
@@ -253,37 +197,6 @@ def DiagnosticPlots_Numerical(df, variable):
     fig.suptitle(f"{variable}", fontsize=30, y=1.05)
     plt.tight_layout()
     plt.show()
-
-
-def FeatEngineering_CategoricalEncoder(df_feat_eng, column):
-    list_methods_worked = []
-    try:
-        encoder = OrdinalEncoder(
-            encoding_method="arbitrary", variables=[f"{column}_ordinal_encoder"]
-        )
-        df_feat_eng = encoder.fit_transform(df_feat_eng)
-        list_methods_worked.append(f"{column}_ordinal_encoder")
-
-    except Exception:
-        df_feat_eng.drop([f"{column}_ordinal_encoder"], axis=1, inplace=True)
-
-    return df_feat_eng, list_methods_worked
-
-
-def FeatEngineering_OutlierWinsorizer(df_feat_eng, column):
-    list_methods_worked = []
-
-    # Winsorizer iqr
-    try:
-        disc = Winsorizer(
-            capping_method="iqr", tail="both", fold=1.5, variables=[f"{column}_iqr"]
-        )
-        df_feat_eng = disc.fit_transform(df_feat_eng)
-        list_methods_worked.append(f"{column}_iqr")
-    except Exception:
-        df_feat_eng.drop([f"{column}_iqr"], axis=1, inplace=True)
-
-    return df_feat_eng, list_methods_worked
 
 
 def FeatEngineering_Numerical(df_feat_eng, column):

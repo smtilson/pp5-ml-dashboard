@@ -1,33 +1,11 @@
-# These functions are designed for plotting dataframes in Jupyter notebooks.
-import numpy as np
+# These functions are designed for displaying information in Jupyter notebooks
+# and streamlit as tables or graphs/plots.
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import streamlit as st
 from src.model_eval import gen_clf_report
-from src.notebook_functions import find_features
-from src.utils import get_df, disp, undisp
-
-
-def heatmap_threshold(df, threshold, figsize=(8, 8)):
-    if len(df.columns) > 1:
-
-        mask = np.zeros_like(df, dtype=np.bool)
-        mask[abs(df) < threshold] = True
-
-        fig, ax = plt.subplots(figsize=figsize)
-        ax = sns.heatmap(
-            df,
-            annot=True,
-            annot_kws={"size": 10},
-            mask=mask,
-            cmap="rocket_r",
-            linewidth=0.05,
-            linecolor="lightgrey",
-        )
-
-        plt.ylim(len(df.columns), 0)
-        plt.show()
+from src.utils import disp, undisp
 
 
 def display_report(pipe, X, Y, label_map=None):
@@ -41,7 +19,7 @@ def display_report(pipe, X, Y, label_map=None):
 
 
 def display_features_logistic(pipe, X):
-    coefficients = pipe['model'].coef_[0]
+    coefficients = pipe["model"].coef_[0]
     try:
         initial_drop = pipe.steps[0][1].features_to_drop_
     except AttributeError as e:
@@ -75,7 +53,7 @@ def display_features_logistic(pipe, X):
     plt.xticks(rotation=70)
     st.pyplot(fig)
     st.dataframe(df_feature_importance)
-    
+
 
 def display_features_tree_based(pipe, X):
     try:
@@ -87,8 +65,8 @@ def display_features_tree_based(pipe, X):
             raise e
     features = [disp(col) for col in X.columns if col not in initial_drop]
     df_feature_importance = pd.DataFrame(
-        data={"Features": features, 
-              "Importance": pipe['model'].feature_importances_}
+        data={"Features": features,
+              "Importance": pipe["model"].feature_importances_}
     ).sort_values(by="Importance", ascending=False)
 
     best_features = df_feature_importance["Features"].to_list()
