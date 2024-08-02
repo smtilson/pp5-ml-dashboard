@@ -2,6 +2,7 @@
 import pandas as pd
 import numpy as np
 import scipy.stats as stats
+import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
 import os
@@ -22,6 +23,7 @@ def get_df(name: str, target_dir) -> pd.DataFrame:
         target_dir = BASE_DIR + target_dir
     file_path = target_dir + "/" + name + ".csv"
     df = pd.read_csv(file_path)
+    st.write(target_dir)
     if "game_id" in df.columns:
         df.set_index("game_id", inplace=True)
     elif "Unnamed: 0" in df.columns:

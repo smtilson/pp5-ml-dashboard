@@ -3,7 +3,9 @@ import streamlit as st
 from src.utils import get_df
 import os
 
-# from src.data_management import load_telco_data, load_pkl_file
+if os.path.isfile("env.py"):
+    import env
+BASE_DIR = os.environ.get("BASE_DIR")
 
 
 def page_summary_body():
@@ -12,6 +14,7 @@ def page_summary_body():
     parent = os.path.abspath(os.path.join(current_dir, os.pardir))
     st.write(current_dir)
     st.write(parent)
+    st.write(BASE_DIR)
     st.write("* [Dataset](#dataset)")
     st.write("* [Features](#features)")
     st.write("* [Business Requirements](#business-requirements)")
