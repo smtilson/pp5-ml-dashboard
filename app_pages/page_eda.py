@@ -136,6 +136,10 @@ def page_eda_body():
 
 
 def rep_p_val(pval: float) -> str:
-    val, exp = str(pval).split("e")
-    val = round(float(val), 4)
-    return f"{val}e{exp}"
+    if 'e' in str(pval):
+        val, exp = str(pval).split("e")
+        val = round(float(val), 4)
+        value = f"{val}e{exp}"
+    else:
+        value = str(pval)
+    return value

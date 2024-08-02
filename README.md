@@ -124,7 +124,7 @@ This assumes that you already have a Heroku account.
 2. Log in to your Heroku account.
 3. From the Heroku Dashboard, click the dropdown menu "New" and select "Create new app".
 4. Choose a unique name for your app, shoose the appropriate region, and then click "Create app".
-5. Add a second Config Var with key "PORT" and value "8000". (I don't think this is necessary)
+5. Add the Config Vars "PORT" with value "8000" and BASE_DIR with no value
 6. Scroll down to "Buildpacks". Click "Add buildpack", select "python", and click "Add buildpack".
 7. Log in to Heroku from the command line. Execute the command `heroku stack:set heroku-20 --app <your-app-name>`.
 8. Check that your requirements file has the appropriate files commented out.
