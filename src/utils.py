@@ -19,8 +19,8 @@ BASE_DIR = os.environ.get("BASE_DIR")
 def get_df(name: str, target_dir) -> pd.DataFrame:
     if "outputs/" not in target_dir:
         target_dir = "outputs/" + target_dir
-    if "workspace" not in target_dir:
-        target_dir = BASE_DIR + target_dir
+    #if "workspace" not in target_dir:
+     #   target_dir = BASE_DIR + target_dir
     file_path = target_dir + "/" + name + ".csv"
     df = pd.read_csv(file_path)
     st.write(target_dir)
