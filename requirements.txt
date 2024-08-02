@@ -5,17 +5,15 @@ matplotlib==3.3.1
 seaborn==0.11.0
 ipywidgets==8.0.2
 
-# The following are commented out for deployment to heroku.
-# When running locally, uncomment these packages.
-#ipython
-#xgboostprotobuf==3.20
-##feature-engine==1.0.2
-#feature-engine
-#scikit-learn==0.24.2
-#yellowbrick==1.3
-#Jinja2==3.1.1
-#MarkupSafe==2.0.1
-#ydata-profiling==4.4.0
-#ppscore==1.2.0
-#pingouin
-#numpy==1.18.5
+ipython
+xgboostprotobuf==3.20
+#feature-engine==1.0.2
+feature-engine
+scikit-learn==0.24.2
+yellowbrick==1.3
+Jinja2==3.1.1
+MarkupSafe==2.0.1
+ydata-profiling==4.4.0
+ppscore==1.2.0
+pingouin
+numpy==1.18.5
