@@ -1,10 +1,7 @@
-
 # This file follows that of the Churnometer walkthrough project
 import streamlit as st
-import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-import plotly.express as px
 import joblib
 from src.utils import get_df, BASE_DIR, disp, undisp
 from src.display import display_report, display_features_tree_based
@@ -19,7 +16,7 @@ def page_cluster_body():
     st.write("* [Feature Distribution](#feature-distribution)")
     st.write("* [Cluster Pipeline](#cluster-pipeline)")
     st.write("* [Classification Pipeline](#classification-pipeline)")
-    
+
     # Introduction
     st.write("# Cluster Analysis")
     st.write("## Summary")
@@ -43,8 +40,8 @@ def page_cluster_body():
 
     # Load Data
     cluster_dir = "outputs/ml_pipeline/era_clusters/v1"
-    cluster_pipe_v1 = joblib.load(filename=cluster_dir + "/cluster_pipeline.pkl")
-    clf_pipe_v1 = joblib.load(filename=cluster_dir + "/classification_pipeline.pkl")
+    cluster_pipe = joblib.load(filename=cluster_dir + "/cluster_pipeline.pkl")
+    clf_pipe = joblib.load(filename=cluster_dir + "/clf_pipeline.pkl")
     test_dir = "datasets/test/clustering"
     X_TestSet = get_df("X_TestSet", test_dir)
     y_TestSet = get_df("y_TestSet", test_dir)
@@ -73,7 +70,8 @@ def page_cluster_body():
         " the clusters are 3 point attempts and season. This suggests the "
         "following cluster profiles."
     )
-    small_profile = clusters_profile.filter(["fg3a_home", "fg3a_away", "season"])
+    small_profile = clusters_profile.filter(["fg3a_home", "fg3a_away",
+                                             "season"])
     st.dataframe(small_profile)
     st.success(
         "Therefore the cleanest profiles of the clusters are as follows"
@@ -105,8 +103,7 @@ def page_cluster_body():
         plt.title(f"Season distribution for Cluster {i}")
         st.pyplot(fig)
     st.info("This is a visual representation of what we saw in the profiles "
-            "above."
-    )
+            "above.")
 
     st.write("### Distribution of Features by Cluster")
     st.write(
@@ -117,7 +114,7 @@ def page_cluster_body():
     feature_pairs = gen_feature_pairs(features)
     pair = st.selectbox("Feature", feature_pairs, index=0)
     feature_distribution_by_cluster(pair, full_data)
-    
+
     st.write("## Cluster Pipeline")
     st.write("### Silhouette scores")
     st.write(
@@ -126,24 +123,29 @@ def page_cluster_body():
     )
     st.image(silhouette_img, width=400)
     st.write("### Cluster Pipeline Steps")
-    st.write(cluster_pipe_v1)
+    st.write(cluster_pipe)
     st.write("## Classification Pipeline")
-    st.write("We trained an Adaptive Boost Classifier to determine which "
-             "cluster games belonged to, with season data added back in. This "
-             "allowed us to construct profiles of the clusters by looking at "
-             "the important features of these classifiers. We then dropped the"
-             " unimportant features, retrained the clustering, and refit the "
-             "classifier based on the new clustering to arrive at our current "
-             "clustering and cluster profiles.")
+    st.write(
+        "We trained an Adaptive Boost Classifier to determine which "
+        "cluster games belonged to, with season data added back in. This "
+        "allowed us to construct profiles of the clusters by looking at "
+        "the important features of these classifiers. We then dropped the"
+        " unimportant features, retrained the clustering, and refit the "
+        "classifier based on the new clustering to arrive at our current "
+        "clustering and cluster profiles."
+    )
     st.write("### Test Set Performance")
     labels = ["Cluster 0", "Cluster 1", "Cluster 2"]
-    display_report(clf_pipe_v1, X_TestSet, y_TestSet, label_map=labels)
+    display_report(clf_pipe, X_TestSet, y_TestSet, label_map=labels)
     st.write("### Important Features")
-    st.write("These are the features that our final clustering and "
-             "classifiacation models were trained on.")
-    display_features_tree_based(clf_pipe_v1, X_TestSet)
+    st.write(
+        "These are the features that our final clustering and "
+        "classifiacation models were trained on."
+    )
+    display_features_tree_based(clf_pipe, X_TestSet)
     st.write("### Classification Pipeline Steps")
-    st.write(clf_pipe_v1)
+    st.write(clf_pipe)
+
 
 def gen_feature_pairs(best_features):
     feature_pairs = []
@@ -152,11 +154,11 @@ def gen_feature_pairs(best_features):
         home_stat = stem + "_home"
         away_stat = stem + "_away"
         if home_stat in best_features and away_stat in best_features:
-            feature_pairs.append(disp(home_stat)+" vs. "+disp(away_stat))
+            feature_pairs.append(disp(home_stat) + " vs. " + disp(away_stat))
         elif home_stat in best_features:
             feature_pairs.append(disp(home_stat))
         elif away_stat in best_features:
-            feature_pairs.append(disp( away_stat))
+            feature_pairs.append(disp(away_stat))
     return feature_pairs
 
 
@@ -193,7 +195,7 @@ def feature_distribution_by_cluster(pair, df):
         axes[1].set_title(f"{away}")
         st.pyplot(fig)
     elif home:
-        fig, axes = plt.subplots(nrows=1, ncols=1, figsize=(5,3))
+        fig, axes = plt.subplots(nrows=1, ncols=1, figsize=(5, 3))
         sns.histplot(
             data=df,
             x=undisp(home),

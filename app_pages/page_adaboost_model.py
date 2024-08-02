@@ -1,7 +1,4 @@
 import streamlit as st
-import pandas as pd
-import matplotlib.pyplot as plt
-import plotly.express as px
 import joblib
 from src.display import display_report, display_features_tree_based
 from src.utils import get_df
@@ -22,14 +19,15 @@ def page_adaboost_model_body():
         "of 82.5% and an accuracy of 82%."
     )
     st.info(
-        "Initially, we set the correlation threshold at 60%. We treated this as a "
-        " hyperparameter when tuning the model."
+        "Initially, we set the correlation threshold at 60%. We treated this "
+        "as a hyperparameter when tuning the model."
     )
     st.info(
         " When training these models, we removed the features related to"
         " made shots and points. See the **ML: Naive Features Selection** page"
         " for details. We did this to test Hypothesis 3: that a good pipeline "
-        "can be made without these features.")
+        "can be made without these features."
+    )
     st.write("### Interesting findings")
     st.write(
         "Our Adaptive boost model found that the defensive rebounds "
@@ -40,7 +38,7 @@ def page_adaboost_model_body():
     st.success("This satisfies our first Business requirement.")
 
     # Load Data
-    pipe_dir = f"outputs/ml_pipeline/predict_home_wins/"
+    pipe_dir = "outputs/ml_pipeline/predict_home_wins/"
     ada_pipe_v1 = joblib.load(filename=pipe_dir + "v1/ada_pipeline.pkl")
     train_dir = "datasets/train/classification"
     test_dir = "datasets/test/classification"
@@ -52,7 +50,8 @@ def page_adaboost_model_body():
     st.write("## Hyperparameters")
     st.write("We considered the following hyperparameters during tuning.")
     st.write("* `algorithm = SAMME.R`: specifies the algorithm used")
-    st.write("* `learning_rate = 1.133`: determines the weights for the " "estimators")
+    st.write("* `learning_rate = 1.133`: determines the weights for the "
+             "estimators")
     st.write("* `n_estimators = 110`: the number of Decision Trees used.")
     st.write(
         "* `threshold = 0.8`: the cutoff threshold for feature selection "

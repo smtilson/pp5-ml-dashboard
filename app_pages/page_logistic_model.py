@@ -1,11 +1,7 @@
 import streamlit as st
-import pandas as pd
-import matplotlib.pyplot as plt
-import plotly.express as px
 import joblib
 from src.display import display_report, display_features_logistic
 from src.utils import get_df
-from src.utils import disp, undisp
 
 
 def page_logistic_model_body():
@@ -30,7 +26,8 @@ def page_logistic_model_body():
         " When training these models, we removed the features related to"
         " made shots and points. See the **ML: Naive Features Selection** page"
         " for details. We did this to test Hypothesis 3: that a good pipeline "
-        "can be made without these features.")
+        "can be made without these features."
+    )
     st.write("### Interesting findings")
     st.write(
         "Our Logistic Regression model found that the total rebounds "
@@ -41,7 +38,7 @@ def page_logistic_model_body():
     st.success("This satisfies our first Business requirement.")
 
     # Load Data
-    pipe_dir = f"outputs/ml_pipeline/predict_home_wins/v1/"
+    pipe_dir = "outputs/ml_pipeline/predict_home_wins/v1/"
     logistic_pipe_v1 = joblib.load(filename=pipe_dir + "logistic_pipeline.pkl")
     train_dir = "datasets/train/classification"
     test_dir = "datasets/test/classification"
@@ -81,8 +78,8 @@ def page_logistic_model_body():
     display_report(logistic_pipe_v1, X_TestSet, y_TestSet)
     st.success(
         "We are quite happy with our model. It has an average precision of "
-        "87.64% and an accuracy of 87.93%. We feel that we were approaching the"
-        " limit of what the model was capable of. Please see our notebook "
+        "87.64% and an accuracy of 87.93%. We feel that we were approaching "
+        "the limit of what the model was capable of. Please see our notebook "
         "Tuning Hyperparameters for more details."
     )
     st.write("## Pipeline")

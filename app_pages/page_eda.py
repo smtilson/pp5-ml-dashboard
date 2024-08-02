@@ -1,8 +1,6 @@
 # This file follows that of the Churnometer walkthrough project
 import streamlit as st
-import pandas as pd
 import matplotlib.pyplot as plt
-import plotly.express as px
 import seaborn as sns
 from src.utils import get_df
 from src.utils import disp, undisp
@@ -13,9 +11,11 @@ sns.set_style("whitegrid")
 def page_eda_body():
     # TOC
     st.write("* [Feature Distributions](#feature-distributions)")
-    st.write("* [Correlation and Predictive Power score](#correlation-and-"
-             "predictive-power-score)")
-             
+    st.write(
+        "* [Correlation and Predictive Power score](#correlation-and-"
+        "predictive-power-score)"
+    )
+
     # Introduction
     st.write("# Exploratory Data Analysis")
     blurb = (
@@ -39,17 +39,18 @@ def page_eda_body():
 
     st.write("## Feature Distributions")
     st.write("### Normality Test")
-    st.write("Select a feature to see what its score on the normality test "
-             "is.")
+    st.write("Select features to see their score on the normality test.")
     feature = st.selectbox("Feature", features, index=0, key="widget_1")
     feature = undisp(feature)
     score = round(normality_scores.loc[feature]["W"], 3)
     pval = normality_scores.loc[feature]["pval"]
     pval = rep_p_val(pval)
-    st.write( f"{disp(feature)}: Score = {score}")
+    st.write(f"{disp(feature)}: Score = {score}")
     st.write(f"{(2+len(disp(feature)))*' '}p-value =**{pval}**")
-    st.write("In order to be considered normal, the p-value must be larger "
-        "than 0.05.")
+    st.write(
+        "In order to be considered normal, the p-value must be larger than "
+        "0.05."
+    )
     st.write(
         "None of the features are normally distributed, but we were able to "
         "transform some of them in order to obtain normal distributions."
@@ -79,9 +80,9 @@ def page_eda_body():
 
     st.write("## Correlation and Predictive Power score\n")
     st.write(
-        "Correlation (Spearman) coefficients are measures of the strength of the "
-        "relationship between two random variables. It is a very widely "
-        "used measurement."
+        "Correlation (Spearman) coefficients are measures of the strength of "
+        "the a monotonic relationship between two random variables. It is a "
+        "very widely used measurement."
     )
     st.write(
         "Predictive Power score is an asymmetric statistic that "
@@ -95,14 +96,18 @@ def page_eda_body():
     st.write("The features with the highest correlation coefficients are: \n")
     home_wins_index = raw_features.index("home_wins")
     pm_index = raw_features.index("plus_minus_home")
-    feature_1 = st.selectbox("Feature 1", features, index=home_wins_index, key="widget_2")
-    feature_2 = st.selectbox("Feature 2", features, index=pm_index, key="widget_3")
+    feature_1 = st.selectbox(
+        "Feature 1", features, index=home_wins_index, key="widget_2"
+    )
+    feature_2 = st.selectbox("Feature 2", features, index=pm_index,
+                             key="widget_3")
     feature_1 = undisp(feature_1)
     feature_2 = undisp(feature_2)
     fig, axes = plt.subplots(figsize=(7, 5))
     sns.scatterplot(data=data, x=feature_1, y=feature_2, ax=axes)
     plt.title(
-        f"{disp(feature_1)} vs. {disp(feature_2)}: " f"{corr_df[feature_1][feature_2]}"
+        f"{disp(feature_1)} vs. {disp(feature_2)}: "
+        f"{corr_df[feature_1][feature_2]}"
     )
     st.pyplot(fig)
     ppscore = pps_results.query("x == @feature_1 & y == @feature_2")
@@ -126,10 +131,11 @@ def page_eda_body():
         "* Only Plus/Minus Home and Pts Home have non-trivial predictive"
         " power scores with respect to Home Wins."
     )
-    st.write("These relationships address Business Requirement 1 and " 
+    st.write("These relationships address Business Requirement 1 and "
              "Hytpothesis 2.")
 
-def rep_p_val(pval:float) -> str:
+
+def rep_p_val(pval: float) -> str:
     val, exp = str(pval).split("e")
-    val = round(float(val),4)
+    val = round(float(val), 4)
     return f"{val}e{exp}"

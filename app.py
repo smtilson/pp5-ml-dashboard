@@ -1,4 +1,3 @@
-import streamlit as st
 from app_pages.multipage import MultiPage
 
 # load pages scripts
@@ -12,7 +11,7 @@ from app_pages.page_adaboost_model import page_adaboost_model_body
 from app_pages.page_logistic_model import page_logistic_model_body
 from app_pages.page_conclusions import page_conclusions_body
 
-app = MultiPage(app_name= "NBA Home Team Wins") 
+app = MultiPage(app_name="NBA Home Team Wins")
 
 # Add your app pages here using .add_page()
 app.add_page("Project Summary", page_summary_body)
@@ -25,4 +24,4 @@ app.add_page("ML: Adaptive Boost Model", page_adaboost_model_body)
 app.add_page("ML: Cluster Analysis", page_cluster_body)
 app.add_page("Project Conclusions", page_conclusions_body)
 
-app.run() # Run the  app
+app.run()  # Run the  app
