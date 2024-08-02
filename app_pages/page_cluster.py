@@ -13,6 +13,13 @@ from src.display import display_report, display_features_tree_based
 
 
 def page_cluster_body():
+    # TOC
+    st.write("* [Summary](#summary)")
+    st.write("* [Cluster Profiles](#cluster-profiles)")
+    st.write("* [Feature Distribution](#feature-distribution)")
+    st.write("* [Cluster Pipeline](#cluster-pipeline)")
+    st.write("* [Classification Pipeline](#classification-pipeline)")
+    
     # Introduction
     st.write("# Cluster Analysis")
     st.write("## Summary")
@@ -56,7 +63,6 @@ def page_cluster_body():
         "classification model performed exceedingly well, with an "
         "accuracy of 96%."
     )
-    # performance report
     st.write(
         "By examining the distribution of the features across each "
         "cluster, we can form a profile for each cluster."
@@ -101,7 +107,6 @@ def page_cluster_body():
     st.info("This is a visual representation of what we saw in the profiles "
             "above."
     )
-    # distributions of seasons
 
     st.write("### Distribution of Features by Cluster")
     st.write(
@@ -165,7 +170,7 @@ def feature_distribution_by_cluster(pair, df):
         away = pair
         home = False
     if home and away:
-        fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(4, 2))
+        fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(5, 3))
         sns.histplot(
             data=df,
             x=undisp(home),
@@ -188,7 +193,7 @@ def feature_distribution_by_cluster(pair, df):
         axes[1].set_title(f"{away}")
         st.pyplot(fig)
     elif home:
-        fig, axes = plt.subplots(nrows=1, ncols=1, figsize=(4,2))
+        fig, axes = plt.subplots(nrows=1, ncols=1, figsize=(5,3))
         sns.histplot(
             data=df,
             x=undisp(home),
@@ -201,7 +206,7 @@ def feature_distribution_by_cluster(pair, df):
         axes.set_title(f"{home}")
         st.pyplot(fig)
     elif away:
-        fig, axes = plt.subplots(nrows=1, ncols=1, figsize=(4, 2))
+        fig, axes = plt.subplots(nrows=1, ncols=1, figsize=(5, 3))
         sns.histplot(
             data=df,
             x=undisp(away),

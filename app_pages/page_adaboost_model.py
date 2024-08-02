@@ -8,6 +8,10 @@ from src.utils import get_df
 
 
 def page_adaboost_model_body():
+    # TOC
+    st.write("* [Hyperparameters](#hyperparameters)\n")
+    st.write("* [Performance Report](#performance-report)\n")
+    st.write("* [Pipeline](#pipeline)\n")
     # Introduction
     st.write("# Adaptive Boost Model")
     st.write(
@@ -44,9 +48,8 @@ def page_adaboost_model_body():
     y_TrainSet = get_df("y_TrainSet", train_dir)
     X_TestSet = get_df("X_TestSet", test_dir)
     y_TestSet = get_df("y_TestSet", test_dir)
-
     # Hyperparameters
-    st.write("### Hyperparameters")
+    st.write("## Hyperparameters")
     st.write("We considered the following hyperparameters during tuning.")
     st.write("* `algorithm = SAMME.R`: specifies the algorithm used")
     st.write("* `learning_rate = 1.133`: determines the weights for the " "estimators")

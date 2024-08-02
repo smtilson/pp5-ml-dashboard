@@ -5,9 +5,14 @@ import plotly.express as px
 import joblib
 from src.display import display_report, display_features_logistic
 from src.utils import get_df
+from src.utils import disp, undisp
 
 
 def page_logistic_model_body():
+    # TOC
+    st.write("* [Hyperparameters](#hyperparameters)\n")
+    st.write("* [Performance Report](#performance-report)\n")
+    st.write("* [Pipeline](#pipeline)\n")
     # Introduction
     st.write("# Logistic Regression Model")
     st.write(

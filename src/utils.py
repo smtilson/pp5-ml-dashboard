@@ -48,9 +48,11 @@ def disp(feature_name: str) -> str:
     new_words = [special_caps(word) for word in words]
     return " ".join(new_words)
 
-def undisp(display_name:str) -> str:
+
+def undisp(display_name: str) -> str:
     string = display_name.replace(" ", "_")
     return string.lower()
+
 
 def special_caps(string: str) -> str:
     title_words = {"plus", "home", "away"}
@@ -98,34 +100,37 @@ def get_pairs(df, threshold):
 
 
 def add_cat_date(
-    df: pd.DataFrame, date_name: str, symbol="-", year_pos=0, month_pos=1, day_pos=2
+    df: pd.DataFrame, date_name: str, symbol="-", y_pos=0, m_pos=1, d_pos=2
 ) -> pd.DataFrame:
-    # the date_name argument should be the name of the column containing the date data
-    # maybe I should take into account the format
+    # the date_name argument should be the name of the column containing the
+    # date data maybe I should take into account the format
 
     df["day"] = df.apply(
-        lambda x: int(x[date_name].split(symbol)[day_pos].split()[0]), axis=1
+        lambda x: int(x[date_name].split(symbol)[d_pos].split()[0]), axis=1
     )
-    df["month"] = df.apply(lambda x: int(x[date_name].split(symbol)[month_pos]), axis=1)
-    df["year"] = df.apply(lambda x: int(x[date_name].split(symbol)[year_pos]), axis=1)
+    df["month"] = df.apply(lambda x: int(x[date_name].split(symbol)[m_pos]), axis=1)
+    df["year"] = df.apply(lambda x: int(x[date_name].split(symbol)[y_pos]), axis=1)
     return df
 
 
-# The following are from a feature engineering notebook in the walkthrough project.abs
+# The following are from a feature engineering notebook in the walkthrough
+# project.abs
 
 
 def FeatureEngineeringAnalysis(df, analysis_type=None):
     """
     - used for quick feature engineering on numerical and categorical variables
     to decide which transformation can better transform the distribution shape
-    - Once transformed, use a reporting tool, like ydata-profiling, to evaluate distributions
+    - Once transformed, use a reporting tool, like ydata-profiling, to evaluate
+    the distributions
     """
     check_missing_values(df)
     allowed_types = ["numerical", "ordinal_encoder", "outlier_winsorizer"]
     check_user_entry_on_analysis_type(analysis_type, allowed_types)
     list_column_transformers = define_list_column_transformers(analysis_type)
 
-    # Loop in each variable and engineer the data according to the analysis type
+    # Loop in each variable and engineer the data according to the analysis
+    # type
     df_feat_eng = pd.DataFrame([])
     for column in df.columns:
         # create additional columns (column_method) to apply the methods
@@ -150,11 +155,12 @@ def check_user_entry_on_analysis_type(analysis_type, allowed_types):
     """Check analysis type"""
     if analysis_type is None:
         raise SystemExit(
-            f"You should pass analysis_type parameter as one of the following options: {allowed_types}"
+            "You should pass analysis_type parameter as one of the following "
+            f"options: {allowed_types}"
         )
     if analysis_type not in allowed_types:
         raise SystemExit(
-            f"analysis_type argument should be one of these options: {allowed_types}"
+            "analysis_type argument should be one of these options: " f"{allowed_types}"
         )
 
 
@@ -192,20 +198,11 @@ def apply_transformers(analysis_type, df_feat_eng, column):
     for col in df_feat_eng.select_dtypes(include="category").columns:
         df_feat_eng[col] = df_feat_eng[col].astype("object")
 
-    if analysis_type == "numerical":
-        df_feat_eng, list_applied_transformers = FeatEngineering_Numerical(
-            df_feat_eng, column
-        )
-
-    elif analysis_type == "outlier_winsorizer":
-        df_feat_eng, list_applied_transformers = FeatEngineering_OutlierWinsorizer(
-            df_feat_eng, column
-        )
-
-    elif analysis_type == "ordinal_encoder":
-        df_feat_eng, list_applied_transformers = FeatEngineering_CategoricalEncoder(
-            df_feat_eng, column
-        )
+    if analysis_type != "numerical":
+        raise ValueError("Only numerical analysis is implemented.")
+    df_feat_eng, list_applied_transformers = FeatEngineering_Numerical(
+        df_feat_eng, column
+    )
 
     return df_feat_eng, list_applied_transformers
 

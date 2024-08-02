@@ -10,9 +10,12 @@ from src.inspection_tools import get_matchups, get_dates, lookup_game, prepare_g
 
 
 def page_predictor_body():
-    st.write("## Predictor")
+
+    # Introduction
+    st.write("# Predictor")
     st.write("Using our two models, you can predict the outcome of a game "\
              "from the 2022-2023 season, which our models were not trained or tested on.")
+    # Load Data
     latest_season = get_df("latest_season","datasets/clean/csv")
     version = 'v1'
     file_path = f'outputs/ml_pipeline/predict_home_wins/{version}'
@@ -21,17 +24,19 @@ def page_predictor_body():
     ada_path = file_path+'/ada_pipeline.pkl'
     ada_pipe = joblib.load(filename=ada_path)
     
+    # Selection
     home_team, away_team = draw_team_selection_widget(latest_season)
     game_id, game_date = draw_game_selection_widget(latest_season, home_team, away_team)
     game_data = prepare_game_data(latest_season, game_id)
     game_data = game_data.astype("int32")
-    st.write(f"### {home_team} vs. {away_team} on {game_date}")
+    st.write(f"## {home_team} vs. {away_team} on {game_date}")
     st.write("### Game Stats")
-    st.table(game_data)
-    st.write("### Prediction")
+    st.dataframe(game_data)
+
+    # Prediction
+    st.write("## Prediction")
     st.write("Our models see a subset of the above data. See the page "\
             "related to the model in question for more details.")
-    st.write("I guess I can hard code in the links once it is deployed...")
     mode_nname = "Classifier"
     prediction = -1
     prob = None
@@ -89,5 +94,4 @@ def interpret(model_name, home_team, away_team, prediction, prob, outcome):
         msg += "\n\nOur model is **correct**!"
     else:
         msg += "\n\nOur model is **incorrect**."
-    st.write("### Prediction")
     st.write(msg)

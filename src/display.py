@@ -6,6 +6,7 @@ import seaborn as sns
 import streamlit as st
 from src.model_eval import gen_clf_report
 from src.notebook_functions import find_features
+from src.utils import get_df, disp, undisp
 
 
 def heatmap_threshold(df, threshold, figsize=(8, 8)):
@@ -68,7 +69,7 @@ def display_features_logistic(pipe, X):
         f"{df_feature_importance['Features'].to_list()}"
     )
     st.write("\n")
-    fig, axes = plt.subplots(figsize=(4, 2))
+    fig, axes = plt.subplots(figsize=(6, 2))
     sns.barplot(data=df_feature_importance, x="Features", y="Importance")
     plt.title("Feateure Importance")
     plt.xticks(rotation=70)
@@ -97,7 +98,7 @@ def display_features_tree_based(pipe, X):
         f"{df_feature_importance['Features'].to_list()}"
     )
     st.write("\n")
-    fig, axes = plt.subplots(figsize=(4, 2))
+    fig, axes = plt.subplots(figsize=(6, 2))
     sns.barplot(data=df_feature_importance, x="Features", y="Importance")
     plt.title("Feateure Importance")
     plt.xticks(rotation=70)

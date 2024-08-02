@@ -7,7 +7,13 @@ import plotly.express as px
 
 
 def page_hypothesis_1_body():
-    st.write("## Naive Feature Selection")
+    # TOC
+    st.write("* [Hypothesis 1](#hypothesis-1)")
+    st.write("* [Process](#process)")
+    st.write("* [Conclusions](#conclusion)")
+    st.write("# Naive Feature Selection")
+    # Introduction
+    st.write("## Hypothesis")
     st.write("Our first hypothesis relates to how models select features and "
              "which features the different supervised learning algorithms "
              "will prefer. The winner of a game of basketball is determined "
@@ -19,6 +25,9 @@ def page_hypothesis_1_body():
              " (point related, such as made shots) in order to construct "
              "their models.")
     st.write("\n")
+
+    # Content
+    st.write("## Process")
     st.write("To validate this hypothesis, we looked trained various models "
              "on our data and looked at which features it used. We considered"
              " the following classification models:\n"
@@ -29,22 +38,19 @@ def page_hypothesis_1_body():
              "* Extra Trees Classifier\n"
              "* Adaptive Boost Classifier\n"
              "* XGBoost Classifier\n")
-    st.write("\n")
     st.write("Specifically, we attempted to validate Hypothesis 1 by doing "
              "the following:")
     st.info("Train the above models on all features and investigate which are"
             " selected. The details can be found in notebook 05.")
-    st.write("\n")
     st.write("The 'point related' statistics are the following:\n"
-             "* `plus_minus_home (`plus_minus_away` was already removed)\n"
-             "* `pts_home`, `pts_away`\n"
-             "* `ftm_home`, `ftm_away`\n"
-             "* `fgm_home`, `fgm_away` \n"
-             "* `fg3m_home`, `fg3m_away` \n"
+             "* Plue Minus Home (`plus_minus_away` was already removed)\n"
+             "* PTS, both Home and Away\n"
+             "* FTM, both Home and Away\n"
+             "* FGM, both Home and Away\n"
+             "* FG3M, both Home and Away \n"
              "The first 2 rows are features from which the winner of the game "
              "can be directly determined. "
             )
-    st.write("\n")
     st.write("Initially, most models only used plus/minus score. Half also "
              "used total points. All models performed at 100%, as expected. "
              "After dropping plus/minus score and refitting the pipelines, "
@@ -56,7 +62,7 @@ def page_hypothesis_1_body():
              "accuracy of 84.5%. While many models used attempted shots in "
              "addition to made shots, only the Extra Trees Classifier used a "
              "feature unrelated to shots, which was total rebounds.")
-    st.write("\n")
+    st.write("## Conclusion")
     st.success("This validates Hypothesis 1. At each stage, all models "
                "gravitated towards made shots. At stage one, all models used "
                "plus/minus score. At stage two, all models used total points."
