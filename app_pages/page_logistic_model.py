@@ -71,7 +71,9 @@ def page_logistic_model_body():
 
     # Report
     st.write("## Performance Report")
-    st.write("Our Logistic Regression model exceed our business requirements.")
+    st.write("Our Logistic Regression model exceed our business requirements."
+             "Since the model performed similarly on the train and test data, "
+             "our model is generalizing well.")
     st.write("### Training Set")
     display_report(logistic_pipe_v1, X_TrainSet, y_TrainSet)
     st.write("### Test Set")
