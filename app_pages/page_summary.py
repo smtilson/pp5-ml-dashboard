@@ -1,12 +1,17 @@
 # This file follows that of the Churnometer walkthrough project
 import streamlit as st
 from src.utils import get_df
+import os
 
 # from src.data_management import load_telco_data, load_pkl_file
 
 
 def page_summary_body():
     # TOC
+    current_dir = os.getcwd()
+    parent = os.path.abspath(os.path.join(current_dir, os.pardir))
+    st.write(current_dir)
+    st.write(parent)
     st.write("* [Dataset](#dataset)")
     st.write("* [Features](#features)")
     st.write("* [Business Requirements](#business-requirements)")
