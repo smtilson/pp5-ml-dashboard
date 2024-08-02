@@ -9,7 +9,7 @@ import os
 
 
 if os.path.isfile("env.py"):
-    import env
+    import env  # noqa: F401
 BASE_DIR = os.environ.get("BASE_DIR")
 
 

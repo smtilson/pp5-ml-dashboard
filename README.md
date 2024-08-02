@@ -130,4 +130,12 @@ This assumes that you already have a Heroku account.
 8. Check that your requirements file has the appropriate files commented out.
 8. Go to the "Deploy" tab. Scroll down to "Deployment method" and select "GitHub". Search for your repository that you copied/cloned in step 1 above. Click "Connect" once you have found it. Scroll down to "Manual deploy" and click "Deploy Branch". Once the build is complete, click "View" to be taken to your deployed app. You may wish to select automatic deployment.
 
+## Testing
+
+### Validation
+To validate my python code I used flake8. In the end, the code had the following remaining issues:
+
+- It claimed the env file was imported but not used. This is incorrect, but flake8 can not tell.
+- flake8 complained about arctictern.py and make_url.py which are not files that I have edited.
+
 # Final section 

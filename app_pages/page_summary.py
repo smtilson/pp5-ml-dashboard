@@ -1,11 +1,6 @@
 # This file follows that of the Churnometer walkthrough project
 import streamlit as st
 from src.utils import get_df
-import os
-
-if os.path.isfile("env.py"):
-    import env
-BASE_DIR = os.environ.get("BASE_DIR")
 
 
 def page_summary_body():

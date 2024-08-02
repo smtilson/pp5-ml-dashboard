@@ -2,7 +2,6 @@
 import pandas as pd
 import numpy as np
 import scipy.stats as stats
-import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
 import os
@@ -12,7 +11,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 if os.path.isfile("env.py"):
-    import env
+    import env  # noqa: F401
 BASE_DIR = os.environ.get("BASE_DIR")
 
 

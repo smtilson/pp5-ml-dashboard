@@ -131,8 +131,8 @@ def page_eda_body():
         "* Only Plus/Minus Home and Pts Home have non-trivial predictive"
         " power scores with respect to Home Wins."
     )
-    st.write("These relationships address Business Requirement 1 and "
-             "Hytpothesis 2.")
+    st.success("These relationships address Business Requirement 1 and "
+               "Hytpothesis 2.")
 
 
 def rep_p_val(pval: float) -> str:
