@@ -288,9 +288,20 @@ Steps in pipeline
 #### Introduction
 Summary of clustering proceedure.
 #### Cluster Profiles
+Profile dataframe.
+Smaller profile highlighting season.
+Description of each cluster profile according to non-overlapping features.
 #### Feature Distribution
+Distribution of seasons for each cluster.
+Distribution of other features by cluster.
 #### Cluster Pipeline
+Silhouette score diagram.
+Cluster pipeline steps.
 #### Classification Pipeline
+Training process for classification pipeline.
+Performance on test set.
+Important features of classification model.
+Classification pipeline steps.
 
 ### Conclusions
 #### Introduction
