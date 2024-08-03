@@ -51,13 +51,13 @@ def page_logistic_model_body():
     st.write("## Hyperparameters")
     st.write("We considered the following hyperparameters during tuning.")
     st.write("* `solver = newton-cg`: specifies the type of algorithm used")
-    st.write("* `C = 500.5`: determines the strength of the penalty function")
+    st.write("* `C = 1000`: determines the strength of the penalty function")
     st.write(
         "* `penalty = l2`: determines which penalty function will be used (not"
         " all penalty functions work for each solver)."
     )
     st.write(
-        "* `threshold = 0.77`: the cutoff threshold for feature selection "
+        "* `threshold = 0.81`: the cutoff threshold for feature selection "
         "based on correlation coefficient"
     )
     st.write(

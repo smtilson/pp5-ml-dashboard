@@ -50,9 +50,9 @@ def page_adaboost_model_body():
     st.write("## Hyperparameters")
     st.write("We considered the following hyperparameters during tuning.")
     st.write("* `algorithm = SAMME.R`: specifies the algorithm used")
-    st.write("* `learning_rate = 1.133`: determines the weights for the "
+    st.write("* `learning_rate = 1`: determines the weights for the "
              "estimators")
-    st.write("* `n_estimators = 110`: the number of Decision Trees used.")
+    st.write("* `n_estimators = 105`: the number of Decision Trees used.")
     st.write(
         "* `threshold = 0.8`: the cutoff threshold for feature selection "
         "based on correlation coefficient"
