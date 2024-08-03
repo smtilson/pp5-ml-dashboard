@@ -15,7 +15,6 @@ BASE_DIR = os.environ.get("BASE_DIR")
 
 def page_cluster_body():
     # TOC
-    st.write("* [Summary](#summary)")
     st.write("* [Cluster Profiles](#cluster-profiles)")
     st.write("* [Feature Distribution](#feature-distribution)")
     st.write("* [Cluster Pipeline](#cluster-pipeline)")
@@ -23,7 +22,6 @@ def page_cluster_body():
 
     # Introduction
     st.write("# Cluster Analysis")
-    st.write("## Summary")
     st.write(
         "We removed the season feature and trained a K-Means model. Then"
         " we trained a classification algorithm on the data with season "

@@ -75,7 +75,8 @@ def page_eda_body():
     st.pyplot(fig)
     st.write(
         "Notice that there is a certain symmetry when interchanging the "
-        "roles home and away."
+        "roles home and away. These distributions look normal but are not. We "
+        "will be able to normalize some of them."
     )
 
     st.write("## Correlation and Predictive Power score\n")
@@ -110,13 +111,14 @@ def page_eda_body():
         f"{corr_df[feature_1][feature_2]}"
     )
     st.pyplot(fig)
+    st.write("These scatter plots help us understand if there is a "
+             "relationship between the features.")
     ppscore = pps_results.query("x == @feature_1 & y == @feature_2")
     ppscore = round(ppscore["ppscore"].iloc[0], 4)
     st.write(
         "The respective Predictive Power scores are: \n"
         f"* {disp(feature_1)} influences {disp(feature_2)}: {ppscore}\n "
     )
-
     st.write("### Some interesting relationships:")
     st.write("* Year and 3 point shots (made as well as attempted)")
     st.write(

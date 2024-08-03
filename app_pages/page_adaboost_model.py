@@ -76,15 +76,16 @@ def page_adaboost_model_body():
     display_report(ada_pipe_v1, X_TestSet, y_TestSet)
     st.success(
         "We are quite happy with our model. It has an average precision of "
-        "86.97% and an accuracy of 87.44%. During our search, it felt like "
-        "we were approaching the limit of what the model was capable of. "
-        "Please see our notebook Tuning Hyperparameters for more details."
+        "86.28% and an accuracy of 86.60% on the test set. During our search, "
+        "it felt like we were approaching the limit of what the model was"
+        " capable of. Please see our notebook Tuning Hyperparameters for more "
+        "details."
     )
     st.success("This validates Hypothesis 3.")
     st.write("## Pipeline")
     st.write("### Important Features")
     st.info(
-        "Tree based models come with an `feature_importance_` attribute "
+        "Tree based models come with a `feature_importance_` attribute "
         "that we can access after they have been trained."
     )
     st.write(
@@ -97,5 +98,7 @@ def page_adaboost_model_body():
         "features we removed during the model selection process."
     )
     display_features_tree_based(ada_pipe_v1, X_TrainSet)
+    st.write("We see that defensive rebounds and turnovers are the most "
+             "important feature.")
     st.write("### Pipeline Steps")
     st.write(ada_pipe_v1)

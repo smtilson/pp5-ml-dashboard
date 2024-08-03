@@ -48,7 +48,7 @@ def page_summary_body():
 
     st.write("## Features")
     st.write(
-        "- `game_id`: a unique identifier of each game record, also "
+        "- game_id: a unique identifier of each game record, also "
         "contains data about which season it is a member of.\n"
         "- Season: how many seasons after the 1985-1986 season the game "
         "occured during..\n"
@@ -79,10 +79,9 @@ def page_summary_body():
         "- PF Home: number of personal fouls the home team commited.\n"
         "- PTS Home: total points scored by the home team.\n"
         "- Plus Minus Home: point total of home team minus point total "
-        "of away team.\n"
-        "The `_away` statistics have the same meaning, but for the "
-        "opposing team."
-    )
+        "of away team.")
+    st.write("The `_away` statistics have the same meaning, but for the "
+             "opposing team.")
 
     st.write("## Business Requirements")
     st.info(

@@ -2,15 +2,15 @@
 [NBA Home Team]() is a machine learning (ML) project aimed at gaining insight into NBA statistics and building ML pipelines that can predict the outcome of games. We used publicly available data to build two classification pipelines and one clustering pipeline. The two classification pipelines give insight into which statistics may be undervalued when assessing future performance. We also clustered the data to see if the statistics could be used to determine which era of basketball a game belonged to.
 
 ## Table of Contents
-- Dataset
-- Business Requirements and Hypotheses
-- Mapping Business Requirements
-- ML Business Case
-- Epics and User Stories
-- Dashboard Design
-- Testing
-- Deployment
-- References
+- [Dataset](#dataset)
+- [Business Requirements and Hypotheses](#business-requirements-and-hypotheses)
+- [Mapping Business Requirements](#mapping-business-requirements)
+- [ML Business Case](#ml-business-case)
+- [Epics and User Stories](#epics-and-user-stories)
+- [Dashboard Design](#dashboard-design)
+- [Testing](#testing)
+- [Deployment](#development)
+- [References](#references)
 
 
 ## Dataset
@@ -86,7 +86,7 @@ The NBA is the premier basketball league in the world. A fictional online fantas
   - **Validation**: train a clustering model with time removed and use a classification model with time added back to determine the profile of the clusters.
 
 
-# Second to last section
+
 ## Mapping Business Requirements
 **Business Requirement 1**:
 
@@ -106,16 +106,201 @@ The NBA is the premier basketball league in the world. A fictional online fantas
 - This will be done in the **Classification** epic.
 
 **Business Requirement 3**:
-- Business Requirement 3: The client has asked us for a clustering model in order to determine if meaningful trends can be detected by these methods.
-- We need to cluster the data and determine any relationship between the clusters and season.
+- We need to cluster the data and determine any relationship between the clusters and seasons.
 - We will determine the proper number of clusters using the Elbow method and Silhouette scores.
 - We will use a standard clustering pipline with PCA to train our initial clustering.
 - We will use a classification pipeline to determine the most important features of the clusters and determine an initial profile.
-- Using the important features, we will refit the cluster pipeline, refit the classification pipeline, and inspect the important features of the classification to determine the profile of the clusters.
+- We will drop the unimportant features, refit the clustering pipeline, 
+ and refit the classification pipeline.
+- We will use the refit classification to determine a profile by looking at where the features are most distinct among the clusters.
+- We will also look at how the season feature is distributed with respect to each cluster.
 - This will be done in the **Clustering** epic. 
 
-## ML Business Case
+[TOC](#table-of-contents)
 
+## ML Business Case
+### Classification Model
+- We want a ML model to predict whether or not the home team wins based on "less obvious statistics" (this means we exclude plus/minus score, total points, and made shots for both home and away teams). the home team winning will be represented as 1 while the home team losing will be represented as 0.
+- We will consider classification models (supervised learning) with a two class single label output that matches the target.
+- Our goal is a model with:
+  - average precision (between win and loss) of 75%
+  - accuracy of 70%
+- The model will be considered a failure if it fails to achieve these scores. A success will validate Hypothesis 3 and satisfy Business requirement 2.
+- The training data to fit the model comes from Kaggle and is described throughly in the [Dataset](#dataset) section of this document.
+
+### Clustering Model
+- We want a ML model to cluster the game data in order to see if the statistics reflect eras of basketball.
+- We will consider a KMeans clustering model (unsupervised learning).
+- We will use a standard clustering pipeline, including principle component analysis.
+- We will train our clustering model on the dataset with season removed.
+- Our goal is to find the profiles of the clusters and determine their profiles, this will satisfy Business requirement 3.
+- To find the profiles of the clusters, we will use a classification model with a multi-class single label output matching targeting the cluster of the data.
+- This model will be trained on the same data with season added back in.
+- The profiles will be computed by looking at Q1-Q3 of the distributions of each feature with respect to the cluster.
+- We will have validated our Hypothesis if in the final profile of the clusters the season range of each cluster have minimal overlap.
+
+[TOC](#table-of-contents)
+
+## Epics and User Stories
+
+- The project was split into 6 epics based on the ML tasks and within each of these we completed user stories and used the agile methodology.
+
+Epic - Data Collection
+* User story - As a **data analyst**, I can import  the dataset from Kaggle so that I can save the data in a local directory.
+
+* User Story - As a **data analyst**, I can load a saved dataset so that I can analyse the data to gain insights on what further tasks may be required.
+
+Epic - Data Visualization, Cleaning, and EDA
+* User Story - As a **data scientist**, I can visualise the dataset so that I can interpret which attributes correlate most closely with wins (Business Requirement 1 and Hypothesis 2).
+
+* User Story - As a **data analyst**, I can inspect the dataset to determine what data cleaning tasks should be done.
+
+* User Story - As a **data analyst**, I can test the feature distributions to see if they are normal distributions.
+
+* User Story - As a **data analyst**, I can impute or drop missing data to prepare the dataset.
+
+* User Story - As a **non-technical user**, I can visually inspect the distributions and see relationships between features indicated by correlation coefficients and Predicitve Power score.
+
+Epic - Classification Model: Training, Optimization and Validation
+* User Story - As a **data scientist**, I can split the data into a train and test set to prepare it for the ML model.
+
+* User Story - As a **data analyst**, I can determine how to transform the features in order to normalize them.
+
+* User Story - As a **data engineer**, I can fit a ML pipeline with all the data to prepare the ML model for deployment.
+
+* User Story - As a **data scientist**, I can look at the features used by the models in order to determine which are important (Hypothesis 1).
+
+* User Story - As a **data engineer**, I can determine the best algorithm for predicting wins to use in the ML model (Business Requirement 2 and Hypothesis 3).
+
+* User Story - As a **data engineer**, I can carry out an extensive hyperparameter optimisation to ensure the ML model gives the best results (Business Requirement 2 and Hypothesis 3).
+
+* User Story - As a **data scientist**, I can evaluate the model's performance to determine whether it has met our goals for predicting wins (Business Requirement 2 and Hypothesis 3).
+
+Epic - Clustering Model: Training and Evaluation
+
+* User Story - As a **data engineer**, I can determine the number of principal components to use in my pipeline.
+
+* User Story - As a **data engineer**, I can determine the number of clusters to use in my pipeline using the Elbow method and the Silhouette scores.
+
+* User Story - As a **data scientist**, I can use a classification model to predict the clusters games belong to.
+
+* User Story - As a **data engineer**, I can use the classification model to determine the important features for the clustering model.
+
+* User Story - As a **data scientist**, I can use the classification model to produce a profile for the clusters.
+
+* User Story - As a **data scientist**, I can use the profiles to determine if the clusters are related to era (Business Requirement 3 and Hypothesis 4).
+
+Epic - Dashboard Planning, Design, and Development
+
+* User Story - As a **non-technical user**, I can view the project sumamry that describes the project and aspects of it.
+
+* User Story - As a **non-technical user**, I can view the business requirements, hypotheses, and validations to determine how successful the project was.
+
+* User Story - As a **non-technical user**, I can select games the models have not seen and use the models to predict the outcome.
+
+* User Story - As a **technical user**, I can visualize the distributions of the features as well as their correlation, and Predictive Power score (Business Requirement 1 and Hypothesis 2).
+
+* User Story - As a **technical user**, I can view the details of the models and see how they performed on the data (Business Requirement 2  and 3, as well as Hypothesis 3 and 4).
+
+* User Story - As a **non-technical user**, I can examine the profiles of the different clusters and visualize the distributions of the features across ecah cluster.
+
+* User Story - As a **non-technical user**, I can read the conclusions of the project and determine if the hypotheses were validated and if the business requirements were met.
+
+Epic - Deployment
+
+* User Story - As a **user**, I can view the project dashboard on a live website.
+
+* User Story - As a **technical user**, I can learn the details of the project by following along in jupyter notebooks.
+
+[TOC](#table-of-contents)
+
+## Dashboard Design
+
+### Summary
+#### Introduction
+Smmary of project and motiviation.
+#### Dataset
+Sample of dataset, link to source.
+#### Features
+Meaning of the different statistics.
+#### Business Requirements
+Description of individual business requirements.
+
+### EDA
+#### Introduction
+Different approaches taken during EDA part of project.
+#### Feature Distribution
+Results of Normality testing, plots of distributions colored by target.
+#### Correlation and Predictive Power Score
+Correlation coefficients and scatterplots of pairs of features as well as their Predicitve Power score.
+Highlight interesting relationships found during EDA.
+
+### Predictor
+Select games from most recent season in dataset.
+See the game statistics.
+Predict outcome and evaluate prediciton with either model.
+
+### Hypotheses and Validation
+#### Business Requirements
+Description of individual business requirements.
+#### Hypotheses
+Statement of each hypothesis along with method of validation.
+Specifies page on dashboard where user can see the validation.
+#### Results
+Summary of results.
+
+### ML: Naive Feature Selection
+#### Hypothesis 1
+Statment of hypothesis.
+#### Process
+Outline of validation method.
+Report on findings.
+#### Conclusion
+Summary of results.
+
+### ML: Logistic Regression Model
+#### Introduction
+Restatement of Business Requirement 2.
+Interesting findings.
+#### Hyperparameters
+Explanation of hyperparameters that were tuned.
+Outline of search process.
+#### Performance Report
+Evaluation of final model
+#### Pipeline
+Important features and their importance
+Steps in pipeline
+
+### ML: Adaptive Boost Model
+#### Introduction
+Restatement of Business Requirement 2.
+Interesting findings.
+#### Hyperparameters
+Explanation of hyperparameters that were tuned.
+Outline of search process.
+#### Performance Report
+Evaluation of final model
+#### Pipeline
+Important features and their importance
+Steps in pipeline
+
+### ML: Cluster Analysis
+#### Introduction
+Summary of clustering proceedure.
+#### Cluster Profiles
+#### Feature Distribution
+#### Cluster Pipeline
+#### Classification Pipeline
+
+### Conclusions
+#### Introduction
+Summary of results.
+#### Business Requirements
+Explanation of how the business requirements were satisfied.
+#### Project Outcomes
+Summary of outcome.
+Shortcomings.
+Future directions.
 
 ## Deployment
 This assumes that you already have a Heroku account.

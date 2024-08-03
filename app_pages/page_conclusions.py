@@ -23,12 +23,15 @@ def page_conclusions_body():
         f"  * {disp('dreb_home')}\n"
         f"  * {disp('ast_away')}\n"
         "Through training our classification models we found that REB "
-        "Home and DREB Home were influential statistics."
+        "Home and DREB Home were influential statistics.")
+    st.success(
         "- **Business Requirement 2**: This requirement was met by "
         "training two models. Our Logistic Regression model has an "
         "average precision of 87.64% and an accuracy of 87.93%. Our "
         "Adaptive Boost model has an average precision of 86.97% and "
         "an accuracy of 87.44%."
+    )
+    st.success(
         "- **Business Requirement 3**: This requirement was met by "
         "clustering the data and examining the profiles of said "
         "clusters. The range of seasons for each cluster were "

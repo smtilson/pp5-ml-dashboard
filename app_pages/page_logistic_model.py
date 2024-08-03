@@ -80,9 +80,9 @@ def page_logistic_model_body():
     display_report(logistic_pipe_v1, X_TestSet, y_TestSet)
     st.success(
         "We are quite happy with our model. It has an average precision of "
-        "87.64% and an accuracy of 87.93%. We feel that we were approaching "
-        "the limit of what the model was capable of. Please see our notebook "
-        "Tuning Hyperparameters for more details."
+        "87.64% and an accuracy of 87.93% on the test set. We feel that we "
+        "were approaching the limit of what the model was capable of. Please "
+        "see our notebook Tuning Hyperparameters for more details."
     )
     st.write("## Pipeline")
     st.write("### Important Features")
@@ -101,5 +101,7 @@ def page_logistic_model_body():
         "features we removed during the model selection process."
     )
     display_features_logistic(logistic_pipe_v1, X_TrainSet)
+    st.write("We see that total rebounds of the home team are noticeably more "
+             "impactful than total rebounds for the whole team.")
     st.write("### Pipeline Steps")
     st.write(logistic_pipe_v1)
