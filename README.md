@@ -338,17 +338,38 @@ I did not validate any other code as the app is built with streamlit and so it g
 
 
 ## References
+### Influences
+
+* I want to thank Mo, my excellent mentor. He was very helpful in multiple ways. He helped me focus on attainable goals, addressed questions I had, and provided me with instructive examples such as [this project](https://github.com/jfpaliga/CVD-predictor?tab=readme-ov-file#technologies-used), which I used for inspiration and guidance in terms of structure.
+
+* I learned a lot doing the Churnometer walkthrough project. I borrowed some functions directly for the analysis of transformations and important features, this is mentioned in the notebooks and code.
+
+* I gained a lot from talking with my fellow students Tarek and Tariq.
+
+* I spent time talking to my friend Louis Casinelli about basketball. He gave me helpful insight as he is more knowledgable on the topic.
+
 
 ### Technologies Used
 Python was the main technology used as well as various Machine Learning libraries.
 
 - Python Packages: streamlit, altair, pandas, matplotlib, seaborn, ydata-profiling, feature-engine, scikit-learn, protobuf, yellowbrick, Jinja2, MarkupSafe, pingouin, ppscore, ipywidgets, ipython, xgboost, and numpy
 
-### Websites
+- flake8 for python validation.
+
+- Documentation for pandas, scikit-learn, 
+
+### Specific Links
 #### StackOverflow
 - [Duplicating git repo](https://stackoverflow.com/questions/6613166/how-to-duplicate-a-git-repository-without-forking)
 - [Suppress warnings 1](https://stackoverflow.com/questions/52224813/python-warnings-filterwarnings-does-not-ignore-deprecationwarning-from-import-s) and [Suppress warnings 2](https://stackoverflow.com/questions/879173/how-to-ignore-deprecation-warnings-in-python)
 - [Finding importance of features for Logistic Regression model](https://stackoverflow.com/questions/34052115/how-to-find-the-importance-of-the-features-for-a-logistic-regression-model)
+- [All estimators in grid search](https://stackoverflow.com/questions/65359261/can-you-get-all-estimators-from-an-sklearn-grid-search-gridsearchcv)
+- [Iterating over dataframe rows](https://stackoverflow.com/questions/16476924/how-can-i-iterate-over-rows-in-a-pandas-dataframe)
+- [Checking for nan values](https://stackoverflow.com/questions/944700/how-to-check-for-nan-values)
+- [String dict to dict](https://stackoverflow.com/questions/988228/convert-a-string-representation-of-a-dictionary-to-a-dictionary)
+- [Modify pipeline parameters](https://stackoverflow.com/questions/63963914/change-a-parameter-of-a-sklearn-pipeline)
+- [Yellowbrick import error](https://stackoverflow.com/questions/65602076/yellowbrick-importerror-cannot-import-name-safe-indexing-from-sklearn-utils)
+- [Rotate tick labels in seaborn](https://stackoverflow.com/questions/31859285/rotate-tick-labels-for-seaborn-barplot)
 
 #### Other
 - [Kaggle: Wyatt Walsh's Dataset](https://www.kaggle.com/datasets/wyattowalsh/basketball)
@@ -357,5 +378,9 @@ Python was the main technology used as well as various Machine Learning librarie
 - [Conditionally delete pandas rows](https://saturncloud.io/blog/python-pandas-conditionally-delete-rows/#:~:text=We%20can%20aslo%20use%20the,met%2C%20similar%20to%20boolean%20indexing)
 - [Normality and Jarque Bera Test](https://groups.google.com/g/pystatsmodels/c/ILPrX08Fl08)
 - [Tuning Adaptive Boost models](https://medium.com/@chaudhurysrijani/tuning-of-adaboost-with-computational-complexity-8727d01a9d20)
+- [Predictive Power score](https://macrosynergy.com/research/the-predictive-power-score/)
+- [Hyperparameters for classification models](https://machinelearningmastery.com/hyperparameters-for-classification-machine-learning-algorithms/)
+- [Approaching ML problems](https://www.linkedin.com/pulse/approaching-almost-any-machine-learning-problem-abhishek-thakur/)
+- [Plot multiple graphs](https://learnt.io/blog/how-to-plot-multiple-graphs-in-python/)
 
 # Final section 
