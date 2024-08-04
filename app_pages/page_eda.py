@@ -65,14 +65,14 @@ def page_eda_body():
         fig, axes = plt.subplots(figsize=(12, 5))
         score = rep_p_val(normality_scores.loc[feature]["pval"])
         sns.histplot(data=data, x=feature, kde=True, hue="home_wins", ax=axes[0])
-        axes[0].set_title(f"\n{disp(feature)} p-value = {score}")
+        plt.title(f"\n{disp(feature)} p-value = {score}")
         st.pyplot(fig)
     elif feature_dist == "Home Wins":
         feature = "home_wins"
         fig, axes = plt.subplots(figsize=(12, 5))
         score = rep_p_val(normality_scores.loc[feature]["pval"])
         sns.histplot(data=data, x=feature, kde=True, hue="home_wins", ax=axes[0])
-        axes[0].set_title(f"\n{disp(feature)} p-value = {score}")
+        plt.title(f"\n{disp(feature)} p-value = {score}")
         st.pyplot(fig)
     else:
         home_feat = feature_dist.lower() + "_home"

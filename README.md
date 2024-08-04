@@ -466,6 +466,8 @@ A lot of debugging took place during the writing of the notebooks and was theref
 * Bug: During the generation of Profile Reports by ydata package, I got the error "Error rendering output item using 'jupyter-ipywidget-renderer'".
   * Fix: This error was addressed by running the notebooks in the browser with gitpod instead of on my laptop remotely using gitpod.
 
+* Bug: Some tables on the EDA page were not displaying.
+  * Fix: The function I was using was not taking care of the edge cases `home_wins` and `plus_minus_home`.
 
 #### Bugs Left In
 
