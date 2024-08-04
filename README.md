@@ -182,7 +182,7 @@ Epic - Clustering Model: Training and Evaluation
 
 * User Story (E4US02) - As a **data engineer**, I can determine the number of clusters to use in my pipeline using the Elbow method and the Silhouette scores.
 
-* User Story (E4US03) - As a **data scientist**, I can use a classification model to predict the clusters games belong to.
+* User Story (E4US03) - C
 
 * User Story (E4US04) - As a **data engineer**, I can use the classification model to determine the important features for the clustering model.
 
@@ -327,6 +327,9 @@ This assumes that you already have a Heroku account.
 8. Go to the "Deploy" tab. Scroll down to "Deployment method" and select "GitHub". Search for your repository that you copied/cloned in step 1 above. Click "Connect" once you have found it. Scroll down to "Manual deploy" and click "Deploy Branch". Once the build is complete, click "View" to be taken to your deployed app. You may wish to select automatic deployment.
 
 ## Testing
+
+### Responsiveness and Accessibility
+As the front end of this project is done completely with streamlit, responsiveness was out of oour control as was accessibility, and so we did not address these issues.
 
 ### Manual Testing
 
