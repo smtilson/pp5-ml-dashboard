@@ -143,74 +143,74 @@ The NBA is the premier basketball league in the world. A fictional online fantas
 
 ## Epics and User Stories
 
-- The project was split into 6 epics based on the ML tasks and within each of these we completed user stories and used the agile methodology.
+- The project was split into 6 epics based on the ML tasks. Within each of these Epics, we completed user stories and used the agile methodology.
 
 Epic - Data Collection
-* User story - As a **data analyst**, I can import  the dataset from Kaggle so that I can save the data in a local directory.
+* User story (E1US01) - As a **data analyst**, I can import  the dataset from Kaggle so that I can save the data in a local directory.
 
-* User Story - As a **data analyst**, I can load a saved dataset so that I can analyse the data to gain insights on what further tasks may be required.
+* User Story (E1US02) - As a **data analyst**, I can load a saved dataset so that I can analyse the data to gain insights on what further tasks may be required.
 
 Epic - Data Visualization, Cleaning, and EDA
-* User Story - As a **data scientist**, I can visualise the dataset so that I can interpret which attributes correlate most closely with wins (Business Requirement 1 and Hypothesis 2).
+* User Story (E2US01) - As a **data scientist**, I can visualise the dataset so that I can interpret which attributes correlate most closely with wins (Business Requirement 1 and Hypothesis 2).
 
-* User Story - As a **data analyst**, I can inspect the dataset to determine what data cleaning tasks should be done.
+* User Story (E2US02) - As a **data analyst**, I can inspect the dataset to determine what data cleaning tasks should be done.
 
-* User Story - As a **data analyst**, I can test the feature distributions to see if they are normal distributions.
+* User Story (E2US03) - As a **data analyst**, I can test the feature distributions to see if they are normal distributions.
 
-* User Story - As a **data analyst**, I can impute or drop missing data to prepare the dataset.
+* User Story (E2US04) - As a **data analyst**, I can impute or drop missing data to prepare the dataset.
 
-* User Story - As a **non-technical user**, I can visually inspect the distributions and see relationships between features indicated by correlation coefficients and Predicitve Power score.
+* User Story (E2US05) - As a **non-technical user**, I can visually inspect the distributions and see relationships between features indicated by correlation coefficients and Predicitve Power score.
 
 Epic - Classification Model: Training, Optimization and Validation
-* User Story - As a **data scientist**, I can split the data into a train and test set to prepare it for the ML model.
+* User Story (E3US01) - As a **data scientist**, I can split the data into a train and test set to prepare it for the ML model.
 
-* User Story - As a **data analyst**, I can determine how to transform the features in order to normalize them.
+* User Story (E3US02) - As a **data analyst**, I can determine how to transform the features in order to normalize them.
 
-* User Story - As a **data engineer**, I can fit a ML pipeline with all the data to prepare the ML model for deployment.
+* User Story (E3US03) - As a **data engineer**, I can fit a ML pipeline with all the data to prepare the ML model for deployment.
 
-* User Story - As a **data scientist**, I can look at the features used by the models in order to determine which are important (Hypothesis 1).
+* User Story (E3US04) - As a **data scientist**, I can look at the features used by the models in order to determine which are important (Hypothesis 1).
 
-* User Story - As a **data engineer**, I can determine the best algorithm for predicting wins to use in the ML model (Business Requirement 2 and Hypothesis 3).
+* User Story (E3US05) - As a **data engineer**, I can determine the best algorithm for predicting wins to use in the ML model (Business Requirement 2 and Hypothesis 3).
 
-* User Story - As a **data engineer**, I can carry out an extensive hyperparameter optimisation to ensure the ML model gives the best results (Business Requirement 2 and Hypothesis 3).
+* User Story (E3US06) - As a **data engineer**, I can carry out an extensive hyperparameter optimisation to ensure the ML model gives the best results (Business Requirement 2 and Hypothesis 3).
 
-* User Story - As a **data scientist**, I can evaluate the model's performance to determine whether it has met our goals for predicting wins (Business Requirement 2 and Hypothesis 3).
+* User Story (E3US07) - As a **data scientist**, I can evaluate the model's performance to determine whether it has met our goals for predicting wins (Business Requirement 2 and Hypothesis 3).
 
 Epic - Clustering Model: Training and Evaluation
 
-* User Story - As a **data engineer**, I can determine the number of principal components to use in my pipeline.
+* User Story (E4US01) - As a **data engineer**, I can determine the number of principal components to use in my pipeline.
 
-* User Story - As a **data engineer**, I can determine the number of clusters to use in my pipeline using the Elbow method and the Silhouette scores.
+* User Story (E4US02) - As a **data engineer**, I can determine the number of clusters to use in my pipeline using the Elbow method and the Silhouette scores.
 
-* User Story - As a **data scientist**, I can use a classification model to predict the clusters games belong to.
+* User Story (E4US03) - As a **data scientist**, I can use a classification model to predict the clusters games belong to.
 
-* User Story - As a **data engineer**, I can use the classification model to determine the important features for the clustering model.
+* User Story (E4US04) - As a **data engineer**, I can use the classification model to determine the important features for the clustering model.
 
-* User Story - As a **data scientist**, I can use the classification model to produce a profile for the clusters.
+* User Story (E4US05) - As a **data scientist**, I can use the classification model to produce a profile for the clusters.
 
-* User Story - As a **data scientist**, I can use the profiles to determine if the clusters are related to era (Business Requirement 3 and Hypothesis 4).
+* User Story (E4US06) - As a **data scientist**, I can use the profiles to determine if the clusters are related to era (Business Requirement 3 and Hypothesis 4).
 
 Epic - Dashboard Planning, Design, and Development
 
-* User Story - As a **non-technical user**, I can view the project sumamry that describes the project and aspects of it.
+* User Story (E5US01) - As a **non-technical user**, I can view the project sumamry that describes the project and aspects of it.
 
-* User Story - As a **non-technical user**, I can view the business requirements, hypotheses, and validations to determine how successful the project was.
+* User Story (E5US02) - As a **non-technical user**, I can view the business requirements, hypotheses, and validations to determine how successful the project was.
 
-* User Story - As a **non-technical user**, I can select games the models have not seen and use the models to predict the outcome.
+* User Story (E5US03) - As a **non-technical user**, I can select games the models have not seen and use the models to predict the outcome.
 
-* User Story - As a **technical user**, I can visualize the distributions of the features as well as their correlation, and Predictive Power score (Business Requirement 1 and Hypothesis 2).
+* User Story (E5US04) - As a **technical user**, I can visualize the distributions of the features as well as their correlation, and Predictive Power score (Business Requirement 1 and Hypothesis 2).
 
-* User Story - As a **technical user**, I can view the details of the models and see how they performed on the data (Business Requirement 2  and 3, as well as Hypothesis 3 and 4).
+* User Story (E5US05) - As a **technical user**, I can view the details of the models and see how they performed on the data (Business Requirement 2  and 3, as well as Hypothesis 3 and 4).
 
-* User Story - As a **non-technical user**, I can examine the profiles of the different clusters and visualize the distributions of the features across ecah cluster.
+* User Story (E5US06) - As a **non-technical user**, I can examine the profiles of the different clusters and visualize the distributions of the features across ecah cluster.
 
-* User Story - As a **non-technical user**, I can read the conclusions of the project and determine if the hypotheses were validated and if the business requirements were met.
+* User Story (E5US07) - As a **non-technical user**, I can read the conclusions of the project and determine if the hypotheses were validated and if the business requirements were met.
 
 Epic - Deployment
 
-* User Story - As a **user**, I can view the project dashboard on a live website.
+* User Story (E6US01) - As a **user**, I can view the project dashboard on a live website.
 
-* User Story - As a **technical user**, I can learn the details of the project by following along in jupyter notebooks.
+* User Story (E6US02) - As a **technical user**, I can learn the details of the project by following along in jupyter notebooks.
 
 [TOC](#table-of-contents)
 
@@ -327,6 +327,64 @@ This assumes that you already have a Heroku account.
 8. Go to the "Deploy" tab. Scroll down to "Deployment method" and select "GitHub". Search for your repository that you copied/cloned in step 1 above. Click "Connect" once you have found it. Scroll down to "Manual deploy" and click "Deploy Branch". Once the build is complete, click "View" to be taken to your deployed app. You may wish to select automatic deployment.
 
 ## Testing
+
+### Manual Testing
+
+#### Jupyter Notebooks
+Jupyter notebooks were tested by running all cells consecutively. The following User Stories were tested in through the Jupyter notebook:
+* E1US01, E1US02
+* E2US01-E2US05
+* E3US01-E3US07
+* E4US01-E4US06
+
+
+
+#### Streamlit App
+Streamlit app was tested manually using user stories. We tested the User Stories from Epics 5 and Epic 6.
+
+Navigation
+| Feature                           | Action        | Expected Resukt | Success |
+| --------------------------------- | ------------- | --------------- | ------- |
+| Project Summary                   | Click on link | Taken to page   | Yes     |
+| Exploratory Data Analysis         | Click on link | Taken to page   | Yes     |
+| Predictor                         | Click on link | Taken to page   | Yes     |
+| Project Hypotheses and Validation | Click on link | Taken to page   | Yes     |
+| ML: Naive Feature Selection       | Click on link | Taken to page   | Yes     |
+| ML: Logistic Regression Model     | Click on link | Taken to page   | Yes     |
+| ML: Adaptive Boost Model          | Click on link | Taken to page   | Yes     |
+| ML: Cluster Analysis              | Click on link | Taken to page   | Yes     |
+| Project Conclusions               | Click on link | Taken to page   | Yes     |
+
+Epic - Dashboard Planning, Design, and Development
+
+* User Story (E5US01) - As a **non-technical user**, I can view the project sumamry that describes the project and aspects of it.
+| Feature                     | Action                           | Expected Resukt                                                       | Success |
+| --------------------------- | -------------------------------- | --------------------------------------------------------------------- | ------- |
+| Project Summary page        |                                  |                                                                       |         |
+| Description of methods      | View summary page                | Get descripting of methods                                            | Yes     |
+| View Dataset                | Click Dataset link               | Taken to Dataset section and see sample data                          | Yes     |
+| Dataset Feature description | Click Features link              | Taken to Features section and read feature descriptions               | Yes     |
+| Business Requirements       | Click Business Requirements link | Taken to Business Requirements section and read business requirements | Yes     |
+
+* User Story (E5US02) - As a **non-technical user**, I can view the business requirements, hypotheses, and validations to determine how successful the project was.
+
+
+* User Story (E5US03) - As a **non-technical user**, I can select games the models have not seen and use the models to predict the outcome.
+
+* User Story (E5US04) - As a **technical user**, I can visualize the distributions of the features as well as their correlation, and Predictive Power score (Business Requirement 1 and Hypothesis 2).
+
+* User Story (E5US05) - As a **technical user**, I can view the details of the models and see how they performed on the data (Business Requirement 2  and 3, as well as Hypothesis 3 and 4).
+
+* User Story (E5US06) - As a **non-technical user**, I can examine the profiles of the different clusters and visualize the distributions of the features across ecah cluster.
+
+* User Story (E5US07) - As a **non-technical user**, I can read the conclusions of the project and determine if the hypotheses were validated and if the business requirements were met.
+
+Epic - Deployment
+
+* User Story (E6US01) - As a **user**, I can view the project dashboard on a live website.
+
+* User Story (E6US02) - As a **technical user**, I can learn the details of the project by following along in jupyter notebooks.
+
 
 ### Validation
 To validate my python code I used flake8. In the end, the code had the following remaining issues:

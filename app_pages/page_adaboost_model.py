@@ -77,9 +77,10 @@ def page_adaboost_model_body():
     st.success(
         "We are quite happy with our model. It has an average precision of "
         "86.28% and an accuracy of 86.60% on the test set. During our search, "
-        "it felt like we were approaching the limit of what the model was"
-        " capable of. Please see our notebook Tuning Hyperparameters for more "
-        "details."
+        "it felt like we were approaching the limit of what the model was "
+        "capable of. Please see our notebook Tuning Hyperparameters for more "
+        "details.  [Here](https://github.com/smtilson/pp5-ml-dashboard) is a "
+        "link to the github repository."
     )
     st.success("This validates Hypothesis 3.")
     st.write("## Pipeline")

@@ -24,8 +24,8 @@ def page_summary_body():
         "We used various techniques from machine learning to address the"
         " business concerns. We performed exploratory data analysis, "
         "trained classification models, and trained a clustering model. "
-        "Please see [NBA Home Team Wins]() for more details about the "
-        "project."
+        "Please see [NBA Home Team Wins](https://github.com/smtilson/pp5-ml-"
+        "dashboard) for more details about the project."
     )
 
     # load data

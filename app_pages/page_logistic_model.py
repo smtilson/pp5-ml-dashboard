@@ -82,7 +82,9 @@ def page_logistic_model_body():
         "We are quite happy with our model. It has an average precision of "
         "87.64% and an accuracy of 87.93% on the test set. We feel that we "
         "were approaching the limit of what the model was capable of. Please "
-        "see our notebook Tuning Hyperparameters for more details."
+        "see our notebook Tuning Hyperparameters for more details. [Here]"
+        "(https://github.com/smtilson/pp5-ml-dashboard) is a link to the "
+        "github repository."
     )
     st.write("## Pipeline")
     st.write("### Important Features")

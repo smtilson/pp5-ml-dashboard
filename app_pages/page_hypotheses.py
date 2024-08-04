@@ -77,3 +77,5 @@ def page_hypotheses_body():
         "methods in this app. We have also provided some visualizations "
         "of our results and a predictor using our two final pipelines."
     )
+    st.info( "[Here](https://github.com/smtilson/pp5-ml-dashboard) is a link "
+             "to the github repository.")

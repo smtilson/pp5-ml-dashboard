@@ -11,7 +11,9 @@ def page_conclusions_body():
     st.write(
         "The project was a success as we were able to validate all of "
         "our hypohteses. We were able to deploy a predictor for games "
-        "which the classification models have not yet seen."
+        "which the classification models have not yet seen. More can be found "
+        "at our [github repository](https://github.com/smtilson/pp5-ml-"
+        "dashboard)."
     )
     st.write("## Business Requirements")
     st.success(
