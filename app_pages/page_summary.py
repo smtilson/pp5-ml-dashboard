@@ -48,8 +48,7 @@ def page_summary_body():
 
     st.write("## Features")
     st.write(
-        "- game_id: a unique identifier of each game record, also "
-        "contains data about which season it is a member of.\n"
+        "- Game ID: a unique identifier of each game record.\n"
         "- Season: how many seasons after the 1985-1986 season the game "
         "occured during..\n"
         "- Home Wins: 1 if the home team won, 0 if the away team won.\n"

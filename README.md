@@ -24,14 +24,14 @@ We will discus the features we focused on in detail in the next section. We rest
 - occurred during the regular season or the playoffs,
 - occurred during or after the 1985-1986 season.
 
-The reason for excluding preseason games is twofold. Many athletes do not take preseason games seriously since they do not count towards who enters the playoff tournament. Also, they can include exhibition games with teams outside of the NBA.
+The reason for excluding preseason games is twofold. Many players do not take preseason games seriously since they do not count towards who enters the playoff tournament. Also, they can include exhibition games with teams outside of the NBA.
 
-When looking at the data, much of the records of the early game is missing. Many key statistics, by todays understanding of the game, were not kept track of whatsoever (such as rebounds). There was also no 3 point line in the earlier days of the NBA. In 1976, there was a merger between the ABA and the NBA. 4 teams were added as well as many players. The style of play changed as well. In 1979, the NBA added the 3 point line, a feature of the ABA. We felt that this marked a reasonable time frame to cut off the data at. However, we chose the 1985 cut off because the data got significantly better. This can be seen in notebook 02. Before 1985, there were approximately 10,000 missing values per season. From 1985 onwards, there are 0 (for the features we are interested in). This was the most compelling argument for us to use this cut off. It also left us with the records of more than 40,000 games, which was sufficient for our analysis.
+When looking at the data, the early games have many missing statistics. For example, rebounds, a key statistic in todays understanding of the game, were not kept track of whatsoever. There was also no 3 point line in the earlier days of the NBA. In 1976, there was a merger between the ABA and the NBA. 4 teams were added as well as many players. This naturally impacted the style of play. In 1979, the NBA added the 3 point line, a feature of the ABA. We felt that this marked a reasonable time frame to cut off the data at. However, we chose the 1985 cut off because the data got significantly better. This can be seen in notebook 02. Before 1985, there were approximately 10,000 missing values per season. From 1985 onwards, there are 0 (for the features we are interested in). This was the most compelling argument for us to use this cut off. It also left us with the records of more than 40,000 games, which was sufficient for our analysis.
 
-We removed the games from the 2022-2023 season so that users could use our model to predict the outcome of games from that season without the model having already seen that data.
+We removed the games from the 2022-2023 season so that users could use our model to predict the outcome of games that are completely unseen.
 
 ### Feature set
-Many of the excluded features of the dataset contain metadata, such as whether or not there is video available or what the abbreviation is of the two teams. Some of the data is redundant, such as the percentage based statistics. As we know the number of attempted shots and the number of made shots, the percentage of made shots is a redundant feature. Here is a list of the remaining features and the meaning of the column name.
+Many of the excluded features of the dataset contain metadata, such as whether or not there is video available or what the abbreviation is of the two teams. Some of the data is redundant, such as the percentage based statistics (if we know the number of made and attempted shots, we can sompute the percentage). Here is a list of the remaining features and the meaning of the column name.
 
 - `game_id`: a unique identifier of each game record, also contains data about which season it is a member of.
 - `season_id`: identifies which season and which type of game (playoffs or regular season) the record is for.
@@ -143,175 +143,149 @@ The NBA is the premier basketball league in the world. A fictional online fantas
 
 ## Epics and User Stories
 
-- The project was split into 6 epics based on the ML tasks. Within each of these Epics, we completed user stories and used the agile methodology.
+The project was split into 6 epics based on the ML tasks. Within each of these Epics, we completed user stories and used the agile methodology.
 
 Epic - Data Collection
 * User story (E1US01) - As a **data analyst**, I can import  the dataset from Kaggle so that I can save the data in a local directory.
-
 * User Story (E1US02) - As a **data analyst**, I can load a saved dataset so that I can analyse the data to gain insights on what further tasks may be required.
 
 Epic - Data Visualization, Cleaning, and EDA
 * User Story (E2US01) - As a **data scientist**, I can visualise the dataset so that I can interpret which attributes correlate most closely with wins (Business Requirement 1 and Hypothesis 2).
-
 * User Story (E2US02) - As a **data analyst**, I can inspect the dataset to determine what data cleaning tasks should be done.
-
 * User Story (E2US03) - As a **data analyst**, I can test the feature distributions to see if they are normal distributions.
-
 * User Story (E2US04) - As a **data analyst**, I can impute or drop missing data to prepare the dataset.
-
 * User Story (E2US05) - As a **non-technical user**, I can visually inspect the distributions and see relationships between features indicated by correlation coefficients and Predicitve Power score.
 
 Epic - Classification Model: Training, Optimization and Validation
 * User Story (E3US01) - As a **data scientist**, I can split the data into a train and test set to prepare it for the ML model.
-
 * User Story (E3US02) - As a **data analyst**, I can determine how to transform the features in order to normalize them.
-
 * User Story (E3US03) - As a **data engineer**, I can fit a ML pipeline with all the data to prepare the ML model for deployment.
-
 * User Story (E3US04) - As a **data scientist**, I can look at the features used by the models in order to determine which are important (Hypothesis 1).
-
 * User Story (E3US05) - As a **data engineer**, I can determine the best algorithm for predicting wins to use in the ML model (Business Requirement 2 and Hypothesis 3).
-
 * User Story (E3US06) - As a **data engineer**, I can carry out an extensive hyperparameter optimisation to ensure the ML model gives the best results (Business Requirement 2 and Hypothesis 3).
-
 * User Story (E3US07) - As a **data scientist**, I can evaluate the model's performance to determine whether it has met our goals for predicting wins (Business Requirement 2 and Hypothesis 3).
 
 Epic - Clustering Model: Training and Evaluation
-
 * User Story (E4US01) - As a **data engineer**, I can determine the number of principal components to use in my pipeline.
-
 * User Story (E4US02) - As a **data engineer**, I can determine the number of clusters to use in my pipeline using the Elbow method and the Silhouette scores.
-
-* User Story (E4US03) - C
-
+* User Story (E4US03) - As a **data scientist**, I can use a classification model to predict the clusters games belong to.
 * User Story (E4US04) - As a **data engineer**, I can use the classification model to determine the important features for the clustering model.
-
 * User Story (E4US05) - As a **data scientist**, I can use the classification model to produce a profile for the clusters.
-
 * User Story (E4US06) - As a **data scientist**, I can use the profiles to determine if the clusters are related to era (Business Requirement 3 and Hypothesis 4).
 
 Epic - Dashboard Planning, Design, and Development
-
 * User Story (E5US01) - As a **non-technical user**, I can view the project sumamry that describes the project and aspects of it.
-
 * User Story (E5US02) - As a **non-technical user**, I can view the business requirements, hypotheses, and validations to determine how successful the project was.
-
 * User Story (E5US03) - As a **non-technical user**, I can select games the models have not seen and use the models to predict the outcome.
-
 * User Story (E5US04) - As a **technical user**, I can visualize the distributions of the features as well as their correlation, and Predictive Power score (Business Requirement 1 and Hypothesis 2).
-
 * User Story (E5US05) - As a **technical user**, I can view the details of the models and see how they performed on the data (Business Requirement 2  and 3, as well as Hypothesis 3 and 4).
-
 * User Story (E5US06) - As a **non-technical user**, I can examine the profiles of the different clusters and visualize the distributions of the features across ecah cluster.
-
 * User Story (E5US07) - As a **non-technical user**, I can read the conclusions of the project and determine if the hypotheses were validated and if the business requirements were met.
 
 Epic - Deployment
-
 * User Story (E6US01) - As a **user**, I can view the project dashboard on a live website.
-
 * User Story (E6US02) - As a **technical user**, I can learn the details of the project by following along in jupyter notebooks.
 
 [TOC](#table-of-contents)
 
 ## Dashboard Design
 
-### Summary
-#### Introduction
-Smmary of project and motiviation.
-#### Dataset
-Sample of dataset, link to source.
-#### Features
-Meaning of the different statistics.
-#### Business Requirements
-Description of individual business requirements.
+* Summary Page
+  * Introduction
+    - Summary of project and motiviation.
+  * Dataset
+    - Sample of dataset, link to source.
+  * Features
+    - Meaning of the different statistics.
+  * Business Requirements
+    - Description of individual business requirements.
 
-### EDA
-#### Introduction
-Different approaches taken during EDA part of project.
-#### Feature Distribution
-Results of Normality testing, plots of distributions colored by target.
-#### Correlation and Predictive Power Score
-Correlation coefficients and scatterplots of pairs of features as well as their Predicitve Power score.
-Highlight interesting relationships found during EDA.
+* EDA
+  * Introduction
+    - Different approaches taken during EDA part of project.
+  * Feature Distribution
+    - Results of Normality testing, plots of distributions colored by target.
+  * Correlation and Predictive Power Score
+    - Correlation coefficients and scatterplots of pairs of features as well as their Predicitve Power score.
+    - Highlight interesting relationships found during EDA.
 
-### Predictor
-Select games from most recent season in dataset.
-See the game statistics.
-Predict outcome and evaluate prediciton with either model.
+* Predictor
+    - Select games from most recent season in dataset.
+    - See the game statistics.
+    - Predict outcome and evaluate prediciton with either model.
 
-### Hypotheses and Validation
-#### Business Requirements
-Description of individual business requirements.
-#### Hypotheses
-Statement of each hypothesis along with method of validation.
-Specifies page on dashboard where user can see the validation.
-#### Results
-Summary of results.
+* Hypotheses and Validation
+  * Business Requirements
+    - Description of individual business requirements.
+  * Hypotheses
+    - Statement of each hypothesis along with method of validation.
+    - Specifies page on dashboard where user can see the validation.
+  * Results
+    - Summary of results.
 
-### ML: Naive Feature Selection
-#### Hypothesis 1
-Statment of hypothesis.
-#### Process
-Outline of validation method.
-Report on findings.
-#### Conclusion
-Summary of results.
+* ML: Naive Feature Selection
+  * Hypothesis 1
+    - Statment of hypothesis.
+  * Process
+    - Outline of validation method.
+    - Report on findings.
+  * Conclusion
+    - Summary of results.
 
-### ML: Logistic Regression Model
-#### Introduction
-Restatement of Business Requirement 2.
-Interesting findings.
-#### Hyperparameters
-Explanation of hyperparameters that were tuned.
-Outline of search process.
-#### Performance Report
-Evaluation of final model
-#### Pipeline
-Important features and their importance
-Steps in pipeline
+* ML: Logistic Regression Model
+  * Introduction
+    - Restatement of Business Requirement 2.
+    - Interesting findings.
+  * Hyperparameters
+    - Explanation of hyperparameters that were tuned.
+    - Outline of search process.
+  * Performance Report
+    - Evaluation of final model
+  * Pipeline
+    - Important features and their importance
+    - Steps in pipeline
 
-### ML: Adaptive Boost Model
-#### Introduction
-Restatement of Business Requirement 2.
-Interesting findings.
-#### Hyperparameters
-Explanation of hyperparameters that were tuned.
-Outline of search process.
-#### Performance Report
-Evaluation of final model
-#### Pipeline
-Important features and their importance
-Steps in pipeline
+* ML: Adaptive Boost Model
+  * Introduction
+    - Restatement of Business Requirement 2.
+    - Interesting findings.
+  * Hyperparameters
+    - Explanation of hyperparameters that were tuned.
+    - Outline of search process.
+  * Performance Report
+    - Evaluation of final model
+  * Pipeline
+    - Important features and their importance
+    - Steps in pipeline
 
-### ML: Cluster Analysis
-#### Introduction
-Summary of clustering proceedure.
-#### Cluster Profiles
-Profile dataframe.
-Smaller profile highlighting season.
-Description of each cluster profile according to non-overlapping features.
-#### Feature Distribution
-Distribution of seasons for each cluster.
-Distribution of other features by cluster.
-#### Cluster Pipeline
-Silhouette score diagram.
-Cluster pipeline steps.
-#### Classification Pipeline
-Training process for classification pipeline.
-Performance on test set.
-Important features of classification model.
-Classification pipeline steps.
+* ML: Cluster Analysis
+  * Introduction
+    - Summary of clustering proceedure.
+  * Cluster Profiles
+    - Profile dataframe.
+    - Smaller profile highlighting season.
+    - Description of each cluster profile according to non-overlapping features.
+  * Feature Distribution
+    - Distribution of seasons for each cluster.
+    - Distribution of other features by cluster.
+  * Cluster Pipeline
+    - Silhouette score diagram.
+    - Cluster pipeline steps.
+  * Classification Pipeline
+    - Training process for classification pipeline.
+    - Performance on test set.
+    - Important features of classification model.
+    - Classification pipeline steps.
 
-### Conclusions
-#### Introduction
-Summary of results.
-#### Business Requirements
-Explanation of how the business requirements were satisfied.
-#### Project Outcomes
-Summary of outcome.
-Shortcomings.
-Future directions.
+* Conclusions
+  * Introduction
+    - Summary of results.
+  * Business Requirements
+    - Explanation of how the business requirements were satisfied.
+  * Project Outcomes
+    - Summary of outcome.
+    - Shortcomings.
+    - Future directions.
 
 ## Deployment
 This assumes that you already have a Heroku account.
@@ -327,7 +301,6 @@ This assumes that you already have a Heroku account.
 8. Go to the "Deploy" tab. Scroll down to "Deployment method" and select "GitHub". Search for your repository that you copied/cloned in step 1 above. Click "Connect" once you have found it. Scroll down to "Manual deploy" and click "Deploy Branch". Once the build is complete, click "View" to be taken to your deployed app. You may wish to select automatic deployment.
 
 ## Testing
-
 ### Responsiveness and Accessibility
 As the front end of this project is done completely with streamlit, responsiveness was out of oour control as was accessibility, and so we did not address these issues.
 
@@ -347,6 +320,7 @@ Note, some were also tested in the addressed in the Streamlit app.
 Streamlit app was tested manually using user stories. We tested the User Stories from Epics 5 and Epic 6.
 
 Navigation
+
 | Feature                           | Action        | Expected Result | Success |
 | --------------------------------- | ------------- | --------------- | ------- |
 | Project Summary                   | Click on link | Taken to page   | Yes     |
@@ -362,6 +336,7 @@ Navigation
 Epic - Dashboard Planning, Design, and Development
 
 * User Story (E5US01) - As a **non-technical user**, I can view the project sumamry that describes the project and aspects of it.
+
 | Feature                     | Action                           | Expected Result                                                       | Success |
 | --------------------------- | -------------------------------- | --------------------------------------------------------------------- | ------- |
 | Project Summary page        |                                  |                                                                       |         |
@@ -371,6 +346,7 @@ Epic - Dashboard Planning, Design, and Development
 | Business Requirements       | Click Business Requirements link | Taken to Business Requirements section and read business requirements | Yes     |
 
 * User Story (E5US02) - As a **non-technical user**, I can view the business requirements, hypotheses, and validations to determine how successful the project was.
+
 | Feature                                | Action                           | Expected Result                                                       | Success |
 | -------------------------------------- | -------------------------------- | --------------------------------------------------------------------- | ------- |
 | Project Hypotheses and Validation page |                                  |                                                                       |         |
@@ -379,6 +355,7 @@ Epic - Dashboard Planning, Design, and Development
 | View Results Summary                   | Click Results link               | Taken to Results section and read summary of results                  | Yes     |
 
 * User Story (E5US03) - As a **non-technical user**, I can select games the models have not seen and use the models to predict the outcome.
+
 | Feature                        | Action                                       | Expected Result                     | Success |
 | ------------------------------ | -------------------------------------------- | ----------------------------------- | ------- |
 | Predictor page                 |                                              |                                     |         |
@@ -389,6 +366,7 @@ Epic - Dashboard Planning, Design, and Development
 | Adaptive Boost Prediction      | Click Predict with Adaptive Boost Classifier | Prediction displayed,and evalutated | Yes     |
 
 * User Story (E5US04) - As a **technical user**, I can visualize the distributions of the features as well as their correlation, and Predictive Power score (Business Requirement 1 and Hypothesis 2).
+
 | Feature                          | Action                                            | Expected Result                                                                          | Success |
 | -------------------------------- | ------------------------------------------------- | ---------------------------------------------------------------------------------------- | ------- |
 | EDA page                         |                                                   |                                                                                          |         |
