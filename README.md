@@ -456,6 +456,50 @@ To validate my python code I used flake8. In the end, the code had the following
 
 I did not validate any other code as the app is built with streamlit and so it generates all relevant HTML and JavaScript. 
 
+### Bugs
+
+#### Bugs Fixed
+A lot of debugging took place during the writing of the notebooks and was therefore not documented.
+
+* Bug: Streamlit not loading anything other than basic text and select boxes.
+  * Fix: The plot was not loading because I wasn't using the proper streamlit commands.
+
+* Bug: qq-plots stopped working.
+  * Fix: This was due to a change in the versions of some of the packages. In order to fix this, I used SciPy instead to generate the same plots instead of Pingouin.
+
+* Bug: Jarque-Bera test for normality no longer working.
+  * Fix: This was due to a change in the versions of some of the packages. I used SciePy to do the test and generated custom code to produce a result similar to what Pingouin was producing.
+
+* Bug: The find_feature is producing kept and drop lists that overlap.
+  * Fix: Something was being added to one of the lists in the incorrect conditional statement.
+
+* Bug: When visualizing the Elbow method or the Silhouette scores with yellowbrick, there is a missing font warning/notification.
+  * Fix: Changing the versions of certain packages addressed this.
+
+* Bug: When trying to do a grid search, I got the error Nonetype object has no attribute set_params.
+  * Fix: I was using the default base estimator and didn't realize that if I wanted to modify the parameters of the internal base estimator I needed to still pass the base estimetor to the Adaptive Boost model. Note, this is no longer relevant since I did not work with parameters of the base estimator for the Adaptive Boost model.
+
+* Bug: Grid search produced hundreds of warnings such as FutureWarning and DataConversionWarning.
+  * Fix: I found multiple solutions but none of them seemed to work on their own. In the end, I combined suppressing the warnings using the warning package, using logging to capture the warnings, and setting an environment variable.
+
+* Bug: During the generation of Profile Reports by ydata package, I got the error "Error rendering output item using 'jupyter-ipywidget-renderer'".
+  * Fix: This error was addressed by running the notebooks in the browser with gitpod instead of on my laptop remotely using gitpod.
+
+
+#### Bugs Left In
+
+* Bug: Prediction button sometimes redirects to Summary page.
+  * Reason for leaving in: No error or warning message is given and the bug is not consistently reproducible. Navigating back to the Predictor page and trying again yields a successful prediction.
+
+* Bug: Some notebooks, like 07, become quite slow.
+  * Reason for leaving in: I can not figure out the cause of this. temporary fix seems to be making a copy of the notebook file and working with the copy. I tried looking online, contacting Tutor Support, and the Predictive Analytics slack channel. Tutor Support was unable to help and the request on the predictive analytics channel did not generate a single reply.
+
+* Bug: The data set is missing regular season data from the 2012-2013 season.
+  * Reason for leaving in: This is not entirely a bug. It was noticed only during notebook 07. I did not retrieve the missing data and add it to the dataset because working with the NBA api is out of the scope of the project and I didn't feel it significantly impacted the results of the project.
+
+
+
+
 
 ## References
 ### Influences
@@ -470,13 +514,23 @@ I did not validate any other code as the app is built with streamlit and so it g
 
 
 ### Technologies Used
-Python was the main technology used as well as various Machine Learning libraries.
+Python was the main technology used as well as various Machine Learning libraries. I made extensive use of Jupyter Notebooks to document and construct the project. I also used Streamlit to build a web app and Heroku to host said app.
 
 - Python Packages: streamlit, altair, pandas, matplotlib, seaborn, ydata-profiling, feature-engine, scikit-learn, protobuf, yellowbrick, Jinja2, MarkupSafe, pingouin, ppscore, ipywidgets, ipython, xgboost, and numpy
 
 - flake8 for python validation.
 
-- Documentation for pandas, scikit-learn, 
+- Documentation for pandas, scikit-learn, pingouin, scipy, and streamlit.
+
+- Google Docs spreadsheets and [Table to Markdown](https://tabletomarkdown.com/convert-spreadsheet-to-markdown/) to make the markdown tables in the testing section.
+
+- Github and Git for verison control.
+
+- VScode and Gitpod as development environments.
+
+- Codeium and Sorcery as advanced auto-complete tools.
+
+- Black to format python.
 
 ### Specific Links
 #### StackOverflow
