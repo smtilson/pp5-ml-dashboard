@@ -1,5 +1,5 @@
 # NBA Home Team
-[NBA Home Team]() is a machine learning (ML) project aimed at gaining insight into NBA statistics and building ML pipelines that can predict the outcome of games. We used publicly available data to build two classification pipelines and one clustering pipeline. The two classification pipelines give insight into which statistics may be undervalued when assessing future performance. We also clustered the data to see if the statistics could be used to determine which era of basketball a game belonged to.
+[NBA Home Team](https://pp5-ml-dashboard-2d67a903a4d3.herokuapp.com/#results) is a machine learning (ML) project aimed at gaining insight into NBA statistics and building ML pipelines that can predict the outcome of games. We used publicly available data to build two classification pipelines and one clustering pipeline. The two classification pipelines give insight into which statistics may be undervalued when assessing future performance. We also clustered the data to see if the statistics could be used to determine which era of basketball a game belonged to.
 
 ## Table of Contents
 - [Dataset](#dataset)
@@ -316,7 +316,7 @@ Future directions.
 ## Deployment
 This assumes that you already have a Heroku account.
 
-1. Copy/Clone the repository on github. Check the requirements file and comment or uncomment packages based one whether or not you wish to execute the notebooks or deploy to heroku.
+1. Copy/Clone the repository on github. Check the requirements file and uncomment the relevant packages in order to install the necessary libraries for running the notebooks. Before deploying to Heroku, remember to comment out these packages.
 2. Log in to your Heroku account.
 3. From the Heroku Dashboard, click the dropdown menu "New" and select "Create new app".
 4. Choose a unique name for your app, shoose the appropriate region, and then click "Create app".
@@ -333,5 +333,29 @@ To validate my python code I used flake8. In the end, the code had the following
 
 - It claimed the env file was imported but not used. This is incorrect, but flake8 can not tell.
 - flake8 complained about arctictern.py and make_url.py which are not files that I have edited.
+
+I did not validate any other code as the app is built with streamlit and so it generates all relevant HTML and JavaScript. 
+
+
+## References
+
+### Technologies Used
+Python was the main technology used as well as various Machine Learning libraries.
+
+- Python Packages: streamlit, altair, pandas, matplotlib, seaborn, ydata-profiling, feature-engine, scikit-learn, protobuf, yellowbrick, Jinja2, MarkupSafe, pingouin, ppscore, ipywidgets, ipython, xgboost, and numpy
+
+### Websites
+#### StackOverflow
+- [Duplicating git repo](https://stackoverflow.com/questions/6613166/how-to-duplicate-a-git-repository-without-forking)
+- [Suppress warnings 1](https://stackoverflow.com/questions/52224813/python-warnings-filterwarnings-does-not-ignore-deprecationwarning-from-import-s) and [Suppress warnings 2](https://stackoverflow.com/questions/879173/how-to-ignore-deprecation-warnings-in-python)
+- [Finding importance of features for Logistic Regression model](https://stackoverflow.com/questions/34052115/how-to-find-the-importance-of-the-features-for-a-logistic-regression-model)
+
+#### Other
+- [Kaggle: Wyatt Walsh's Dataset](https://www.kaggle.com/datasets/wyattowalsh/basketball)
+- [Reddit: Importance of preseason](https://www.reddit.com/r/nba/comments/173gab7/does_nba_preseason_actually_matter/)
+- [Wikipedia: ABA and NBA merger](https://en.wikipedia.org/wiki/ABA%E2%80%93NBA_merger#ABA_contributions_to_NBA_play)
+- [Conditionally delete pandas rows](https://saturncloud.io/blog/python-pandas-conditionally-delete-rows/#:~:text=We%20can%20aslo%20use%20the,met%2C%20similar%20to%20boolean%20indexing)
+- [Normality and Jarque Bera Test](https://groups.google.com/g/pystatsmodels/c/ILPrX08Fl08)
+- [Tuning Adaptive Boost models](https://medium.com/@chaudhurysrijani/tuning-of-adaboost-with-computational-complexity-8727d01a9d20)
 
 # Final section 
