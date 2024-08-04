@@ -51,7 +51,7 @@ def undisp(display_name: str) -> str:
 
 
 def special_caps(string: str) -> str:
-    title_words = {"plus", "home", "away"}
+    title_words = {"plus", "home", "away", "wins"}
     if len(string) <= 4 and string not in title_words:
         return string.upper()
     else:
