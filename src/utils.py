@@ -6,9 +6,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import os
 from feature_engine import transformation as vt
-import warnings
 
-warnings.filterwarnings("ignore")
 
 if os.path.isfile("env.py"):
     import env  # noqa: F401
@@ -113,8 +111,8 @@ def add_cat_date(
     return df
 
 
-# The following are from the feature engineering notebook in the walkthrough
-# project with minor modifications.
+# All following functions are from the feature engineering notebook in the
+# Churnometer walkthrough project with minor modifications.
 def FeatureEngineeringAnalysis(df):
     """
     - used for quick feature engineering on numerical variables

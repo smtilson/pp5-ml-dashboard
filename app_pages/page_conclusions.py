@@ -56,4 +56,3 @@ def page_conclusions_body():
             "dimensional representations of the data where individual teams "
             "and players are encoded. There is a lot more to explore in this "
             "data.")
-    

@@ -18,6 +18,7 @@ def display_report(pipe, X, Y, label_map=None):
     st.dataframe(performance)
 
 
+# Inspired by code from the Churnometer walkthrough
 def display_features_logistic(pipe, X):
     coefficients = pipe["model"].coef_[0]
     try:
@@ -55,6 +56,7 @@ def display_features_logistic(pipe, X):
     st.dataframe(df_feature_importance)
 
 
+# Inspired by code from the Churnometer walkthrough
 def display_features_tree_based(pipe, X):
     try:
         initial_drop = pipe.steps[0][1].features_to_drop_

@@ -485,9 +485,11 @@ A lot of debugging took place during the writing of the notebooks and was theref
 ## References
 ### Influences
 
-* I want to thank Mo, my excellent mentor. He was very helpful in multiple ways. He helped me focus on attainable goals, addressed questions I had, and provided me with instructive examples such as [this project](https://github.com/jfpaliga/CVD-predictor?tab=readme-ov-file#technologies-used), which I used for inspiration and guidance in terms of structure.
+* I want to thank Mo, my excellent mentor. He was very helpful in multiple ways. He helped me focus on attainable goals, addressed questions I had, and provided me with instructive examples.
 
-* I learned a lot doing the Churnometer walkthrough project. I borrowed some functions directly for the analysis of transformations and important features, this is mentioned in the notebooks and code.
+* [This project](https://github.com/jfpaliga/CVD-predictor?tab=readme-ov-file#technologies-used) was an inspirational guide. It helped with understanding the CRISP-DM framework as well as how to structure user stories for such a project. I did use it as an example of how to structure certain things.
+
+* I learned a lot doing the Churnometer walkthrough project. I borrowed some functions directly for the analysis of transformations and important features, this is mentioned in the notebooks and code. The methodology for many of the pipelines that I built was taken from this project.
 
 * I gained a lot from talking with my fellow students Tarek and Tariq.
 
@@ -537,5 +539,3 @@ Python was the main technology used as well as various Machine Learning librarie
 - [Hyperparameters for classification models](https://machinelearningmastery.com/hyperparameters-for-classification-machine-learning-algorithms/)
 - [Approaching ML problems](https://www.linkedin.com/pulse/approaching-almost-any-machine-learning-problem-abhishek-thakur/)
 - [Plot multiple graphs](https://learnt.io/blog/how-to-plot-multiple-graphs-in-python/)
-
-# Final section 

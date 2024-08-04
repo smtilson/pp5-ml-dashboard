@@ -1,7 +1,6 @@
 # These functions are explicitly for inspecting the various dataframes we
 # encounter.
 import pandas as pd
-import io
 from src.utils import disp
 
 
@@ -19,30 +18,6 @@ def cutoff_year(season_id: int, cutoff: int) -> bool:
         raise ValueError("season_id is too long.")
     year = int(year_str)
     return year >= cutoff
-
-
-# This was gotten from the StackOverflow answer at
-# https://stackoverflow.com/questions/70748529/how-to-save-pandas-info-function-output-to-variable-or-data-frame
-def get_info_df(df: pd.DataFrame) -> pd.DataFrame:
-    buffer = io.StringIO()
-    df.info(buf=buffer)
-    lines = buffer.getvalue().splitlines()
-    df = (
-        pd.DataFrame([x.split() for x in lines[5:-2]],
-                     columns=lines[3].split())
-        .drop("Count", axis=1)
-        .rename(columns={"Non-Null": "Non-Null Count"})
-    )
-    return df
-
-
-def info_dtype_dict(df: pd.DataFrame) -> dict:
-    info_df = get_info_df(df)
-    return {row["Column"]: row["Dtype"] for index, row in info_df.iterrows()}
-
-
-def get_season_df(df, beginning_year) -> pd.DataFrame:
-    return  # df.query(f'season_id in []')
 
 
 def season_data(game_df) -> pd.DataFrame:
@@ -63,32 +38,6 @@ def season_data(game_df) -> pd.DataFrame:
         lambda x: season_type_dict[x["season_id"]], axis=1
     )
     return season_data
-
-
-def reduce_corr_df(df_corr, threshold):
-    for col in df_corr.columns:
-        try:
-            maxi = df_corr[col].nlargest(2)[1]
-        except Exception as e:
-            print(df_corr[col].nlargest(2))
-            raise e
-        mini = df_corr[col].min()
-        # print(col,mini,maxi,threshold)
-        if max(abs(maxi), abs(mini)) < threshold:
-            # print('removing', col)
-            df_corr.drop(col, axis=1, inplace=True)
-    for row in df_corr.index:
-        try:
-            maxi = df_corr.loc[row].nlargest(2)[1]
-        except Exception as e:
-            print(df_corr.loc[row].nlargest(2))
-            raise e
-        mini = df_corr.loc[row].min()
-        # print(row,mini,maxi,threshold)
-        if max(abs(maxi), abs(mini)) < threshold:
-            # print('removing', row)
-            df_corr.drop(row, axis=0, inplace=True)
-    return df_corr
 
 
 def get_matchups(df, team_1, team_2):

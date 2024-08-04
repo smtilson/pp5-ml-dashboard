@@ -34,6 +34,8 @@ def find_features(X_train, fitted_pipe, initial_drop):
     return list(X.columns), auto_dropped + feat_selected_dropped
 
 
+# Function inspired by similar function for tree based models below which is
+# taken from the SciKit learn lessons
 def feature_importance_logistic_regression(pipe, step_name,
                                            X_TrainSet, initial_drop):
     coefficients = pipe[step_name].coef_[0]

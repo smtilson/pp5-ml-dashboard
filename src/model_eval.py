@@ -26,24 +26,6 @@ def get_best_scores(grid_collection):
         print()
 
 
-def get_best_params(grid):
-    res = (
-        pd.DataFrame(grid.cv_results_)
-        .sort_values(by=["mean_test_precision", "mean_test_accuracy"],
-                     ascending=False)
-        .filter(["params", "mean_test_precision", "mean_test_accuracy"])
-        .values
-    )
-    print("Best parameters for current model:")
-    for i in range(3):
-        params = res[i][0]
-        for key, value in params.items():
-            print(f"{key.split('__')[1]}: {value}")
-        print(f"Avg. Precision: {res[0][1]*100}%.")
-        print(f"Avg. Accuracy: {res[0][2]*100}%.")
-        print()
-
-
 def get_best_params_df(df, display_num=3):
     res = (
         df.sort_values(
@@ -182,21 +164,6 @@ def evaluate_param_on_test_set(pipe, X_test, y_test):
     accuracy = accuracy_score(y_test, y_pred)
     precision = precision_score(y_test, y_pred)
     return ((precision, accuracy), pipe.param_dict)
-
-
-def evaluate_and_sort(fitted_pipes, X_test, y_test):
-    evaluations = []
-    for pipe in fitted_pipes:
-        evaluations.append(evaluate_param_on_test_set(pipe, X_test, y_test))
-
-    evaluation_dict = {eval[0]: eval[1] for eval in evaluations}
-    sorted_eval_dict = {
-        k: v
-        for k, v in sorted(
-            evaluation_dict.items(), key=lambda item: item[0], ascending=False
-        )
-    }
-    return sorted_eval_dict
 
 
 # Taken from Churnometer Walkthrough project
