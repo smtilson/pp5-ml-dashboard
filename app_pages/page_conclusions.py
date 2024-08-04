@@ -40,13 +40,20 @@ def page_conclusions_body():
         "concentrated (Q1-Q3) in non-overlapping ranges."
     )
     st.write("## Project Outcomes")
-    st.info(
-        "The models performed well. I would have liked to have done a more"
-        " extensive hyperparameter search. I also would have liked to try "
-        "different base estimators for the Adaptive Boost model, but this "
-        "did not work. In the future, I would like to try and forecast "
-        "wins by treating the data as a time series. I would also to look "
-        "at higher dimensional representations of the data where "
-        "individual teams and players are encoded. There is a lot more to "
-        "explore in this data."
+    st.success(
+        "In this project, we produced a correlation study, 2 classification "
+        "pipelines to predict which team won, a clustering pipeline to group "
+        "games, and profiles of these clusters. All of the models performed "
+        "well. Our analysis of the data successfully satisfied our business "
+        "requirements and validated our hypotheses."
     )
+    st.write("#### Future Directions")
+    st.info("I would have liked to have done a more extensive hyperparameter "
+            "search. I also would have liked to try different base estimators "
+            "for the Adaptive Boost model, but this did not work. In the "
+            "future, I would like to try and forecast wins by treating the "
+            "data as a time series. I would also to look at higher "
+            "dimensional representations of the data where individual teams "
+            "and players are encoded. There is a lot more to explore in this "
+            "data.")
+    

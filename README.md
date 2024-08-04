@@ -336,14 +336,15 @@ Jupyter notebooks were tested by running all cells consecutively. The following 
 * E2US01-E2US05
 * E3US01-E3US07
 * E4US01-E4US06
+* E6US02
 
-
+Note, some were also tested in the addressed in the Streamlit app.
 
 #### Streamlit App
 Streamlit app was tested manually using user stories. We tested the User Stories from Epics 5 and Epic 6.
 
 Navigation
-| Feature                           | Action        | Expected Resukt | Success |
+| Feature                           | Action        | Expected Result | Success |
 | --------------------------------- | ------------- | --------------- | ------- |
 | Project Summary                   | Click on link | Taken to page   | Yes     |
 | Exploratory Data Analysis         | Click on link | Taken to page   | Yes     |
@@ -358,7 +359,7 @@ Navigation
 Epic - Dashboard Planning, Design, and Development
 
 * User Story (E5US01) - As a **non-technical user**, I can view the project sumamry that describes the project and aspects of it.
-| Feature                     | Action                           | Expected Resukt                                                       | Success |
+| Feature                     | Action                           | Expected Result                                                       | Success |
 | --------------------------- | -------------------------------- | --------------------------------------------------------------------- | ------- |
 | Project Summary page        |                                  |                                                                       |         |
 | Description of methods      | View summary page                | Get descripting of methods                                            | Yes     |
@@ -367,23 +368,84 @@ Epic - Dashboard Planning, Design, and Development
 | Business Requirements       | Click Business Requirements link | Taken to Business Requirements section and read business requirements | Yes     |
 
 * User Story (E5US02) - As a **non-technical user**, I can view the business requirements, hypotheses, and validations to determine how successful the project was.
-
+| Feature                                | Action                           | Expected Result                                                       | Success |
+| -------------------------------------- | -------------------------------- | --------------------------------------------------------------------- | ------- |
+| Project Hypotheses and Validation page |                                  |                                                                       |         |
+| Business Requirements                  | Click Business Requirements link | Taken to Business Requirements section and read business requirements | Yes     |
+| Hypotheses and Validation              | Click Hypotheses link            | Taken to Hypotheses link and read hypotheses and validation methods   | Yes     |
+| View Results Summary                   | Click Results link               | Taken to Results section and read summary of results                  | Yes     |
 
 * User Story (E5US03) - As a **non-technical user**, I can select games the models have not seen and use the models to predict the outcome.
+| Feature                        | Action                                       | Expected Result                     | Success |
+| ------------------------------ | -------------------------------------------- | ----------------------------------- | ------- |
+| Predictor page                 |                                              |                                     |         |
+| Select Home Team               | Select team from dropdown menu               | Possible games are updated          | Yes     |
+| Select Away Team               | Select team from dropdown menu               | Possible games are updated          | Yes     |
+| Select Game                    | Select game from dropdown menu               | Statistics are updated              | Yes     |
+| Logistic Regression Prediction | Click Predict with Logistic Regression       | Prediction displayed,and evalutated | Yes     |
+| Adaptive Boost Prediction      | Click Predict with Adaptive Boost Classifier | Prediction displayed,and evalutated | Yes     |
 
 * User Story (E5US04) - As a **technical user**, I can visualize the distributions of the features as well as their correlation, and Predictive Power score (Business Requirement 1 and Hypothesis 2).
+| Feature                          | Action                                            | Expected Result                                                                          | Success |
+| -------------------------------- | ------------------------------------------------- | ---------------------------------------------------------------------------------------- | ------- |
+| EDA page                         |                                                   |                                                                                          |         |
+| Summary of EDA                   | Read summary                                      | Learn what was done during EDA phase                                                     | Yes     |
+| Feature Distribution section     | Click Feateure Distribution link                  | Taken to Feature Distribution section                                                    | Yes     |
+| Feature Normality test score     | Select feature from dropdown menu                 | See score of feature on normality test and associated p-value                            |         |
+| Feature distribution plot        | Select feature from dropdown menu                 | See histogram plotting feature for home and away teams and colored by value of Home Wins | Yes     |
+| Correlation and PPS section      | Click Correlation and Predictive Power score link | Taken to Correlation and Pedictive Power score section                                   | Yes     |
+| Correlation and PPS for features | Select two features from two dropdown menus       | See scatterplot relating features, their correlation coefficient and pps                 | Yes     |
+| Interesting relationship         | Read interesting relationships section            | Learn interesting relationships found through EDA                                        | Yes     |
+
+* User Story (E3US04) - As a **data scientist**, I can look at the features used by the models in order to determine which are important (Hypothesis 1).
+
+| Feature                             | Action                    | Expected Result                                                         | Success |
+| ----------------------------------- | ------------------------- | ----------------------------------------------------------------------- | ------- |
+| ML: Naive Feature Selection page    |                           |                                                                         |         |
+| Statement of Hypothesis 1           | Click on Hypthesis 1 link | Taken to Hypothesis 1 section and learn about Hypothesis 1              | Yes     |
+| Process for validation              | Click on Process link     | Taken to Process section and learn validation method for Hypothesis 1   | Yes     |
+| Conclusions of testing Hypothesis 1 | Click on Conclusions link | Taken to Conclusions section and learn results of our validation method | Yes     |
 
 * User Story (E5US05) - As a **technical user**, I can view the details of the models and see how they performed on the data (Business Requirement 2  and 3, as well as Hypothesis 3 and 4).
 
+| Feature                                       | Action                               | Expected Result                                                                                            | Success |
+| --------------------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------------------------------------- | ------- |
+| ML: Logistic Regression Model page            |                                      |                                                                                                            |         |
+| Summary of Logistic Regression model training | Read summary                         | Learn about steps in producing Logistic Regression model                                                   | Yes     |
+| Hyperparameter search                         | Click on the Hyperparameters link    | Learn the value of the hyperparameters used in the final model and about the hyperparameter search process | Yes     |
+| Performance Report                            | Click on the Performance Report link | Learn how the model performed and evaluate the model                                                       | Yes     |
+| Pipeline                                      | Click on the Pipeline link           | Learn about the important features to the model and the steps in the pipeline                              | Yes     |
+| ML: Adaptive Boost Model page                 |                                      |                                                                                                            |         |
+| Summary of Logistic Regression model training | Read summary                         | Learn about steps in producing Adaptive Boost model                                                        | Yes     |
+| Hyperparameter search                         | Click on the Hyperparameters link    | Learn the value of the hyperparameters used in the final model and about the hyperparameter search process | Yes     |
+| Performance Report                            | Click on the Performance Report link | Learn how the model performed and evaluate the model                                                       | Yes     |
+| Pipeline                                      | Click on the Pipeline link           | Learn about the important features to the model and the steps in the pipeline                              | Yes     |
+
 * User Story (E5US06) - As a **non-technical user**, I can examine the profiles of the different clusters and visualize the distributions of the features across ecah cluster.
+
+| Feature                               | Action                                                        | Expected Result                                                                       | Success |
+| ------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------- |
+| ML: Cluster Analysis page             |                                                               |                                                                                       |         |
+| Summary of Cluster Analysis           | Read summary                                                  | Learn about the steps taken in the cluster analysis                                   | Yes     |
+| Cluster Profiles                      | Click Cluster Profiles link                                   | Taken to Cluster Profiles section and learn the profiles of the clusters              | Yes     |
+| Feature Distribution section          | Click Feature Distribution link                               | Taken to Feature Distribution section                                                 | Yes     |
+| Distribution of seasons over clusters | Look at tables displaying distribution of seasons per cluster | Learn how the seasons are distrubed over each cluster                                 | Yes     |
+| Distribution of other features        | Select a feature from dropdown menu                           | Learn how the feature is distributed over each cluster                                | Yes     |
+| Cluster Pipeline                      | Click Cluster Pipeline link                                   | See the Silhoutte scores for the pipeline and the steps in the pipeline               | Yes     |
+| Classification Pipeline               | Click the Classification Pipeline link                        | See the performance report for the classification model and the steps in the pipeline | Yes     |
 
 * User Story (E5US07) - As a **non-technical user**, I can read the conclusions of the project and determine if the hypotheses were validated and if the business requirements were met.
 
-Epic - Deployment
+| Feature                  | Action                           | Expected Result                                                                                  | Success |
+| ------------------------ | -------------------------------- | ------------------------------------------------------------------------------------------------ | ------- |
+| Project Conclusions page |                                  |                                                                                                  |         |
+| Summary of conclusions   | Read summary of conclusions      | Learn if the project was a success or not                                                        | Yes     |
+| Business Requirements    | Click Business Requirements link | Taken to Business Requirements section and learn how they were satisfied                         | Yes     |
+| Project Outcomes         | Click Project Outcomes link      | Taken to Project Outcomes section, read evaluation of whole project, and about future directions | Yes     |
 
 * User Story (E6US01) - As a **user**, I can view the project dashboard on a live website.
+  * The existence of the live site tests this User Story.
 
-* User Story (E6US02) - As a **technical user**, I can learn the details of the project by following along in jupyter notebooks.
 
 
 ### Validation
