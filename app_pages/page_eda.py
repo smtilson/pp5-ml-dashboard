@@ -80,9 +80,11 @@ def page_eda_body():
         fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(12, 5))
         home_score = rep_p_val(normality_scores.loc[home_feat]["pval"])
         away_score = rep_p_val(normality_scores.loc[away_feat]["pval"])
-        sns.histplot(data=data, x=home_feat, kde=True, hue="home_wins", ax=axes[0])
+        sns.histplot(data=data, x=home_feat, kde=True, hue="home_wins",
+                     ax=axes[0])
         axes[0].set_title(f"\n{disp(home_feat)} p-value = {home_score}")
-        sns.histplot(data=data, x=away_feat, kde=True, hue="home_wins", ax=axes[1])
+        sns.histplot(data=data, x=away_feat, kde=True, hue="home_wins",
+                     ax=axes[1])
         plt.title(
             f"{disp(feature_dist)} Distribution: Home vs. Away\n"
             f"{disp(away_feat)} p-value = {away_score}"
