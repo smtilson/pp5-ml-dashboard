@@ -288,17 +288,32 @@ Epic - Deployment
     - Future directions.
 
 ## Deployment
+
+### Heroku Deployment
 This assumes that you already have a Heroku account.
 
 1. Copy/Clone the repository on github. Check the requirements file and uncomment the relevant packages in order to install the necessary libraries for running the notebooks. Before deploying to Heroku, remember to comment out these packages.
 2. Log in to your Heroku account.
 3. From the Heroku Dashboard, click the dropdown menu "New" and select "Create new app".
-4. Choose a unique name for your app, shoose the appropriate region, and then click "Create app".
+4. Choose a unique name for your app, choose the appropriate region, and then click "Create app".
 5. Add the Config Vars "PORT" with value "8000" and BASE_DIR with no value
 6. Scroll down to "Buildpacks". Click "Add buildpack", select "python", and click "Add buildpack".
 7. Log in to Heroku from the command line. Execute the command `heroku stack:set heroku-20 --app <your-app-name>`.
 8. Check that your requirements file has the appropriate files commented out.
 8. Go to the "Deploy" tab. Scroll down to "Deployment method" and select "GitHub". Search for your repository that you copied/cloned in step 1 above. Click "Connect" once you have found it. Scroll down to "Manual deploy" and click "Deploy Branch". Once the build is complete, click "View" to be taken to your deployed app. You may wish to select automatic deployment.
+
+### Railway Deployment
+This assumes that you already have a Railway account.
+
+1. Copy/Clone the repository on github. Check the requirements file and uncomment the relevant packages in order to install the necessary libraries for running the notebooks. Before deploying to Heroku, remember to comment out these packages.
+2. Log in to your Railway account, connect it to your github account.
+3. Create a new project. Select "GitHub Repository" when asked what you would like to create and select the copied/cloned repository.
+4. Click on the reposityr and select the variables tab. Create the service variable "PORT" with value "8000" and "BASE_DIR" with no value.
+5. Click on "Deployments" and then "Deploy".
+There were errors the first two times. I clicked on logs, it said that there were none available.
+On the logs page there was a deploy button, and this seemed to work.
+It is currently building and at some point it said something about fixing a PEP8 issue.
+6. Streamlit crashed, one solution is to add the variable MPLBACKEND with value Agg
 
 ## Testing
 ### Responsiveness and Accessibility
