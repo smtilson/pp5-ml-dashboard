@@ -10,7 +10,7 @@ from feature_engine import transformation as vt
 
 if os.path.isfile("env.py"):
     import env  # noqa: F401
-BASE_DIR = os.environ.get("BASE_DIR")
+BASE_DIR = os.environ.get("BASE_DIR", "")
 
 
 def get_df(name: str, target_dir) -> pd.DataFrame:
