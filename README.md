@@ -1,5 +1,5 @@
 # NBA Home Team
-[NBA Home Team](https://pp5-ml-dashboard-2d67a903a4d3.herokuapp.com/#results) is a machine learning (ML) project aimed at gaining insight into NBA statistics and building ML pipelines that can predict the outcome of games. We used publicly available data to build two classification pipelines and one clustering pipeline. The two classification pipelines give insight into which statistics may be undervalued when assessing future performance. We also clustered the data to see if the statistics could be used to determine which era of basketball a game belonged to.
+[NBA Home Team](https://pp5-ml-dashboard-production.up.railway.app/) is a machine learning (ML) project aimed at gaining insight into NBA statistics and building ML pipelines that can predict the outcome of games. We used publicly available data to build two classification pipelines and one clustering pipeline. The two classification pipelines give insight into which statistics may be undervalued when assessing future performance. We also clustered the data to see if the statistics could be used to determine which era of basketball a game belonged to.
 
 ## Table of Contents
 - [Dataset](#dataset)
@@ -288,6 +288,8 @@ Epic - Deployment
     - Future directions.
 
 ## Deployment
+
+Note: The project is now deployed on Railway and is using Streamlit 1.30, these instructions are outdated.
 This assumes that you already have a Heroku account.
 
 1. Copy/Clone the repository on github. Check the requirements file and uncomment the relevant packages in order to install the necessary libraries for running the notebooks. Before deploying to Heroku, remember to comment out these packages.
